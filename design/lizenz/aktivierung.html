@@ -1,0 +1,518 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="color-scheme" content="dark">
+<title>Novora – Lizenz aktivieren</title>
+<style>
+:root{
+  --bg:#0A0D12; --panel:#0F141B; --surface:#151C25; --surface2:#1B2430;
+  --line:#212B38; --text:#EAF1F8; --dim:#8D9AAA;
+  --accent:#22D3EE; --violet:#A78BFA; --ok:#34D399; --warn:#FBBF24; --danger:#F87171;
+  --font:'Inter','Segoe UI',system-ui,-apple-system,sans-serif;
+}
+*{box-sizing:border-box}
+html,body{min-height:100%}
+body{
+  margin:0;padding:28px 18px 34px;min-height:100vh;
+  display:flex;flex-direction:column;align-items:center;justify-content:center;gap:18px;
+  background:
+    radial-gradient(760px 420px at 50% -12%,rgba(34,211,238,.13),transparent 65%),
+    radial-gradient(620px 400px at 108% 112%,rgba(167,139,250,.10),transparent 60%),
+    var(--bg);
+  color:var(--text);font-family:var(--font);-webkit-font-smoothing:antialiased;
+}
+img{max-width:100%}
+.wrap{width:100%;max-width:474px;display:flex;flex-direction:column;gap:14px}
+.mark-row{display:flex;align-items:center;justify-content:space-between;padding:0 4px}
+.wordmark{height:32px;width:auto;display:block}
+.chip{
+  font-size:10.5px;font-weight:600;letter-spacing:.11em;text-transform:uppercase;
+  color:var(--dim);border:1px solid var(--line);border-radius:999px;padding:4px 10px;
+  background:rgba(255,255,255,.02)
+}
+.card{
+  position:relative;border:1px solid #202B38;border-radius:20px;padding:28px 26px 24px;
+  background:linear-gradient(180deg,#121A24,#0C1218);
+  box-shadow:0 40px 100px -50px #000,inset 0 1px 0 rgba(255,255,255,.04)
+}
+.card::before{
+  content:'';position:absolute;inset:0;border-radius:inherit;pointer-events:none;
+  background:radial-gradient(420px 170px at 50% -35%,rgba(34,211,238,.13),transparent 72%)
+}
+.view{position:relative;display:flex;flex-direction:column;gap:14px}
+.view[hidden]{display:none}
+h1{font-size:20px;line-height:1.28;letter-spacing:-.01em;margin:0;font-weight:650}
+.lede{margin:0;font-size:13.5px;line-height:1.55;color:var(--dim)}
+.hint{margin:0;font-size:12px;line-height:1.5;color:#7C8A9B}
+.hint:empty{display:none}
+.hint b{color:#A8B7C7;font-weight:600}
+.appicon{display:block;width:54px;height:54px;margin:0 auto 2px;border-radius:14px}
+#view-none{text-align:center}
+#view-none .field,#view-none .hint{text-align:left}
+.field{display:flex;flex-direction:column;gap:7px;text-align:left}
+label{font-size:11.5px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;color:var(--dim)}
+input[type=text]{
+  width:100%;padding:13px 14px;border-radius:11px;border:1px solid var(--line);
+  background:#0A0F15;color:var(--text);font:inherit;font-size:15px;
+  letter-spacing:.055em;text-transform:uppercase;font-variant-numeric:tabular-nums
+}
+input[type=text]::placeholder{color:#4E5C6C;letter-spacing:.055em}
+input[type=text]:focus{outline:none;border-color:var(--accent);box-shadow:0 0 0 3px rgba(34,211,238,.14)}
+input[type=text][aria-invalid=true]{border-color:rgba(248,113,113,.72);box-shadow:0 0 0 3px rgba(248,113,113,.13)}
+input[type=text]:disabled{opacity:.6}
+.err{
+  margin:0;font-size:12.5px;line-height:1.45;color:#FCA5A5;
+  border:1px solid rgba(248,113,113,.3);background:rgba(248,113,113,.08);
+  border-radius:9px;padding:8px 10px;text-align:left
+}
+.err:empty{display:none}
+.btn{
+  appearance:none;border:1px solid var(--line);background:var(--surface);color:var(--text);
+  font:inherit;font-size:13.5px;font-weight:600;padding:11px 16px;border-radius:11px;
+  cursor:pointer;transition:border-color .15s,background .15s,transform .06s,filter .15s
+}
+.btn:hover{border-color:#303D4E;background:#182130}
+.btn:active{transform:translateY(1px)}
+.btn:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+.btn[disabled]{opacity:.55;cursor:not-allowed;transform:none}
+.btn.primary{
+  border-color:transparent;color:#04161C;
+  background:linear-gradient(135deg,#22D3EE,#0EA5C4);
+  box-shadow:0 14px 30px -16px rgba(34,211,238,.85)
+}
+.btn.primary:hover{filter:brightness(1.07);background:linear-gradient(135deg,#22D3EE,#0EA5C4)}
+.btn.danger-ghost{color:#FCA5A5;border-color:rgba(248,113,113,.34);background:rgba(248,113,113,.08)}
+.btn.danger-ghost:hover{border-color:rgba(248,113,113,.6);background:rgba(248,113,113,.13)}
+.row{display:flex;gap:10px;flex-wrap:wrap;margin-top:2px}
+.row .btn{flex:1 1 46%}
+.loading{display:none;align-items:center;gap:9px;font-size:12.5px;color:var(--dim);justify-content:center}
+.loading.on{display:flex}
+.spin{
+  width:15px;height:15px;border-radius:50%;flex:0 0 auto;
+  border:2px solid rgba(255,255,255,.16);border-top-color:var(--accent);
+  animation:spin .7s linear infinite
+}
+@keyframes spin{to{transform:rotate(360deg)}}
+.pill{
+  display:inline-flex;align-items:center;gap:6px;font-size:11.5px;font-weight:600;
+  padding:4px 10px;border-radius:999px;border:1px solid
+}
+.pill.ok{color:#A7F3D0;border-color:rgba(52,211,153,.4);background:rgba(52,211,153,.1)}
+.pill .dot{width:7px;height:7px;border-radius:50%;background:currentColor;box-shadow:0 0 8px currentColor}
+.status-head{display:flex;align-items:center;justify-content:space-between;gap:10px;flex-wrap:wrap}
+.plan{font-size:11.5px;color:var(--dim)}
+.keyshow{
+  margin:0;padding:14px 14px;border-radius:12px;border:1px dashed rgba(34,211,238,.3);
+  background:rgba(34,211,238,.05);font-size:15px;letter-spacing:.06em;
+  font-variant-numeric:tabular-nums;text-align:center;color:#CFF3FA
+}
+.keyshow b{color:#fff;font-weight:700}
+.meta{
+  display:grid;grid-template-columns:1fr 1fr;gap:1px;margin:0;
+  border:1px solid var(--line);border-radius:12px;overflow:hidden;background:var(--line)
+}
+.meta > div{display:flex;flex-direction:column;gap:3px;padding:10px 12px;background:#0D141C}
+.meta dt{font-size:10px;font-weight:600;letter-spacing:.09em;text-transform:uppercase;color:var(--dim)}
+.meta dd{margin:0;font-size:12.5px;font-weight:600;line-height:1.4;word-break:break-word}
+.banner{
+  display:flex;gap:10px;align-items:flex-start;padding:12px 13px;border-radius:12px;
+  border:1px solid rgba(251,191,36,.32);background:rgba(251,191,36,.09);
+  color:#FDE68A;font-size:12.5px;line-height:1.5
+}
+.banner svg{flex:0 0 auto;margin-top:1px}
+.banner strong{display:block;font-size:12.8px;color:#FFF6DC;margin-bottom:1px}
+.banner span{color:#E9D9A8}
+.footnote{margin:0;font-size:11.5px;line-height:1.5;color:#6B7989;text-align:center}
+.demo{display:flex;flex-wrap:wrap;align-items:center;justify-content:center;gap:8px;font-size:11px;color:#687687}
+.demo > span{letter-spacing:.08em;text-transform:uppercase;font-size:10px;font-weight:600}
+.seg{display:flex;gap:2px;padding:3px;border:1px solid var(--line);border-radius:10px;background:rgba(15,20,27,.85)}
+.seg button{
+  border:0;background:transparent;color:var(--dim);font:inherit;font-size:11.5px;
+  padding:6px 10px;border-radius:7px;cursor:pointer
+}
+.seg button:hover{color:var(--text)}
+.seg button[aria-pressed=true]{background:rgba(34,211,238,.14);color:#C4F4FB;box-shadow:inset 0 0 0 1px rgba(34,211,238,.3)}
+.seg button:focus-visible{outline:2px solid var(--accent);outline-offset:1px}
+.toast{
+  position:fixed;left:50%;bottom:22px;transform:translate(-50%,12px);opacity:0;pointer-events:none;
+  max-width:min(430px,calc(100vw - 32px));padding:10px 14px;border-radius:10px;
+  background:#132029;border:1px solid rgba(34,211,238,.35);color:#D7F6FB;font-size:12.5px;
+  box-shadow:0 20px 44px -20px #000;transition:opacity .2s,transform .2s;z-index:20
+}
+.toast.show{opacity:1;transform:translate(-50%,0)}
+@media (max-width:420px){
+  .card{padding:22px 18px 20px}
+  .meta{grid-template-columns:1fr}
+  .row .btn{flex:1 1 100%}
+}
+@media (prefers-reduced-motion:reduce){
+  *{animation-duration:.01ms!important;transition-duration:.01ms!important}
+}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="mark-row">
+    <img class="wordmark" src="../logo/novora/novora-wordmark.png" alt="Novora" width="132" height="40">
+    <span class="chip">Lizenz</span>
+  </div>
+
+  <section class="card" id="card" aria-live="polite">
+    <!-- Zustand: keine Lizenz -->
+    <section class="view" id="view-none" aria-labelledby="h-none">
+      <img class="appicon" src="../logo/novora/novora-96.png" alt="" width="54" height="54">
+      <h1 id="h-none">Novora aktivieren</h1>
+      <p class="lede">Trage deinen Lizenzschlüssel ein, um Novora auf diesem PC freizuschalten.</p>
+
+      <div class="field">
+        <label for="key">Lizenzschlüssel</label>
+        <input id="key" name="key" type="text" inputmode="text" autocomplete="off" spellcheck="false"
+               maxlength="27" placeholder="NVR-XXXXX-XXXXX-XXXXX-XXXXX"
+               aria-describedby="key-hint key-error" aria-invalid="false">
+        <p class="err" id="key-error" role="alert"></p>
+        <p class="hint" id="key-hint">Der PC muss für die Aktivierung online sein. Demo-Schlüssel mit Endung <b>EXPIR</b> werden als abgelaufen, <b>REVOK</b> als widerrufen behandelt.</p>
+      </div>
+
+      <button class="btn primary" id="btn-activate" type="button">Aktivieren</button>
+      <div class="loading" id="load-none" role="status" aria-live="polite">
+        <span class="spin" aria-hidden="true"></span><span>Lizenzschlüssel wird geprüft…</span>
+      </div>
+      <p class="footnote">Ohne gültige Lizenz bleibt Novora gesperrt.</p>
+    </section>
+
+    <!-- Zustand: Lizenz gültig -->
+    <section class="view" id="view-valid" hidden aria-labelledby="h-valid">
+      <div class="status-head">
+        <span class="pill ok"><span class="dot" aria-hidden="true"></span>Lizenz aktiv</span>
+        <span class="plan">Plan: Jährlich</span>
+      </div>
+      <h1 id="h-valid">Novora ist freigeschaltet</h1>
+      <p class="keyshow js-key">NVR-4TQ8M-…-HZ6NC</p>
+      <dl class="meta">
+        <div><dt>Ablaufdatum</dt><dd>14.01.2027</dd></div>
+        <div><dt>Gerät</dt><dd>NOVORA-PC · Windows 11</dd></div>
+        <div><dt>Sitze</dt><dd>1 von 1 belegt</dd></div>
+        <div><dt>Letzte Prüfung</dt><dd>vor 4 Minuten</dd></div>
+      </dl>
+      <div class="row">
+        <button class="btn js-change" type="button">Key ändern</button>
+        <button class="btn danger-ghost" id="btn-release" type="button">Gerät freigeben</button>
+      </div>
+      <p class="hint">Prüfung gegen den Lizenzserver alle 6 Stunden. „Gerät freigeben“ entfernt die Lizenz von diesem PC.</p>
+    </section>
+
+    <!-- Zustand: abgelaufen -->
+    <section class="view" id="view-expired" hidden aria-labelledby="h-expired">
+      <div class="banner" role="status">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <path d="M12 3.5 21 19.5H3L12 3.5Z"></path><path d="M12 9.5v4.5"></path><path d="M12 17h.01"></path>
+        </svg>
+        <div>
+          <strong>Lizenz abgelaufen</strong>
+          <span>Seit 04.11.2026 gesperrt. Novora bleibt gesperrt, bis die Lizenz verlängert wurde.</span>
+        </div>
+      </div>
+      <h1 id="h-expired">Novora ist gesperrt</h1>
+      <dl class="meta">
+        <div><dt>Schlüssel</dt><dd class="js-key">NVR-4TQ8M-…-HZ6NC</dd></div>
+        <div><dt>Gerät</dt><dd>NOVORA-PC</dd></div>
+        <div><dt>Abgelaufen am</dt><dd>04.11.2026</dd></div>
+        <div><dt>Letzte Prüfung</dt><dd>vor 3 Tagen</dd></div>
+      </dl>
+      <p class="hint" id="recheck-msg" role="status" aria-live="polite"></p>
+      <div class="row">
+        <button class="btn primary" id="btn-recheck" type="button">Erneut prüfen</button>
+        <button class="btn js-change" type="button">Key ändern</button>
+      </div>
+    </section>
+
+    <!-- Zustand: offline -->
+    <section class="view" id="view-offline" hidden aria-labelledby="h-offline">
+      <div class="banner" role="status">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <path d="M3 8.5a15 15 0 0 1 18 0"></path><path d="M6.5 12.5a10 10 0 0 1 11 0"></path><path d="M10 16.5a5 5 0 0 1 4 0"></path><path d="M12 20h.01"></path><path d="m4 4 16 16"></path>
+        </svg>
+        <div>
+          <strong>Keine Verbindung zum Lizenzserver</strong>
+          <span>Internet erforderlich. Die Lizenz wird gesperrt, wenn 7 Tage ohne Prüfung vergehen.</span>
+        </div>
+      </div>
+      <h1 id="h-offline">Prüfung ausstehend</h1>
+      <dl class="meta">
+        <div><dt>Schlüssel</dt><dd class="js-key">NVR-4TQ8M-…-HZ6NC</dd></div>
+        <div><dt>Gerät</dt><dd>NOVORA-PC</dd></div>
+        <div><dt>Letzte gültige Prüfung</dt><dd>vor 8 Tagen</dd></div>
+        <div><dt>Offline-Frist</dt><dd>noch 0 Tage</dd></div>
+      </dl>
+      <p class="hint" id="offline-msg" role="status" aria-live="polite"></p>
+      <div class="row">
+        <button class="btn primary" id="btn-retry" type="button">Erneut prüfen</button>
+        <button class="btn js-change" type="button">Key ändern</button>
+      </div>
+    </section>
+  </section>
+
+  <div class="demo" role="group" aria-label="Demo-Zustand wählen">
+    <span>Demo</span>
+    <div class="seg">
+      <button type="button" data-state-btn="none" aria-pressed="true">Ohne Lizenz</button>
+      <button type="button" data-state-btn="valid" aria-pressed="false">Gültig</button>
+      <button type="button" data-state-btn="expired" aria-pressed="false">Abgelaufen</button>
+      <button type="button" data-state-btn="offline" aria-pressed="false">Offline</button>
+    </div>
+  </div>
+</div>
+
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+<script>
+(function(){
+  'use strict';
+
+  var RE_KEY = /^NVR(-[A-Z0-9]{5}){4}$/;
+  var card = document.getElementById('card');
+  var keyInput = document.getElementById('key');
+  var keyError = document.getElementById('key-error');
+  var hint = document.getElementById('key-hint');
+  var btnActivate = document.getElementById('btn-activate');
+  var loadNone = document.getElementById('load-none');
+  var btnRelease = document.getElementById('btn-release');
+  var recheckMsg = document.getElementById('recheck-msg');
+  var offlineMsg = document.getElementById('offline-msg');
+  var toastEl = document.getElementById('toast');
+  var views = {
+    none: document.getElementById('view-none'),
+    valid: document.getElementById('view-valid'),
+    expired: document.getElementById('view-expired'),
+    offline: document.getElementById('view-offline')
+  };
+  var demoButtons = Array.prototype.slice.call(document.querySelectorAll('[data-state-btn]'));
+  var current = 'none';
+  var releaseArmed = false;
+  var busy = false;
+  var toastTimer = null;
+
+  function wait(ms){
+    return new Promise(function(resolve){ setTimeout(resolve, ms); });
+  }
+
+  function toast(text){
+    toastEl.textContent = text;
+    toastEl.classList.add('show');
+    if (toastTimer) { clearTimeout(toastTimer); }
+    toastTimer = setTimeout(function(){ toastEl.classList.remove('show'); }, 3400);
+  }
+
+  function show(name, moveFocus){
+    current = name;
+    Object.keys(views).forEach(function(k){
+      views[k].hidden = (k !== name);
+    });
+    card.setAttribute('data-view', name);
+    demoButtons.forEach(function(b){
+      b.setAttribute('aria-pressed', String(b.getAttribute('data-state-btn') === name));
+    });
+    resetRelease();
+    if (moveFocus) {
+      var h = views[name].querySelector('h1');
+      if (h) {
+        h.setAttribute('tabindex', '-1');
+        h.focus({ preventScroll: true });
+      }
+    }
+  }
+
+  /* ---- Key-Eingabe: Format NVR-XXXXX-XXXXX-XXXXX-XXXXX ---- */
+  function formatKey(raw){
+    var s = String(raw).toUpperCase().replace(/[^A-Z0-9]/g, '');
+    if (s.indexOf('NVR') === 0) { s = s.slice(3); }
+    s = s.slice(0, 20);
+    var parts = [];
+    for (var i = 0; i < s.length; i += 5) { parts.push(s.slice(i, i + 5)); }
+    if (!parts.length) { return ''; }
+    return 'NVR-' + parts.join('-');
+  }
+
+  keyInput.addEventListener('input', function(){
+    var pos = keyInput.selectionStart || 0;
+    var typed = keyInput.value.slice(0, pos).toUpperCase().replace(/[^A-Z0-9]/g, '');
+    if (typed.indexOf('NVR') === 0) { typed = typed.slice(3); }
+    typed = typed.slice(0, 20);
+    keyInput.value = formatKey(keyInput.value);
+
+    var caret = 4 + typed.length;
+    var gaps = Math.floor(typed.length / 5);
+    if (typed.length > 0 && typed.length % 5 === 0 && gaps > 0) { gaps -= 1; }
+    caret += Math.min(gaps, 3);
+
+    try { keyInput.setSelectionRange(caret, caret); } catch (err) { /* ignore */ }
+
+    if (keyInput.getAttribute('aria-invalid') === 'true' && RE_KEY.test(keyInput.value)) {
+      clearError();
+    }
+  });
+
+  function setError(text){
+    keyError.textContent = text;
+    keyInput.setAttribute('aria-invalid', 'true');
+    keyInput.focus();
+  }
+
+  function clearError(){
+    keyError.textContent = '';
+    keyInput.setAttribute('aria-invalid', 'false');
+  }
+
+  function setBusy(on){
+    busy = on;
+    keyInput.disabled = on;
+    btnActivate.disabled = on;
+    loadNone.classList.toggle('on', on);
+    card.setAttribute('aria-busy', String(on));
+  }
+
+  function resetRelease(){
+    releaseArmed = false;
+    btnRelease.textContent = 'Gerät freigeben';
+    btnRelease.setAttribute('aria-label', 'Gerät freigeben');
+  }
+
+  function paintKey(fullKey){
+    var masked = fullKey.slice(0, 9) + '-…-' + fullKey.slice(-5);
+    Array.prototype.forEach.call(document.querySelectorAll('.js-key'), function(node){
+      node.textContent = masked;
+    });
+  }
+
+  /* ---- Aktivieren ---- */
+  async function activate(){
+    if (busy) { return; }
+    var value = keyInput.value.toUpperCase().trim();
+    clearError();
+
+    if (!value) {
+      setError('Bitte einen Lizenzschlüssel eingeben.');
+      return;
+    }
+    if (!RE_KEY.test(value)) {
+      setError('Key ungültig. Format: NVR-XXXXX-XXXXX-XXXXX-XXXXX.');
+      return;
+    }
+
+    setBusy(true);
+    await wait(1150);
+    setBusy(false);
+
+    var tail = value.slice(-5);
+    if (tail === 'REVOK') {
+      keyInput.setAttribute('aria-invalid', 'true');
+      keyError.textContent = 'Dieser Key wurde widerrufen. Bitte wende dich an den Support.';
+      keyInput.focus();
+      return;
+    }
+    if (tail === 'EXPIR') {
+      paintKey(value);
+      show('expired', true);
+      return;
+    }
+
+    paintKey(value);
+    recheckMsg.textContent = '';
+    offlineMsg.textContent = '';
+    show('valid', true);
+    toast('Lizenz aktiviert. Novora ist auf diesem PC freigeschaltet.');
+  }
+
+  btnActivate.addEventListener('click', activate);
+  keyInput.addEventListener('keydown', function(e){
+    if (e.key === 'Enter') {
+      e.preventDefault();
+      activate();
+    }
+  });
+
+  /* ---- Gerät freigeben (zweistufig) ---- */
+  btnRelease.addEventListener('click', function(){
+    if (!releaseArmed) {
+      releaseArmed = true;
+      btnRelease.textContent = 'Wirklich freigeben?';
+      btnRelease.setAttribute('aria-label', 'Gerät wirklich freigeben, Lizenz wird entfernt');
+      btnRelease.focus();
+      return;
+    }
+    resetRelease();
+    keyInput.value = '';
+    clearError();
+    recheckMsg.textContent = '';
+    offlineMsg.textContent = '';
+    show('none', true);
+    keyInput.focus();
+    toast('Gerät freigegeben. Der Lizenzschlüssel ist wieder frei.');
+  });
+
+  /* ---- Key ändern ---- */
+  Array.prototype.forEach.call(document.querySelectorAll('.js-change'), function(btn){
+    btn.addEventListener('click', function(){
+      keyInput.value = '';
+      clearError();
+      recheckMsg.textContent = '';
+      offlineMsg.textContent = '';
+      show('none', true);
+      keyInput.focus();
+    });
+  });
+
+  /* ---- Erneut prüfen ---- */
+  async function recheck(btn, messageNode, offlineMode){
+    if (busy) { return; }
+    busy = true;
+    btn.disabled = true;
+    var old = btn.textContent;
+    btn.textContent = 'Verbinde…';
+    messageNode.textContent = '';
+    await wait(950);
+    busy = false;
+    btn.disabled = false;
+    btn.textContent = old;
+
+    if (offlineMode) {
+      show('valid', true);
+      toast('Verbindung wiederhergestellt. Lizenz ist aktiv.');
+      return;
+    }
+    messageNode.textContent = 'Weiterhin abgelaufen. Zuletzt geprüft: gerade eben.';
+    toast('Lizenz weiterhin abgelaufen. Verlängerung im Kundenkonto nötig.');
+  }
+
+  document.getElementById('btn-recheck').addEventListener('click', function(){
+    recheck(this, recheckMsg, false);
+  });
+  document.getElementById('btn-retry').addEventListener('click', function(){
+    recheck(this, offlineMsg, true);
+  });
+
+  /* ---- Demo-Umschalter ---- */
+  demoButtons.forEach(function(btn){
+    btn.addEventListener('click', function(){
+      var target = btn.getAttribute('data-state-btn');
+      if (target === 'valid') { paintKey('NVR-4TQ8M-2XK9P-7B3WD-HZ6NC'); }
+      if (target === 'expired') { paintKey('NVR-4TQ8M-2XK9P-7B3WD-EXPIR'); }
+      if (target === 'offline') { paintKey('NVR-4TQ8M-2XK9P-7B3WD-HZ6NC'); }
+      if (target === 'none') {
+        keyInput.value = '';
+        clearError();
+      }
+      recheckMsg.textContent = '';
+      offlineMsg.textContent = '';
+      show(target, false);
+    });
+  });
+
+  /* Start */
+  show('none', false);
+})();
+</script>
+</body>
+</html>

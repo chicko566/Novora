@@ -1,0 +1,471 @@
+<!DOCTYPE html>
+<html lang="de" data-theme="dark">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Novora – Dein PC. In Tasten.</title>
+<meta name="description" content="Novora macht Handy und Tablet zum Steuerpult für den PC: Tasten, Hotkeys, Mixer und Profile über WLAN. Kein Account, keine Cloud.">
+<link rel="icon" href="assets/novora-512.png">
+<link rel="stylesheet" href="site.css">
+</head>
+<body>
+
+<!-- NAV -->
+<div class="nav">
+  <div class="nav-inner">
+    <a class="brand" href="index.html">
+      <span class="mark"><img src="assets/novora-512.png" alt=""></span>
+      <img src="assets/novora-wordmark.png" alt="Novora" class="wm wm-dark"><img src="assets/novora-wordmark-dark.png" alt="Novora" class="wm wm-light">
+    </a>
+    <nav class="nav-links">
+      <a href="#features">Funktionen</a>
+      <a href="#ablauf">Ablauf</a>
+      <a href="#demo">Demo</a>
+      <a href="#einblicke">Einblicke</a>
+      <a href="#sicherheit">Sicherheit</a>
+      <a href="#faq">FAQ</a>
+      <a href="icons.html">Icons</a>
+    </nav>
+    <div class="nav-actions">
+      <button class="icon-btn" id="theme" aria-label="Design wechseln">
+        <svg viewBox="0 0 24 24" id="themeIcon"><path d="M12 3a9 9 0 1 0 9 9c0-1-.2-2-.6-2.9A7 7 0 0 1 12 3z"/></svg>
+      </button>
+      <a class="btn primary sm" href="#download">
+        Download
+        <svg viewBox="0 0 24 24"><path d="M12 4v12M7 11l5 5 5-5M5 20h14"/></svg>
+      </a>
+      <button class="icon-btn menu-btn" id="menuBtn" aria-label="Menü">
+        <svg viewBox="0 0 24 24"><path d="M4 7h16M4 12h16M4 17h16"/></svg>
+      </button>
+    </div>
+    <div class="mobile-menu" id="mobileMenu">
+      <a href="#features">Funktionen</a>
+      <a href="#ablauf">Ablauf</a>
+      <a href="#demo">Demo</a>
+      <a href="#einblicke">Einblicke</a>
+      <a href="#sicherheit">Sicherheit</a>
+      <a href="#faq">FAQ</a>
+      <a href="icons.html">Icons</a>
+      <a href="#download">Download</a>
+    </div>
+  </div>
+</div>
+
+<!-- HERO -->
+<header class="hero">
+  <div class="hero-bg"></div>
+  <div class="hero-grid"></div>
+  <div class="wrap">
+    <div class="hero-copy">
+      <span class="eyebrow"><i></i> Windows · WLAN · kein Account</span>
+      <h1>Dein PC.<br><span class="grad">In Tasten.</span></h1>
+      <p class="lead">Handy oder Tablet wird zum Steuerpult: Hotkeys, Apps, Lautstärke, Mixer und Profile. Alles im lokalen Netz – ohne Cloud, ohne Login, ohne Abo-Zwang.</p>
+      <div class="cta">
+        <a class="btn primary" href="#download">
+          APK herunterladen
+          <svg viewBox="0 0 24 24"><path d="M12 4v12M7 11l5 5 5-5M5 20h14"/></svg>
+        </a>
+        <a class="btn ghost" href="#ablauf">
+          So funktioniert's
+          <svg viewBox="0 0 24 24"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+        </a>
+      </div>
+      <div class="stats">
+        <div class="stat"><b>40</b><span>Tasten pro Seite</span></div>
+        <div class="stat"><b>&lt; 10 ms</b><span>im LAN</span></div>
+        <div class="stat"><b>0</b><span>Accounts</span></div>
+      </div>
+    </div>
+
+    <div class="hero-visual">
+      <div class="phone">
+        <div class="screen">
+          <div class="ptop">
+            <div class="pmark"><img src="assets/novora-512.png" alt=""></div>
+            <div><b>Novora</b><small>Streaming · Home</small></div>
+            <span class="ppill">● PC · 8 ms</span>
+          </div>
+          <div class="pgrid">
+            <div class="ptile on"><svg viewBox="0 0 24 24"><path d="M12 3a3 3 0 0 0-3 3v6a3 3 0 0 0 6 0V6a3 3 0 0 0-3-3zM5 11a7 7 0 0 0 14 0M12 18v3M8 21h8"/></svg></div>
+            <div class="ptile"><svg viewBox="0 0 24 24"><rect x="3" y="6" width="13" height="12" rx="2"/><path d="M16 10l5-3v10l-5-3z"/></svg></div>
+            <div class="ptile"><svg viewBox="0 0 24 24"><path d="M4 21v-7M4 10V3M12 21v-9M12 8V3M20 21v-5M20 12V3M2 14h4M10 8h4M18 16h4"/></svg></div>
+            <div class="ptile"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3a14 14 0 0 1 0 18M12 3a14 14 0 0 0 0 18"/></svg></div>
+            <div class="ptile"><svg viewBox="0 0 24 24"><path d="M9 18V5l12-2v13"/><circle cx="6" cy="18" r="3"/><circle cx="18" cy="16" r="3"/></svg></div>
+            <div class="ptile on"><svg viewBox="0 0 24 24"><polygon points="6 4 20 12 6 20 6 4"/></svg></div>
+            <div class="ptile"><svg viewBox="0 0 24 24"><path d="M3 7h6l2 2h10v10H3z"/></svg></div>
+            <div class="ptile"><svg viewBox="0 0 24 24"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg></div>
+            <div class="ptile"><svg viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="12" rx="2"/><path d="M8 20h8M12 16v4"/></svg></div>
+            <div class="ptile"><svg viewBox="0 0 24 24"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg></div>
+            <div class="ptile ghost"><svg viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></svg></div>
+            <div class="ptile"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 1 1-4 0v-.09a1.65 1.65 0 0 0-1-1.51 1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 1 1 0-4h.09a1.65 1.65 0 0 0 1.51-1 1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 1 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9c.26.6.85 1 1.51 1H21a2 2 0 1 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg></div>
+          </div>
+          <div class="pbar"><span>Home · 5 × 4</span></div>
+        </div>
+      </div>
+      <div class="float f1"><span class="dot"></span><div><b>Mikro an</b><br><small>live vom PC</small></div></div>
+      <div class="float f2"><b>8 ms</b><small>WLAN</small></div>
+      <div class="float f3"><b>Mixer</b><small>5 Apps</small></div>
+    </div>
+  </div>
+</header>
+
+<!-- STRIP -->
+<div class="strip">
+  <div class="wrap">
+    <span><i></i> Läuft nur im LAN</span>
+    <span><i></i> Keine Telemetrie</span>
+    <span><i></i> Windows 10/11</span>
+    <span><i></i> Android 8+</span>
+    <span><i></i> Kein Account</span>
+  </div>
+</div>
+
+<!-- FEATURES -->
+<section id="features">
+  <div class="wrap">
+    <div class="sec-head reveal">
+      <div>
+        <span class="tag">Funktionen</span>
+        <h2>Ein Pult, das<br>mitdenkt.</h2>
+      </div>
+      <p>Keine überladene Oberfläche. Tasten ohne Beschriftung, Zustände direkt sichtbar, alles am PC eingerichtet.</p>
+    </div>
+
+    <div class="bento">
+      <article class="bcard span7 wide reveal">
+        <div class="k"><i></i> Tasten</div>
+        <h3>Jede Taste macht genau das, was du willst</h3>
+        <p>Hotkeys, Programme, URLs, Medien oder Seitenwechsel. Quadratisch, formatfüllend, ohne Text – Namen siehst du nur im Editor und als Tooltip.</p>
+        <div class="vgrid">
+          <div class="vt on"><svg viewBox="0 0 24 24"><path d="M12 3a3 3 0 0 0-3 3v6a3 3 0 0 0 6 0V6a3 3 0 0 0-3-3zM5 11a7 7 0 0 0 14 0M12 18v3"/></svg></div>
+          <div class="vt"><svg viewBox="0 0 24 24"><rect x="3" y="6" width="13" height="12" rx="2"/><path d="M16 10l5-3v10l-5-3z"/></svg></div>
+          <div class="vt"><svg viewBox="0 0 24 24"><path d="M4 21v-7M4 10V3M12 21v-9M12 8V3M20 21v-5M20 12V3"/></svg></div>
+          <div class="vt"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M3 12h18"/></svg></div>
+          <div class="vt"><svg viewBox="0 0 24 24"><path d="M9 18V5l12-2v13"/><circle cx="6" cy="18" r="3"/><circle cx="18" cy="16" r="3"/></svg></div>
+          <div class="vt"><svg viewBox="0 0 24 24"><path d="M3 7h6l2 2h10v10H3z"/></svg></div>
+          <div class="vt"><svg viewBox="0 0 24 24"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg></div>
+          <div class="vt"><svg viewBox="0 0 24 24"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg></div>
+          <div class="vt"><svg viewBox="0 0 24 24"><polygon points="6 4 20 12 6 20 6 4"/></svg></div>
+          <div class="vt"><svg viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="12" rx="2"/><path d="M8 20h8M12 16v4"/></svg></div>
+          <div class="vt"><svg viewBox="0 0 24 24"><path d="M11 5L6 9H2v6h4l5 4V5zM15.5 8.5a5 5 0 0 1 0 7"/></svg></div>
+          <div class="vt"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="4"/><path d="M12 2v3M12 19v3M4.9 4.9l2.1 2.1M17 17l2.1 2.1"/></svg></div>
+        </div>
+      </article>
+
+      <article class="bcard span5 wide reveal">
+        <div class="k"><i></i> Mixer</div>
+        <h3>Lautstärke je App</h3>
+        <p>Windows-Sessions live lesen und setzen. Stumm ist sofort sichtbar.</p>
+        <div class="vmix">
+          <div class="vrow"><span class="nm">Musik</span><span class="vbar"><i style="width:62%"></i></span><span class="val">62 %</span><span class="veq"><i></i><i></i><i></i><i></i><i></i></span></div>
+          <div class="vrow muted"><span class="nm">Sprach-Chat</span><span class="vbar"><i style="width:38%"></i></span><span class="val">38 %</span></div>
+          <div class="vrow"><span class="nm">Browser</span><span class="vbar"><i style="width:80%"></i></span><span class="val">80 %</span></div>
+          <div class="vrow muted"><span class="nm">System</span><span class="vbar"><i style="width:45%"></i></span><span class="val">45 %</span></div>
+        </div>
+      </article>
+
+      <article class="bcard span5 reveal">
+        <div class="k"><i></i> Feedback</div>
+        <h3>Zustand ohne Umweg</h3>
+        <p>Lautstärke-OSD, Mikro-Puls, Aufnahme-Punkt. Du siehst sofort, was der PC macht.</p>
+        <div class="vosd"><span class="num">62</span><span class="bar"><i></i></span><span style="font-size:10px;color:var(--dim)">Windows</span></div>
+      </article>
+
+      <article class="bcard span7 reveal">
+        <div class="k"><i></i> Seiten</div>
+        <h3>Wischen statt suchen</h3>
+        <p>Home, Musik, Mixer – links und rechts wischen. Raster pro Seite 3–8, Tasten bleiben immer quadratisch.</p>
+        <div class="vpages"><div class="vpage on">Home</div><div class="vpage">Musik</div><div class="vpage">Mixer</div><div class="vpage">Tools</div></div>
+      </article>
+
+      <article class="bcard span6 reveal">
+        <div class="k"><i></i> Sicherheit</div>
+        <h3>Nur dein Gerät</h3>
+        <p>Code-Pairing oder Auto-Koppeln im privaten Netz. Jedes Gerät hat einen eigenen Schlüssel, Widerruf trennt sofort.</p>
+        <div class="vcode"><b>4</b><b>8</b><b>2</b><b>9</b><b>1</b><b>3</b></div>
+      </article>
+
+      <article class="bcard span6 reveal">
+        <div class="k"><i></i> PC-Editor</div>
+        <h3>Einmal einrichten</h3>
+        <p>Layout, Logos, Farben und Aktionen am PC. Änderungen sind sofort auf allen Geräten.</p>
+        <div class="vlist">
+          <div class="vli"><span class="chk"><svg viewBox="0 0 24 24"><path d="M5 12l4 4 10-10"/></svg></span> Drag &amp; Drop im Raster</div>
+          <div class="vli"><span class="chk"><svg viewBox="0 0 24 24"><path d="M5 12l4 4 10-10"/></svg></span> Tastenkombination aufnehmen</div>
+          <div class="vli"><span class="chk"><svg viewBox="0 0 24 24"><path d="M5 12l4 4 10-10"/></svg></span> Logos formatfüllend</div>
+        </div>
+      </article>
+    </div>
+  </div>
+</section>
+
+<!-- STEPS -->
+<section id="ablauf" style="background:var(--bg2);border-top:1px solid var(--line);border-bottom:1px solid var(--line)">
+  <div class="wrap">
+    <div class="sec-head reveal">
+      <div><span class="tag">Ablauf</span><h2>In drei Schritten<br>startklar.</h2></div>
+      <p>Die PC-Software läuft im Hintergrund. Die App verbindet sich im WLAN – kein Konto, kein Cloud-Setup.</p>
+    </div>
+    <div class="steps">
+      <div class="step reveal"><h3>PC installieren</h3><p>Installer starten. Der Server läuft danach automatisch auf Port <code>47830</code> und startet mit Windows.</p></div>
+      <div class="step reveal"><h3>App installieren</h3><p>APK öffnen, Installation aus unbekannten Quellen erlauben. Android 8 oder neuer.</p></div>
+      <div class="step reveal"><h3>Verbinden</h3><p>PC in der Liste wählen. Im privaten WLAN koppelt Novora automatisch – sonst per 6-stelligem Code.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- DEMO -->
+<section id="demo" class="demo">
+  <div class="wrap">
+    <div class="reveal">
+      <span class="tag">Live-Demo</span>
+      <h2>Seiten wechseln<br>mit einer Wischbewegung.</h2>
+      <p>Tippe auf die Punkte oder warte – die Vorschau wechselt zwischen Home, Musik und Mixer. Genau so fühlt sich die App an.</p>
+      <div class="dots" id="demoDots"><i class="on"></i><i></i><i></i></div>
+      <div class="mini">
+        <div><b>3–8</b>Spalten/Zeilen</div>
+        <div><b>5</b>Seiten</div>
+        <div><b>1:1</b>Tasten</div>
+      </div>
+    </div>
+    <div class="reveal" style="display:flex;justify-content:center">
+      <div class="phone">
+        <div class="screen">
+          <div class="ptop">
+            <div class="pmark"><img src="assets/novora-512.png" alt=""></div>
+            <div><b>Novora</b><small id="demoName">Streaming · Home</small></div>
+            <span class="ppill">● PC</span>
+          </div>
+          <div class="pgrid" id="demoGrid"></div>
+          <div class="pbar"><span id="demoMeta">Home · 5 × 4</span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- SCREENS -->
+<section id="einblicke">
+  <div class="wrap">
+    <div class="sec-head reveal">
+      <div><span class="tag">Einblicke</span><h2>Echte Screenshots,<br>kein Render.</h2></div>
+      <p>Direkt aus der App: quadratische Tasten, keine Beschriftung, Farben nur für Zustände.</p>
+    </div>
+    <div class="shots">
+      <div class="shot phone reveal"><img src="assets/screens/app-portrait.png" alt="Novora App im Hochformat"><div class="cap">Hochformat · 5 × 4</div></div>
+      <div class="shot wide reveal"><img src="assets/screens/app-landscape.png" alt="Novora App im Querformat"><div class="cap">Querformat · 8 × 3</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- SECURITY -->
+<section id="sicherheit">
+  <div class="wrap">
+    <div class="sec-head reveal">
+      <div><span class="tag">Sicherheit</span><h2>Lokal. Nicht<br>irgendwo.</h2></div>
+      <p>Kein Cloud-Relay, keine offenen Ports nach außen. Der PC ist nur in deinem Netz erreichbar.</p>
+    </div>
+    <div class="security">
+      <div class="sec-card reveal">
+        <h3>Was Novora nicht tut</h3>
+        <p>Keine Telemetrie, kein Benutzerkonto, keine Daten außerhalb deines Netzwerks. Layout und Geräte bleiben als JSON auf dem PC.</p>
+        <div class="sec-note"><span class="chk"><svg viewBox="0 0 24 24"><path d="M5 12l4 4 10-10"/></svg></span> Auto-Koppeln nur in privaten IP-Bereichen</div>
+        <div class="sec-note"><span class="chk"><svg viewBox="0 0 24 24"><path d="M5 12l4 4 10-10"/></svg></span> Token nur als SHA-256 gespeichert</div>
+        <div class="sec-note"><span class="chk"><svg viewBox="0 0 24 24"><path d="M5 12l4 4 10-10"/></svg></span> Geräte jederzeit widerrufbar</div>
+      </div>
+      <div class="sec-card reveal">
+        <h3>Was du beachten musst</h3>
+        <p>Port 47830 gehört nicht ins Internet. Für fremde WLANs ist Novora nicht gedacht – nutze es zu Hause oder im eigenen Netz.</p>
+        <div class="sec-note"><span class="chk"><svg viewBox="0 0 24 24"><path d="M5 12l4 4 10-10"/></svg></span> Kein Port-Forwarding</div>
+        <div class="sec-note"><span class="chk"><svg viewBox="0 0 24 24"><path d="M5 12l4 4 10-10"/></svg></span> Kein öffentliches WLAN</div>
+        <div class="sec-note"><span class="chk"><svg viewBox="0 0 24 24"><path d="M5 12l4 4 10-10"/></svg></span> Updates nur aus vertrauenswürdiger Quelle</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- DOWNLOAD -->
+<section id="download" style="background:var(--bg2);border-top:1px solid var(--line)">
+  <div class="wrap">
+    <div class="dl reveal">
+      <div>
+        <span class="tag">Download</span>
+        <h2>Für dein System.</h2>
+        <p>Windows-Installer und Android-APK. Offline, ohne Konto.</p>
+        <div class="dl-meta">PC 0.4.0 · Android 0.2.0 · Test-Build<br>Windows 10/11 · Android 8+</div>
+      </div>
+      <div class="dl-box">
+        <a class="btn primary" href="downloads/NovoraSetup-0.4.0.exe" download>
+          Windows installieren
+          <svg viewBox="0 0 24 24"><path d="M12 4v12M7 11l5 5 5-5M5 20h14"/></svg>
+        </a>
+        <div class="size">Setup-EXE · 0.4.0 · eigenes Fenster · 23,1 MB</div>
+      </div>
+    </div>
+
+    <div class="dl-grid reveal">
+      <a class="dl-item" href="downloads/NovoraSetup-0.4.0.exe" download>
+        <span class="dico"><svg viewBox="0 0 24 24"><rect x="3" y="3" width="8" height="8" rx="1.5"/><rect x="13" y="3" width="8" height="8" rx="1.5"/><rect x="3" y="13" width="8" height="8" rx="1.5"/><rect x="13" y="13" width="8" height="8" rx="1.5"/></svg></span>
+        <b>Windows Installer</b><small>Setup + Uninstaller · 0.4.0 · 23,1 MB</small>
+      </a>
+      <a class="dl-item" href="downloads/novora-windows-x64.zip" download>
+        <span class="dico"><svg viewBox="0 0 24 24"><path d="M4 7l8-3 8 3v10l-8 3-8-3z"/><path d="M12 4v16"/></svg></span>
+        <b>Windows portable</b><small>ZIP · 0.4.0 · 32,3 MB · keine Installation</small>
+      </a>
+      <a class="dl-item" href="downloads/novora.apk" download>
+        <span class="dico"><svg viewBox="0 0 24 24"><rect x="7" y="2" width="10" height="20" rx="2.5"/><path d="M11 18h2"/></svg></span>
+        <b>Android</b><small>APK · 0.2.0 · 293 KB · Android 8+</small>
+      </a>
+    </div>
+
+    <details class="hashes reveal">
+      <summary>SHA-256-Prüfsummen</summary>
+      <div><b>Windows Setup 0.4.0</b> <code>503dc0c90b680a1c65441aea9a6a948a163a3902528f3c873e7376555cf52ddb</code></div>
+      <div><b>Windows ZIP 0.4.0</b> <code>e0e63539bd62c5390f650c5c5df357b04f3baa79a5350510042b387e96b08c37</code></div>
+      <div><b>APK 0.2.0</b> <code>cd61df8fa07ea61a86569b178bb8f3a09cfdfe60a9d4bb84054ca6cb48cb5b03</code></div>
+    </details>
+  </div>
+</section>
+
+<!-- ICONS & LOGOS -->
+<section id="logos">
+  <div class="wrap">
+    <div class="sec-head reveal">
+      <div><span class="tag">Icons &amp; App-Logos</span><h2>Echte App-Logos.<br>Lokal aus deinen Programmen.</h2></div>
+      <p>Installierte Programme liest Novora lokal direkt aus ihren Windows-EXE-Dateien – keine Fremd-Pakete, kein Upload. Für System- und Medienaktionen liefert Novora 70 eigene Strich-Icons.</p>
+    </div>
+    <p class="note" style="margin-top:18px">70 eigene Strich-Icons für Oberfläche und Systemaktionen plus automatische EXE-Icon-Extraktion auf dem PC. <a href="icons.html" style="color:var(--accent)">Icon-Katalog ansehen →</a></p>
+  </div>
+</section>
+
+<!-- FAQ -->
+<section id="faq">
+  <div class="wrap">
+    <div class="sec-head reveal" style="justify-content:center;text-align:center">
+      <div><span class="tag">FAQ</span><h2>Kurz und ehrlich.</h2></div>
+    </div>
+    <div class="faq">
+      <details class="reveal"><summary>Brauche ich Internet?</summary><p>Im Betrieb nicht – PC und Handy sprechen ausschließlich im lokalen WLAN/LAN. Nur für die einmalige Lizenzaktivierung und automatische Token-Verlängerung braucht der PC kurz Internet.</p></details>
+      <details class="reveal"><summary>Ist das sicher?</summary><p>Der PC ist nur im lokalen Netz erreichbar. Geräte koppeln per QR-Code, 6-stelligem Code oder im privaten Netz automatisch. Port 47830 sollte nie ins Internet weitergeleitet werden.</p></details>
+      <details class="reveal"><summary>Gibt es Spotify-Suche?</summary><p>Noch nicht. Spotify verlangt für die Web API ein Premium-Konto und hat neue Integrationen pausiert. Play/Pause/Weiter läuft bereits über Windows-Medientasten.</p></details>
+      <details class="reveal"><summary>Welche Android-Version?</summary><p>Android 8 oder neuer. Smartphones laufen automatisch im Querformat, Tablets drehen frei. Die Oberfläche kommt direkt vom PC und bleibt dadurch aktuell.</p></details>
+      <details class="reveal"><summary>Wie funktioniert die Lizenz?</summary><p>Novora nutzt signierte Lizenzschlüssel (Standard, Pro, Team) ohne Account-Zwang. Aktivierung und Geräteverwaltung erfolgen direkt über den Schlüssel – Details stehen auf der <a href="lizenz.html" style="color:var(--accent)">Lizenzseite</a>.</p></details>
+      <details class="reveal"><summary>Warum sieht die App so aus?</summary><p>Ruhige Nordic-Slate-Oberfläche, quadratische Tasten, keine Beschriftung. Echte App-Logos aus deinen installierten Programmen, Farbe nur für Zustände.</p></details>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="wrap">
+    <div class="foot">
+      <div>
+        <img src="assets/novora-wordmark.png" alt="Novora" class="wm-dark"><img src="assets/novora-wordmark-dark.png" alt="Novora" class="wm-light">
+        <p>Steuerpult für Handy und PC. Lokal im WLAN, ohne Konto und ohne Cloud.</p>
+      </div>
+      <div>
+        <h4>Produkt</h4>
+        <a href="#features">Funktionen</a>
+        <a href="#ablauf">Ablauf</a>
+        <a href="#download">Download</a>
+      </div>
+      <div>
+        <h4>Rechtliches</h4>
+        <a href="impressum.html">Impressum</a>
+        <a href="datenschutz.html">Datenschutz</a>
+        <a href="agb.html">AGB</a>
+        <a href="lizenz.html">Lizenz</a>
+      </div>
+    </div>
+    <div class="legal">
+      <a href="impressum.html">Impressum</a>
+      <a href="datenschutz.html">Datenschutz</a>
+      <a href="lizenz.html">Lizenz</a>
+      <span>© 2026 Novora · Test-Build</span>
+    </div>
+  </div>
+</footer>
+
+<script>
+/* Theme */
+const root = document.documentElement;
+const btn = document.getElementById('theme');
+const icon = document.getElementById('themeIcon');
+const saved = localStorage.getItem('novora_theme');
+if (saved) root.dataset.theme = saved;
+function paintTheme() {
+  const light = root.dataset.theme === 'light';
+  icon.innerHTML = light
+    ? '<circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M2 12h2M20 12h2M5 5l1.5 1.5M17.5 17.5L19 19M19 5l-1.5 1.5M6.5 17.5L5 19"/>'
+    : '<path d="M12 3a9 9 0 1 0 9 9c0-1-.2-2-.6-2.9A7 7 0 0 1 12 3z"/>';
+}
+paintTheme();
+btn.onclick = () => {
+  root.dataset.theme = root.dataset.theme === 'light' ? 'dark' : 'light';
+  localStorage.setItem('novora_theme', root.dataset.theme);
+  paintTheme();
+};
+
+/* Mobile menu */
+const mm = document.getElementById('mobileMenu');
+document.getElementById('menuBtn').onclick = () => mm.classList.toggle('open');
+mm.querySelectorAll('a').forEach(a => a.onclick = () => mm.classList.remove('open'));
+
+/* Reveal */
+const io = new IntersectionObserver((entries) => {
+  for (const e of entries) if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target); }
+}, { threshold: .12 });
+document.querySelectorAll('.reveal').forEach(el => io.observe(el));
+
+/* Demo */
+const ICON = (p) => '<svg viewBox="0 0 24 24">' + p + '</svg>';
+const I = {
+  mic: ICON('<path d="M12 3a3 3 0 0 0-3 3v6a3 3 0 0 0 6 0V6a3 3 0 0 0-3-3zM5 11a7 7 0 0 0 14 0M12 18v3"/>'),
+  vid: ICON('<rect x="3" y="6" width="13" height="12" rx="2"/><path d="M16 10l5-3v10l-5-3z"/>'),
+  mix: ICON('<path d="M4 21v-7M4 10V3M12 21v-9M12 8V3M20 21v-5M20 12V3"/>'),
+  web: ICON('<circle cx="12" cy="12" r="9"/><path d="M3 12h18"/>'),
+  mus: ICON('<path d="M9 18V5l12-2v13"/><circle cx="6" cy="18" r="3"/><circle cx="18" cy="16" r="3"/>'),
+  play: ICON('<polygon points="6 4 20 12 6 20 6 4"/>'),
+  dir: ICON('<path d="M3 7h6l2 2h10v10H3z"/>'),
+  code: ICON('<polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/>'),
+  pc: ICON('<rect x="3" y="4" width="18" height="12" rx="2"/><path d="M8 20h8M12 16v4"/>'),
+  chat: ICON('<path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/>'),
+  vol: ICON('<path d="M11 5L6 9H2v6h4l5 4V5zM15.5 8.5a5 5 0 0 1 0 7"/>'),
+};
+const GHOST = '<div class="ptile ghost"><svg viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></svg></div>';
+
+const PAGES = [
+  { name: 'Streaming · Home', meta: 'Home · 5 × 4', cols: 3, tiles: [I.mic, I.vid, I.mix, I.web, I.mus, I.play, I.dir, I.code, I.pc, I.chat, null, I.vol], on: [0, 5] },
+  { name: 'Streaming · Musik', meta: 'Musik · 5 × 3', cols: 3, tiles: [I.mus, I.play, I.vol, I.mix, I.web, null, null, null, null], on: [0] },
+  { name: 'Streaming · Mixer', meta: 'Mixer · live', cols: 3, tiles: [I.mix, I.mic, I.mus, I.chat, I.vid, I.pc, null, null, null], on: [0] }
+];
+const grid = document.getElementById('demoGrid');
+const dots = document.querySelectorAll('#demoDots i');
+let pi = 0, timer = null;
+
+function renderDemo() {
+  const p = PAGES[pi];
+  grid.style.gridTemplateColumns = 'repeat(3,1fr)';
+  grid.innerHTML = p.tiles.map((t, i) => t
+    ? `<div class="ptile${p.on.includes(i) ? ' on' : ''}">${t}</div>`
+    : GHOST).join('');
+  document.getElementById('demoMeta').textContent = p.meta;
+  document.getElementById('demoName').textContent = p.name;
+  dots.forEach((d, i) => d.classList.toggle('on', i === pi));
+}
+function go(i) { pi = (i + PAGES.length) % PAGES.length; renderDemo(); restart(); }
+dots.forEach((d, i) => d.onclick = () => go(i));
+function restart() { clearInterval(timer); timer = setInterval(() => go(pi + 1), 5200); }
+renderDemo(); restart();
+
+/* Swipe in demo */
+let sx = null;
+grid.addEventListener('pointerdown', e => sx = e.clientX);
+grid.addEventListener('pointerup', e => {
+  if (sx == null) return;
+  const dx = e.clientX - sx; sx = null;
+  if (Math.abs(dx) > 40) go(pi + (dx < 0 ? 1 : -1));
+});
+</script>
+</body>
+</html>

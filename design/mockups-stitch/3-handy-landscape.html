@@ -1,0 +1,319 @@
+<!DOCTYPE html>
+<html lang="de" class="dark h-full">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+  <title>Novora Mobile Controller · Deck</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ['"Plus Jakarta Sans"', 'sans-serif'],
+            mono: ['"JetBrains Mono"', 'monospace'],
+          },
+          colors: {
+            graphite: '#080A0F',
+            tile: '#161C25',
+            'tile-border': '#222B38',
+            cyanAccent: '#22D3EE',
+            liveGreen: '#34D399',
+            recRed: '#F87171',
+            recAmber: '#F59E0B',
+          }
+        }
+      }
+    }
+  </script>
+  <style>
+    /* Prevent rubber banding and selection in landscape mobile app */
+    * {
+      -webkit-tap-highlight-color: transparent;
+      user-select: none;
+    }
+    body {
+      background-color: #080A0F;
+      touch-action: manipulation;
+    }
+    .deck-tile {
+      background: linear-gradient(180deg, #18202B 0%, #121720 100%);
+      box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.05), 0 4px 12px rgba(0, 0, 0, 0.4);
+      transition: all 0.12s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+    .deck-tile:active {
+      transform: scale(0.96);
+      background: linear-gradient(180deg, #10151D 0%, #0E1218 100%);
+      box-shadow: inset 0 2px 4px rgba(0,0,0,0.6);
+    }
+    .glow-cyan {
+      box-shadow: 0 0 16px rgba(34, 211, 238, 0.25), inset 0 0 8px rgba(34, 211, 238, 0.15);
+    }
+    .glow-rec {
+      box-shadow: 0 0 16px rgba(248, 113, 113, 0.25), inset 0 0 8px rgba(245, 158, 11, 0.15);
+    }
+    .app-icon-img {
+      filter: drop-shadow(0 3px 6px rgba(0,0,0,0.35));
+    }
+  </style>
+</head>
+<body class="h-screen w-screen overflow-hidden text-slate-200 flex flex-col justify-between font-sans antialiased select-none p-3 pb-2 pt-2 box-border">
+
+  <!-- ULTRA-SLIM TOP BAR -->
+  <header class="w-full flex items-center justify-between px-3 py-1.5 h-10 border-b border-slate-800/60 shrink-0">
+    <div class="flex items-center space-x-3">
+      <!-- Cyan 'N' Logo -->
+      <div class="flex items-center justify-center w-7 h-7 rounded-lg bg-cyanAccent/10 border border-cyanAccent/30 shadow-[0_0_10px_rgba(34,211,238,0.2)]">
+        <span class="font-bold text-cyanAccent text-sm font-mono tracking-tighter">N</span>
+      </div>
+      <!-- Breadcrumb / Status -->
+      <div class="flex items-center text-xs space-x-1.5 font-medium tracking-wide">
+        <span class="text-white font-semibold">Novora</span>
+        <span class="text-slate-600">·</span>
+        <span class="text-slate-400">PC</span>
+        <span class="text-slate-600">·</span>
+        <span class="text-cyanAccent font-semibold">Home</span>
+      </div>
+    </div>
+
+    <!-- Right Controls: Latency pill & Settings gear -->
+    <div class="flex items-center space-x-2.5">
+      <!-- Live Latency Pill -->
+      <div class="flex items-center space-x-1.5 px-2.5 py-0.5 rounded-full bg-slate-900/90 border border-slate-800 text-[11px] font-mono font-medium text-slate-300">
+        <span class="w-2 h-2 rounded-full bg-liveGreen animate-pulse"></span>
+        <span>6 ms</span>
+      </div>
+      <!-- Settings Gear Icon -->
+      <button class="w-7 h-7 flex items-center justify-center rounded-lg bg-slate-900 border border-slate-800 text-slate-400 hover:text-white hover:border-slate-700 transition active:scale-95" title="Einstellungen">
+        <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <circle cx="12" cy="12" r="3"></circle>
+          <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"></path>
+        </svg>
+      </button>
+    </div>
+  </header>
+
+  <!-- MAIN VIEWPORT: CENTERED 6x3 TACTILE GRID -->
+  <main class="flex-1 flex items-center justify-center w-full px-2 py-1 min-h-0">
+    <div class="grid grid-cols-6 grid-rows-3 gap-3 w-full h-full max-h-[82vh] max-w-[96vw] aspect-[6/3]">
+      
+      <!-- ================= ROW 1: System & Media Controls ================= -->
+      
+      <!-- 1.1 Microphone (Active Cyan Glow Border + Cyan Indicator) -->
+      <button class="deck-tile relative rounded-2xl flex flex-col items-center justify-center border-2 border-cyanAccent glow-cyan group cursor-pointer">
+        <span class="absolute top-2 right-2 w-2 h-2 rounded-full bg-cyanAccent shadow-[0_0_8px_#22d3ee]"></span>
+        <!-- Mic Icon -->
+        <svg class="w-9 h-9 text-cyanAccent transition-transform group-hover:scale-105" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M12 2a3 3 0 0 0-3 3v7a3 3 0 0 0 6 0V5a3 3 0 0 0-3-3Z"></path>
+          <path d="M19 10v2a7 7 0 0 1-14 0v-2"></path>
+          <line x1="12" x2="12" y1="19" y2="22"></line>
+        </svg>
+        <span class="absolute bottom-1.5 text-[10px] font-mono text-cyanAccent/80 font-medium">MUTE MIC</span>
+      </button>
+
+      <!-- 1.2 Volume with circular cyan ring and "62" -->
+      <button class="deck-tile relative rounded-2xl flex flex-col items-center justify-center border border-tile-border group cursor-pointer">
+        <div class="relative w-14 h-14 flex items-center justify-center">
+          <!-- SVG Circular Progress Ring -->
+          <svg class="w-full h-full transform -rotate-90" viewBox="0 0 48 48">
+            <circle cx="24" cy="24" r="20" stroke="#1F2937" stroke-width="3.5" fill="none" />
+            <circle cx="24" cy="24" r="20" stroke="#22D3EE" stroke-width="3.5" stroke-linecap="round" stroke-dasharray="125.6" stroke-dashoffset="47.7" fill="none" />
+          </svg>
+          <div class="absolute inset-0 flex flex-col items-center justify-center">
+            <span class="text-sm font-bold font-mono text-white leading-none">62</span>
+            <span class="text-[9px] font-mono text-slate-400 mt-0.5">%</span>
+          </div>
+        </div>
+        <span class="absolute bottom-1.5 text-[10px] font-mono text-slate-400">VOL</span>
+      </button>
+
+      <!-- 1.3 Play / Pause -->
+      <button class="deck-tile relative rounded-2xl flex flex-col items-center justify-center border border-tile-border hover:border-slate-600 transition group cursor-pointer">
+        <svg class="w-9 h-9 text-slate-200 transition-transform group-hover:scale-105" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+          <polygon points="5 3 14 12 5 21 5 3" fill="currentColor" class="text-slate-200/20"></polygon>
+          <line x1="19" x2="19" y1="5" y2="19"></line>
+        </svg>
+        <span class="absolute bottom-1.5 text-[10px] font-mono text-slate-400">PLAY</span>
+      </button>
+
+      <!-- 1.4 Previous -->
+      <button class="deck-tile relative rounded-2xl flex flex-col items-center justify-center border border-tile-border hover:border-slate-600 transition group cursor-pointer">
+        <svg class="w-8 h-8 text-slate-200 transition-transform group-hover:scale-105" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+          <polygon points="19 20 9 12 19 4 19 20"></polygon>
+          <line x1="5" x2="5" y1="19" y2="5"></line>
+        </svg>
+        <span class="absolute bottom-1.5 text-[10px] font-mono text-slate-400">PREV</span>
+      </button>
+
+      <!-- 1.5 Next -->
+      <button class="deck-tile relative rounded-2xl flex flex-col items-center justify-center border border-tile-border hover:border-slate-600 transition group cursor-pointer">
+        <svg class="w-8 h-8 text-slate-200 transition-transform group-hover:scale-105" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+          <polygon points="5 4 15 12 5 20 5 4"></polygon>
+          <line x1="19" x2="19" y1="5" y2="19"></line>
+        </svg>
+        <span class="absolute bottom-1.5 text-[10px] font-mono text-slate-400">NEXT</span>
+      </button>
+
+      <!-- 1.6 Record (Amber Border + Red Recording Dot) -->
+      <button class="deck-tile relative rounded-2xl flex flex-col items-center justify-center border-2 border-recAmber glow-rec group cursor-pointer">
+        <span class="absolute top-2 right-2 w-2.5 h-2.5 rounded-full bg-recRed animate-ping"></span>
+        <span class="absolute top-2 right-2 w-2.5 h-2.5 rounded-full bg-recRed shadow-[0_0_10px_#f87171]"></span>
+        <!-- REC Icon: Outer ring + inner filled red circle -->
+        <div class="w-9 h-9 rounded-full border-2 border-recRed flex items-center justify-center">
+          <div class="w-4 h-4 rounded-full bg-recRed shadow-[0_0_8px_#f87171]"></div>
+        </div>
+        <span class="absolute bottom-1.5 text-[10px] font-mono text-recRed font-bold tracking-wider">REC</span>
+      </button>
+
+
+      <!-- ================= ROW 2: Real PC Software App Icons (Centered, No glossy squircle, No text labels) ================= -->
+      
+      <!-- 2.1 Discord -->
+      <button class="deck-tile relative rounded-2xl flex items-center justify-center border border-tile-border hover:border-[#5865F2]/50 transition group cursor-pointer">
+        <svg class="w-12 h-12 transition-transform group-hover:scale-110 app-icon-img" viewBox="0 0 127.14 96.36">
+          <path fill="#5865F2" d="M107.7,8.07A105.15,105.15,0,0,0,81.47,0a72.06,72.06,0,0,0-3.36,6.83A97.68,97.68,0,0,0,49,6.83,72.37,72.37,0,0,0,45.64,0,105.89,105.89,0,0,0,19.39,8.09C2.79,32.65-1.71,56.6.54,80.21h0A105.73,105.73,0,0,0,32.71,96.36,77.7,77.7,0,0,0,39.6,85.25a68.42,68.42,0,0,1-10.85-5.18c.91-.66,1.8-1.34,2.66-2a75.57,75.57,0,0,0,64.32,0c.87.71,1.76,1.39,2.66,2a68.68,68.68,0,0,1-10.87,5.19,77,77,0,0,0,6.89,11.1A105.25,105.25,0,0,0,126.6,80.22h0C129.24,52.84,122.09,29.11,107.7,8.07ZM42.45,65.69C36.18,65.69,31,60,31,53s5-12.74,11.43-12.74S54,45.91,53.89,53,48.84,65.69,42.45,65.69Zm42.24,0C78.41,65.69,73.25,60,73.25,53s5-12.74,11.44-12.74S96.23,45.91,96.12,53,91.08,65.69,84.69,65.69Z"/>
+        </svg>
+      </button>
+
+      <!-- 2.2 Spotify -->
+      <button class="deck-tile relative rounded-2xl flex items-center justify-center border border-tile-border hover:border-[#1DB954]/50 transition group cursor-pointer">
+        <svg class="w-12 h-12 transition-transform group-hover:scale-110 app-icon-img" viewBox="0 0 24 24">
+          <path fill="#1DB954" d="M12 0C5.373 0 0 5.373 0 12s5.373 12 12 12 12-5.373 12-12S18.627 0 12 0zm5.503 17.308c-.215.354-.676.467-1.03.251-2.822-1.724-6.374-2.115-10.559-1.159-.404.093-.807-.162-.9-.566-.093-.404.162-.807.566-.9 4.582-1.047 8.509-.604 11.672 1.344.354.216.467.676.251 1.031zm1.469-3.267c-.27.44-.848.577-1.288.307-3.23-1.986-8.155-2.56-11.976-1.4-1.4.423-.974-.17-.4-.848.169-.423.848-.578 1.288-.308 4.372-1.327 9.807-.68 13.483 1.584.44.27.577.848.307 1.288zm.126-3.411c-3.873-2.3-10.264-2.513-13.978-1.385-.593.18-1.223-.157-1.403-.75-.18-.594.157-1.224.75-1.404 4.269-1.296 11.332-1.047 15.787 1.597.534.317.708 1.011.391 1.545-.316.533-1.01.708-1.547.397z"/>
+        </svg>
+      </button>
+
+      <!-- 2.3 Google Chrome -->
+      <button class="deck-tile relative rounded-2xl flex items-center justify-center border border-tile-border hover:border-slate-600 transition group cursor-pointer">
+        <svg class="w-12 h-12 transition-transform group-hover:scale-110 app-icon-img" viewBox="0 0 24 24">
+          <circle cx="12" cy="12" r="12" fill="#EA4335" />
+          <path d="M12 12 22.39 12A12 12 0 0 1 18 20.39L12 12Z" fill="#34A853" />
+          <path d="M12 12 6 22.39A12 12 0 0 1 1.61 8L12 12Z" fill="#FBBC05" />
+          <path d="M12 12 1.61 8A12 12 0 0 1 12 0a12 12 0 0 1 10.39 6L12 12Z" fill="#EA4335" />
+          <circle cx="12" cy="12" r="6" fill="#FFFFFF" />
+          <circle cx="12" cy="12" r="4.8" fill="#1A73E8" />
+        </svg>
+      </button>
+
+      <!-- 2.4 OBS Studio -->
+      <button class="deck-tile relative rounded-2xl flex items-center justify-center border border-tile-border hover:border-slate-500 transition group cursor-pointer">
+        <svg class="w-12 h-12 transition-transform group-hover:scale-110 app-icon-img" viewBox="0 0 24 24" fill="none">
+          <circle cx="12" cy="12" r="11" fill="#1E232B" stroke="#333D4B" stroke-width="1.5"/>
+          <path d="M12 6.5C10.5 6.5 9.2 7.1 8.3 8.1L9.7 9.5C10.3 8.9 11.1 8.5 12 8.5C13.9 8.5 15.5 10.1 15.5 12C15.5 12.9 15.1 13.7 14.5 14.3L15.9 15.7C16.9 14.8 17.5 13.5 17.5 12C17.5 8.96 15.04 6.5 12 6.5Z" fill="#FFFFFF"/>
+          <path d="M7.5 12C7.5 10.5 8.1 9.2 9.1 8.3L7.7 6.9C6.8 7.8 6.2 9.1 6 10.5C5.5 13.5 7.5 16.2 10.4 17.1L11.1 15.2C8.98 14.5 7.5 13.4 7.5 12Z" fill="#A0AEC0"/>
+          <path d="M12 17.5C13.5 17.5 14.8 16.9 15.7 15.9L17.1 17.3C16.2 18.2 14.9 18.8 13.5 19C10.5 19.5 7.8 17.5 6.9 14.6L8.8 13.9C9.5 16.02 10.6 17.5 12 17.5Z" fill="#CBD5E1"/>
+        </svg>
+      </button>
+
+      <!-- 2.5 Steam -->
+      <button class="deck-tile relative rounded-2xl flex items-center justify-center border border-tile-border hover:border-[#171a21] transition group cursor-pointer">
+        <svg class="w-12 h-12 transition-transform group-hover:scale-110 app-icon-img" viewBox="0 0 24 24">
+          <defs>
+            <linearGradient id="steamGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+              <stop offset="0%" stop-color="#111D2E"/>
+              <stop offset="100%" stop-color="#0388C8"/>
+            </linearGradient>
+          </defs>
+          <circle cx="12" cy="12" r="11" fill="url(#steamGrad)"/>
+          <path d="M12 2A10 10 0 0 0 2.2 10.4L6.9 12.3A3.6 3.6 0 0 1 10.4 10.8A3.6 3.6 0 0 1 14 14.4A3.6 3.6 0 0 1 12 17.6L12 17.6L7.7 19.5A10 10 0 0 0 22 12A10 10 0 0 0 12 2ZM14 15.7A1.3 1.3 0 1 1 15.3 14.4A1.3 1.3 0 0 1 14 15.7ZM6.9 13.9L3.5 12.5A10 10 0 0 0 3.7 15.7L6.8 14.4A2.3 2.3 0 0 1 6.9 13.9Z" fill="#FFFFFF"/>
+        </svg>
+      </button>
+
+      <!-- 2.6 VS Code -->
+      <button class="deck-tile relative rounded-2xl flex items-center justify-center border border-tile-border hover:border-[#007ACC]/50 transition group cursor-pointer">
+        <svg class="w-12 h-12 transition-transform group-hover:scale-110 app-icon-img" viewBox="0 0 24 24">
+          <path d="M17.8 2.2a1.3 1.3 0 0 0-1.4.3l-8.6 7.6-4.6-3.5a1.2 1.2 0 0 0-1.6.3L.3 8.6a1.2 1.2 0 0 0 .1 1.7L4.5 13 .4 16.1a1.2 1.2 0 0 0-.1 1.7l1.3 1.7a1.2 1.2 0 0 0 1.6.3l4.6-3.5 8.6 7.6c.4.3.9.4 1.4.3a1.3 1.3 0 0 0 1-.8l4.4-19.8a1.3 1.3 0 0 0-.4-1.4zM16.7 18.2l-6.5-5.2 6.5-5.2z" fill="#007ACC"/>
+          <path d="M16.7 18.2l4.4-2.2V8l-4.4-2.2z" fill="#0065A9"/>
+        </svg>
+      </button>
+
+
+      <!-- ================= ROW 3: Tools & Utilities (Line-Art & Modern Marks) ================= -->
+      
+      <!-- 3.1 Blender -->
+      <button class="deck-tile relative rounded-2xl flex flex-col items-center justify-center border border-tile-border hover:border-[#E87D0D]/50 transition group cursor-pointer">
+        <svg class="w-10 h-10 transition-transform group-hover:scale-105 app-icon-img" viewBox="0 0 24 24">
+          <circle cx="12" cy="14" r="5" fill="#E87D0D" />
+          <circle cx="12" cy="14" r="2.2" fill="#228BE6" />
+          <path d="M12 9V3M7.5 10.5L3 6M16.5 10.5L21 6" stroke="#E87D0D" stroke-width="2.5" stroke-linecap="round"/>
+        </svg>
+        <span class="absolute bottom-1.5 text-[10px] font-mono text-slate-400">BLENDER</span>
+      </button>
+
+      <!-- 3.2 Folder Icon -->
+      <button class="deck-tile relative rounded-2xl flex flex-col items-center justify-center border border-tile-border hover:border-slate-600 transition group cursor-pointer">
+        <svg class="w-8 h-8 text-slate-300 transition-transform group-hover:scale-105" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M4 20h16a2 2 0 0 0 2-2V8a2 2 0 0 0-2-2h-7.93a2 2 0 0 1-1.66-.9l-.82-1.2A2 2 0 0 0 7.93 3H4a2 2 0 0 0-2 2v13c0 1.1.9 2 2 2Z"></path>
+        </svg>
+        <span class="absolute bottom-1.5 text-[10px] font-mono text-slate-400">ORDNER</span>
+      </button>
+
+      <!-- 3.3 Screenshot Monitor Icon -->
+      <button class="deck-tile relative rounded-2xl flex flex-col items-center justify-center border border-tile-border hover:border-slate-600 transition group cursor-pointer">
+        <svg class="w-8 h-8 text-slate-300 transition-transform group-hover:scale-105" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+          <rect width="20" height="14" x="2" y="3" rx="2"></rect>
+          <line x1="8" x2="16" y1="21" y2="21"></line>
+          <line x1="12" x2="12" y1="17" y2="21"></line>
+          <!-- Inner crop/screenshot marks -->
+          <path d="M7 8h2m0 0v2M17 12v2m0 0h-2" stroke-linecap="round" stroke-width="1.5"></path>
+        </svg>
+        <span class="absolute bottom-1.5 text-[10px] font-mono text-slate-400">SCREEN</span>
+      </button>
+
+      <!-- 3.4 Terminal Icon -->
+      <button class="deck-tile relative rounded-2xl flex flex-col items-center justify-center border border-tile-border hover:border-slate-600 transition group cursor-pointer">
+        <svg class="w-8 h-8 text-slate-300 transition-transform group-hover:scale-105" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+          <polyline points="4 17 10 11 4 5"></polyline>
+          <line x1="12" x2="20" y1="19" y2="19"></line>
+        </svg>
+        <span class="absolute bottom-1.5 text-[10px] font-mono text-slate-400">TERMINAL</span>
+      </button>
+
+      <!-- 3.5 Lock Icon -->
+      <button class="deck-tile relative rounded-2xl flex flex-col items-center justify-center border border-tile-border hover:border-slate-600 transition group cursor-pointer">
+        <svg class="w-8 h-8 text-slate-300 transition-transform group-hover:scale-105" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+          <rect width="18" height="11" x="3" y="11" rx="2" ry="2"></rect>
+          <path d="M7 11V7a5 5 0 0 1 10 0v4"></path>
+        </svg>
+        <span class="absolute bottom-1.5 text-[10px] font-mono text-slate-400">SPERREN</span>
+      </button>
+
+      <!-- 3.6 Mixer Sliders Icon -->
+      <button class="deck-tile relative rounded-2xl flex flex-col items-center justify-center border border-tile-border hover:border-slate-600 transition group cursor-pointer">
+        <svg class="w-8 h-8 text-slate-300 transition-transform group-hover:scale-105" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+          <line x1="4" x2="4" y1="21" y2="14"></line>
+          <line x1="4" x2="4" y1="10" y2="3"></line>
+          <line x1="12" x2="12" y1="21" y2="12"></line>
+          <line x1="12" x2="12" y1="8" y2="3"></line>
+          <line x1="20" x2="20" y1="21" y2="16"></line>
+          <line x1="20" x2="20" y1="12" y2="3"></line>
+          <line x1="1" x2="7" y1="14" y2="14"></line>
+          <line x1="9" x2="15" y1="8" y2="8"></line>
+          <line x1="17" x2="23" y1="16" y2="16"></line>
+        </svg>
+        <span class="absolute bottom-1.5 text-[10px] font-mono text-slate-400">MIXER</span>
+      </button>
+
+    </div>
+  </main>
+
+  <!-- ULTRA-SLIM BOTTOM BAR -->
+  <footer class="w-full flex items-center justify-between px-4 py-1 h-8 shrink-0 text-xs text-slate-400">
+    <!-- Left: Page Pagination Indicator (Active cyan dot + 2 inactive dots) -->
+    <div class="flex items-center space-x-2">
+      <span class="w-2.5 h-2.5 rounded-full bg-cyanAccent shadow-[0_0_8px_#22d3ee]"></span>
+      <span class="w-2 h-2 rounded-full bg-slate-700/80 hover:bg-slate-600 transition cursor-pointer"></span>
+      <span class="w-2 h-2 rounded-full bg-slate-700/80 hover:bg-slate-600 transition cursor-pointer"></span>
+    </div>
+
+    <!-- Right: Subtle Pill "Home · 6 × 3" -->
+    <div class="px-2.5 py-0.5 rounded-full bg-slate-900/80 border border-slate-800/80 text-[11px] font-mono text-slate-400">
+      <span>Home · 6 × 3</span>
+    </div>
+  </footer>
+
+</body>
+</html>

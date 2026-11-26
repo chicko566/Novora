@@ -1,0 +1,13 @@
+{
+  "name": "novora",
+  "version": "0.3.3",
+  "private": true,
+  "type": "module",
+  "description": "Novora - Steuerpult fuer Handy und PC ueber WLAN",
+  "scripts": {
+    "start": "node server.mjs",
+    "smoke": "node test/smoke.mjs",
+    "latency": "node test/latency.mjs",
+    "discovery": "node test/discovery.mjs"
+  }
+}

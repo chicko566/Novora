@@ -1,0 +1,537 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="de"><head><meta charset="utf-8"/><meta content="width=device-width, initial-scale=1.0" name="viewport"/><meta content="web_dashboard" name="shell-type"/><link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" rel="stylesheet"/><link href="https://fonts.googleapis.com" rel="preconnect"/><link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/><link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&amp;family=JetBrains+Mono:wght@400;500;600&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/><style>@layer base{html,body{margin:0;padding:0;}body{overscroll-behavior:none;}main>:first-child{margin-top:0!important;}main>:last-child{margin-bottom:0!important;}}::-webkit-scrollbar{display:none;}</style><script src="https://cdn.tailwindcss.com"></script><script id="tailwind-config">tailwind.config = { darkMode: "class", theme: { extend: { "colors": { "on-secondary": "#003825", "on-primary-fixed": "#001f25", "secondary-fixed-dim": "#45dfa4", "outline-variant": "#3c494c", "primary-fixed": "#a2eeff", "on-tertiary": "#670211", "on-secondary-container": "#00452e", "on-tertiary-container": "#93262b", "surface-bright": "#37393f", "surface-variant": "#33353a", "tertiary": "#ffd2d0", "primary": "#8aebff", "on-surface-variant": "#bbc9cd", "background": "#111319", "surface-container-low": "#191b21", "surface-container": "#1e1f25", "on-surface": "#e2e2e9", "primary-fixed-dim": "#2fd9f4", "on-tertiary-fixed": "#410006", "error": "#ffb4ab", "surface": "#111319", "tertiary-fixed-dim": "#ffb3b0", "on-background": "#e2e2e9", "on-secondary-fixed-variant": "#005137", "on-primary-fixed-variant": "#004e5a", "on-error-container": "#ffdad6", "inverse-on-surface": "#2e3036", "inverse-surface": "#e2e2e9", "on-error": "#690005", "on-primary": "#00363e", "surface-dim": "#111319", "tertiary-fixed": "#ffdad8", "surface-container-highest": "#33353a", "tertiary-container": "#ffaba8", "surface-container-high": "#282a30", "on-secondary-fixed": "#002114", "error-container": "#93000a", "surface-tint": "#2fd9f4", "outline": "#859397", "on-tertiary-fixed-variant": "#881d24", "secondary-fixed": "#68fcbf", "inverse-primary": "#006877", "secondary": "#45dfa4", "on-primary-container": "#005763", "secondary-container": "#00bd85", "primary-container": "#22d3ee", "surface-container-lowest": "#0c0e13" }, "borderRadius": { "DEFAULT": "0.125rem", "lg": "0.25rem", "xl": "0.5rem", "full": "0.75rem" }, "spacing": { "gutter": "0.75rem", "space-xl": "1.5rem", "gutter-compact": "0.5rem", "space-xs": "0.25rem", "space-sm": "0.5rem", "space-md": "0.75rem", "margin-dense": "0.75rem", "space-lg": "1rem", "margin": "1rem" }, "fontFamily": { "label-xs": ["JetBrains Mono"], "label-sm": ["JetBrains Mono"], "headline-xl": ["Inter"], "headline-md": ["Inter"], "body-lg": ["Inter"], "body-md": ["Inter"], "label-md": ["JetBrains Mono"], "headline-lg": ["Inter"], "body-sm": ["Inter"] }, "fontSize": { "label-xs": ["10px", { "lineHeight": "12px", "letterSpacing": "0.06em", "fontWeight": "600" }], "label-sm": ["11px", { "lineHeight": "14px", "letterSpacing": "0.04em", "fontWeight": "500" }], "headline-xl": ["24px", { "lineHeight": "32px", "letterSpacing": "-0.02em", "fontWeight": "600" }], "headline-md": ["15px", { "lineHeight": "20px", "letterSpacing": "-0.01em", "fontWeight": "500" }], "body-lg": ["14px", { "lineHeight": "20px", "fontWeight": "400" }], "body-md": ["13px", { "lineHeight": "18px", "fontWeight": "400" }], "label-md": ["12px", { "lineHeight": "16px", "letterSpacing": "0.02em", "fontWeight": "500" }], "headline-lg": ["18px", { "lineHeight": "24px", "letterSpacing": "-0.015em", "fontWeight": "600" }], "body-sm": ["12px", { "lineHeight": "16px", "fontWeight": "400" }] } } } };</script></head><body class="bg-surface font-body-md text-body-md text-on-surface select-none antialiased"><header class="fixed top-0 left-0 right-0 z-50 h-14 bg-surface-container-lowest border-b border-outline-variant/30 flex items-center justify-between px-space-lg"><div class="flex items-center gap-space-md"><div class="w-7 h-7 rounded bg-primary-container flex items-center justify-center shadow-[0_0_8px_rgba(34,211,238,0.35)]"><span class="font-label-md text-label-md text-on-primary-fixed-variant font-bold leading-none">N</span></div><div class="flex items-center gap-space-xs"><span class="font-headline-md text-headline-md font-semibold tracking-tight text-on-surface">Novora</span><span class="font-body-sm text-body-sm text-outline">·</span><span class="font-body-sm text-body-sm text-on-surface-variant font-medium">PC-Editor</span></div><div class="flex items-center gap-space-xs px-space-sm py-space-xs rounded bg-surface-container-low border border-outline-variant/40"><span class="w-1.5 h-1.5 rounded-full bg-secondary shadow-[0_0_4px_#45dfa4]"></span><span class="font-label-xs text-label-xs text-secondary tracking-wider uppercase">gespeichert</span></div></div><div class="flex items-center gap-space-md"><div class="hidden sm:flex items-center gap-space-xs"><span class="px-space-sm py-space-xs rounded bg-surface-container-low border border-outline-variant/30 font-label-xs text-label-xs text-on-surface-variant">v0.5.0</span><span class="px-space-sm py-space-xs rounded bg-surface-container-low border border-outline-variant/30 font-label-xs text-label-xs text-on-surface-variant flex items-center gap-1"><span class="material-symbols-outlined text-[13px] text-outline">speed</span>Latenz 6 ms</span><span class="px-space-sm py-space-xs rounded bg-surface-container-low border border-outline-variant/30 font-label-xs text-label-xs text-secondary flex items-center gap-1.5"><span class="w-1.5 h-1.5 rounded-full bg-secondary shadow-[0_0_4px_#45dfa4]"></span>1 live</span></div><div class="h-4 w-px bg-outline-variant/40"></div><button class="flex items-center gap-1.5 px-space-sm py-space-xs rounded bg-transparent hover:bg-surface-container hover:text-on-surface border border-outline-variant/40 text-on-surface-variant transition-colors"><span class="material-symbols-outlined text-[15px]">smartphone</span><span class="font-label-sm text-label-sm">Handy-Ansicht</span></button><button class="flex items-center gap-1.5 px-space-md py-1.5 rounded bg-primary-container hover:bg-primary text-on-primary-container hover:text-on-primary font-label-sm text-label-sm font-semibold transition-all shadow-[0_0_10px_rgba(34,211,238,0.25)] active:scale-95"><span class="material-symbols-outlined text-[16px]">save</span>Speichern</button><div class="w-8 h-8 rounded-full bg-primary flex items-center justify-center"><span class="material-symbols-outlined text-on-primary text-[18px]">person</span></div></div></header><aside class="fixed left-0 top-14 bottom-0 w-16 bg-surface-container-lowest border-r border-outline-variant/30 z-40 flex flex-col items-center py-space-md justify-between"><nav class="w-full flex flex-col items-center gap-space-xs px-1" data-active-classes="bg-surface-container text-primary border-l-2 border-primary"><a aria-current="page" class="w-12 h-12 flex flex-col items-center justify-center rounded transition-colors bg-surface-container text-primary border-l-2 border-primary" data-path="macro-canvas" href="#" title="Editor Deck"><span class="material-symbols-outlined text-[20px]">grid_view</span><span class="font-label-xs text-[9px] mt-0.5">Deck</span></a><a class="w-12 h-12 flex flex-col items-center justify-center rounded text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-colors" data-path="action-library" href="#" title="Aktionsbibliothek"><span class="material-symbols-outlined text-[20px]">widgets</span><span class="font-label-xs text-[9px] mt-0.5">Module</span></a><a class="w-12 h-12 flex flex-col items-center justify-center rounded text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-colors" data-path="hardware-profiles" href="#" title="Hardware Profile"><span class="material-symbols-outlined text-[20px]">memory</span><span class="font-label-xs text-[9px] mt-0.5">Profile</span></a><a class="w-12 h-12 flex flex-col items-center justify-center rounded text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-colors" data-path="stream-telemetry" href="#" title="Telemetrie &amp; Latenz"><span class="material-symbols-outlined text-[20px]">monitoring</span><span class="font-label-xs text-[9px] mt-0.5">Status</span></a></nav><div class="flex flex-col items-center gap-space-xs px-1"><a class="w-12 h-12 flex flex-col items-center justify-center rounded text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-colors" data-path="device-settings" href="#" title="Einstellungen"><span class="material-symbols-outlined text-[20px]">tune</span><span class="font-label-xs text-[9px] mt-0.5">Setup</span></a></div></aside><div class="pl-16 w-full"><main class="w-full pt-14 bg-surface min-h-[calc(100vh-3.5rem)]"><div class="flex flex-col w-full h-[calc(100vh-3.5rem)] overflow-hidden bg-surface-container-lowest text-on-surface">
+<div class="flex w-full h-full flex-row overflow-hidden">
+<!-- COL 1: Rail Navigation -->
+<div class="w-16 shrink-0 bg-surface-container-lowest border-r border-outline-variant/30 flex flex-col items-center justify-between py-space-md z-20">
+<div class="flex flex-col items-center gap-space-sm w-full">
+<!-- Editor (Active) -->
+<button class="relative w-12 h-12 rounded bg-surface-container flex flex-col items-center justify-center text-primary group shadow-[inset_0_0_0_1px_#22d3ee] transition-all">
+<span class="absolute left-0 top-2 bottom-2 w-0.5 bg-primary rounded-r"></span>
+<span class="material-symbols-outlined text-[20px] drop-shadow-[0_0_6px_rgba(34,211,238,0.6)]">grid_view</span>
+<span class="font-label-xs text-[9px] tracking-tight mt-0.5 text-primary">Editor</span>
+</button>
+<!-- Verbinden -->
+<button class="relative w-12 h-12 rounded bg-transparent hover:bg-surface-container-low flex flex-col items-center justify-center text-on-surface-variant hover:text-on-surface transition-all group">
+<span class="material-symbols-outlined text-[20px] group-hover:text-primary transition-colors">wifi_tethering</span>
+<span class="font-label-xs text-[9px] tracking-tight mt-0.5">Verbinden</span>
+</button>
+<!-- Geräte (With Badge) -->
+<button class="relative w-12 h-12 rounded bg-transparent hover:bg-surface-container-low flex flex-col items-center justify-center text-on-surface-variant hover:text-on-surface transition-all group">
+<div class="relative flex items-center justify-center">
+<span class="material-symbols-outlined text-[20px] group-hover:text-primary transition-colors">hardware</span>
+<span class="absolute -top-1 -right-2 px-1 py-0.2 bg-secondary text-on-secondary rounded-full font-label-xs text-[8px] font-bold">1</span>
+</div>
+<span class="font-label-xs text-[9px] tracking-tight mt-0.5">Geräte</span>
+</button>
+</div>
+<!-- Einstellungen -->
+<div class="flex flex-col items-center w-full">
+<button class="relative w-12 h-12 rounded bg-transparent hover:bg-surface-container-low flex flex-col items-center justify-center text-on-surface-variant hover:text-on-surface transition-all group">
+<span class="material-symbols-outlined text-[20px] group-hover:text-primary transition-colors">tune</span>
+<span class="font-label-xs text-[9px] tracking-tight mt-0.5">Setup</span>
+</button>
+</div>
+</div>
+<!-- COL 2: Seiten Sidebar -->
+<aside class="w-52 shrink-0 bg-surface-container-low border-r border-outline-variant/30 flex flex-col justify-between py-space-md z-10">
+<div class="flex flex-col gap-space-md px-space-sm">
+<div class="flex items-center justify-between px-space-xs text-on-surface-variant">
+<div class="flex items-center gap-1.5">
+<span class="material-symbols-outlined text-[16px] text-primary">auto_awesome_motion</span>
+<span class="font-label-sm text-label-sm uppercase tracking-wider text-on-surface font-semibold">Seiten</span>
+</div>
+<span class="font-label-xs text-label-xs px-1.5 py-0.5 rounded bg-surface-container border border-outline-variant/30 text-on-surface-variant">3 / 10</span>
+</div>
+<!-- Page List -->
+<nav class="flex flex-col gap-1">
+<!-- Page 1: Home (Active) -->
+<button class="w-full flex items-center justify-between px-space-sm py-2 rounded bg-surface-container text-on-surface border border-primary/40 shadow-[0_0_10px_rgba(34,211,238,0.1)] group text-left">
+<div class="flex items-center gap-2">
+<span class="w-1.5 h-1.5 rounded-full bg-primary shadow-[0_0_5px_#22d3ee]"></span>
+<span class="font-headline-md text-[13px] font-medium text-on-surface">Home</span>
+</div>
+<span class="font-label-xs text-[10px] text-primary bg-primary/10 px-1 py-0.5 rounded">Aktiv</span>
+</button>
+<!-- Page 2: Musik -->
+<button class="w-full flex items-center justify-between px-space-sm py-2 rounded hover:bg-surface-container/60 text-on-surface-variant hover:text-on-surface transition-colors text-left">
+<div class="flex items-center gap-2">
+<span class="w-1.5 h-1.5 rounded-full bg-outline-variant"></span>
+<span class="font-headline-md text-[13px] font-normal">Musik</span>
+</div>
+<span class="font-label-xs text-[10px] text-outline">P2</span>
+</button>
+<!-- Page 3: Mixer -->
+<button class="w-full flex items-center justify-between px-space-sm py-2 rounded hover:bg-surface-container/60 text-on-surface-variant hover:text-on-surface transition-colors text-left">
+<div class="flex items-center gap-2">
+<span class="w-1.5 h-1.5 rounded-full bg-outline-variant"></span>
+<span class="font-headline-md text-[13px] font-normal">Mixer</span>
+</div>
+<span class="font-label-xs text-[10px] text-secondary bg-secondary/10 px-1.5 py-0.5 rounded">Fader</span>
+</button>
+</nav>
+</div>
+<!-- Add Page Button -->
+<div class="px-space-sm pt-space-sm border-t border-outline-variant/20">
+<button class="w-full py-2 px-space-sm rounded border border-dashed border-outline-variant/60 hover:border-primary/60 text-on-surface-variant hover:text-primary transition-all flex items-center justify-center gap-1.5 group bg-surface-container-lowest/50">
+<span class="material-symbols-outlined text-[16px] group-hover:scale-110 transition-transform">add</span>
+<span class="font-label-sm text-label-sm font-medium">Neue Seite</span>
+</button>
+</div>
+</aside>
+<!-- COL 3: Center Canvas (5x4 Macro Deck) -->
+<section class="flex-1 flex flex-col bg-surface-container-lowest overflow-hidden relative">
+<!-- Background Grid Graphic Overlay -->
+<div class="absolute inset-0 bg-[radial-gradient(#1e2733_1px,transparent_1px)] [background-size:24px_24px] opacity-30 pointer-events-none"></div>
+<!-- Canvas Sub-Header -->
+<div class="h-12 border-b border-outline-variant/30 bg-surface-container-low/60 backdrop-blur px-space-lg flex items-center justify-between shrink-0 z-10">
+<div class="flex items-center gap-space-md">
+<div class="flex items-baseline gap-2">
+<span class="font-headline-md text-headline-md font-semibold text-on-surface">Raster · Home</span>
+<span class="font-label-xs text-label-xs text-primary bg-primary/10 px-1.5 py-0.5 rounded font-mono">5 × 4</span>
+</div>
+<span class="font-body-sm text-body-sm text-on-surface-variant hidden md:inline">20 Tasten belegt/verfügbar</span>
+</div>
+<div class="flex items-center gap-space-md">
+<!-- Steppers -->
+<div class="flex items-center gap-2">
+<!-- Columns Stepper -->
+<div class="flex items-center bg-surface-container border border-outline-variant/40 rounded px-1 py-0.5">
+<span class="font-label-xs text-[10px] text-on-surface-variant px-1.5 uppercase tracking-wider">Spalten</span>
+<button class="w-5 h-5 flex items-center justify-center text-outline hover:text-on-surface rounded hover:bg-surface-container-high transition-colors"><span class="material-symbols-outlined text-[12px]">remove</span></button>
+<span class="font-label-sm text-label-sm px-1.5 font-bold text-on-surface">5</span>
+<button class="w-5 h-5 flex items-center justify-center text-outline hover:text-on-surface rounded hover:bg-surface-container-high transition-colors"><span class="material-symbols-outlined text-[12px]">add</span></button>
+</div>
+<!-- Rows Stepper -->
+<div class="flex items-center bg-surface-container border border-outline-variant/40 rounded px-1 py-0.5">
+<span class="font-label-xs text-[10px] text-on-surface-variant px-1.5 uppercase tracking-wider">Zeilen</span>
+<button class="w-5 h-5 flex items-center justify-center text-outline hover:text-on-surface rounded hover:bg-surface-container-high transition-colors"><span class="material-symbols-outlined text-[12px]">remove</span></button>
+<span class="font-label-sm text-label-sm px-1.5 font-bold text-on-surface">4</span>
+<button class="w-5 h-5 flex items-center justify-center text-outline hover:text-on-surface rounded hover:bg-surface-container-high transition-colors"><span class="material-symbols-outlined text-[12px]">add</span></button>
+</div>
+</div>
+<div class="h-4 w-px bg-outline-variant/40"></div>
+<!-- Zoom / Reset Action -->
+<div class="flex items-center gap-1">
+<button class="p-1 rounded text-on-surface-variant hover:text-on-surface hover:bg-surface-container transition-colors" title="Zoom zurücksetzen">
+<span class="material-symbols-outlined text-[18px]">fit_screen</span>
+</button>
+<button class="p-1 rounded text-on-surface-variant hover:text-on-surface hover:bg-surface-container transition-colors" title="Raster zentrieren">
+<span class="material-symbols-outlined text-[18px]">center_focus_strong</span>
+</button>
+</div>
+</div>
+</div>
+<!-- Scrollable / Centered Hardware Deck Container -->
+<div class="flex-1 overflow-auto p-space-lg flex items-center justify-center z-10">
+<div class="bg-surface-container-low/90 p-space-lg rounded-xl border border-outline-variant/40 shadow-2xl backdrop-blur-md max-w-4xl w-full">
+<!-- 5 Columns x 4 Rows Matrix (20 Keys) -->
+<div class="grid grid-cols-5 gap-3 w-full" id="deck-matrix">
+<!-- TASTE 1 (ACTIVE / SELECTED) -->
+<div class="relative group aspect-square rounded-xl bg-surface-container border-2 border-primary p-2.5 flex flex-col justify-between cursor-pointer shadow-[0_0_16px_rgba(34,211,238,0.3),inset_0_0_8px_rgba(34,211,238,0.15)] ring-1 ring-primary transition-all">
+<div class="flex items-center justify-between w-full">
+<span class="font-label-xs text-[10px] text-primary bg-primary/20 px-1 py-0.5 rounded font-mono font-bold">K1</span>
+<span class="w-1.5 h-1.5 rounded-full bg-primary animate-pulse"></span>
+</div>
+<div class="flex flex-col items-center justify-center my-auto">
+<svg class="w-8 h-8 text-primary fill-current drop-shadow-[0_0_6px_rgba(34,211,238,0.5)]" viewbox="0 0 24 24">
+<path d="M20.317 4.37a19.791 19.791 0 0 0-4.885-1.515.074.074 0 0 0-.079.037c-.21.375-.444.864-.608 1.25a18.27 18.27 0 0 0-5.487 0 12.64 12.64 0 0 0-.617-1.25.077.077 0 0 0-.079-.037A19.736 19.736 0 0 0 3.677 4.37a.07.07 0 0 0-.032.027C.533 9.046-.32 13.58.099 18.057a.082.082 0 0 0 .031.057 19.9 19.9 0 0 0 5.993 3.03.078.078 0 0 0 .084-.028c.462-.63.874-1.295 1.226-1.994.021-.041.001-.09-.041-.106a13.107 13.107 0 0 1-1.872-.892.077.077 0 0 1-.008-.128 10.2 10.2 0 0 0 .372-.292.074.074 0 0 1 .077-.01c3.929 1.793 8.18 1.793 12.061 0a.074.074 0 0 1 .078.01c.12.098.246.198.373.292a.077.077 0 0 1-.006.127 12.299 12.299 0 0 1-1.873.893.077.077 0 0 0-.041.107c.36.698.772 1.362 1.225 1.993a.076.076 0 0 0 .084.028 19.839 19.839 0 0 0 6.002-3.03.077.077 0 0 0 .032-.054c.5-5.177-.838-9.674-3.549-13.66a.061.061 0 0 0-.031-.028zM8.02 15.33c-1.183 0-2.157-1.085-2.157-2.419 0-1.333.956-2.419 2.157-2.419 1.21 0 2.176 1.096 2.157 2.42 0 1.333-.956 2.418-2.157 2.418zm7.975 0c-1.183 0-2.157-1.085-2.157-2.419 0-1.333.955-2.419 2.157-2.419 1.21 0 2.176 1.096 2.157 2.42 0 1.333-.946 2.418-2.157 2.418z"></path>
+</svg>
+</div>
+<div class="flex items-center justify-between w-full">
+<span class="font-headline-md text-[11px] font-semibold text-primary truncate">Discord</span>
+<span class="font-label-xs text-[9px] text-outline">APP</span>
+</div>
+</div>
+<!-- TASTE 2: Spotify -->
+<div class="relative group aspect-square rounded-xl bg-surface-container hover:bg-surface-container-high border border-outline-variant/40 p-2.5 flex flex-col justify-between cursor-pointer transition-all hover:border-outline">
+<div class="flex items-center justify-between w-full">
+<span class="font-label-xs text-[10px] text-outline font-mono">K2</span>
+<span class="w-1.5 h-1.5 rounded-full bg-secondary shadow-[0_0_4px_#45dfa4]"></span>
+</div>
+<div class="flex flex-col items-center justify-center my-auto">
+<svg class="w-7 h-7 text-secondary fill-current" viewbox="0 0 24 24">
+<path d="M12 2C6.477 2 2 6.477 2 12s4.477 10 10 10 10-4.477 10-10A10 10 0 0 0 12 2zm4.586 14.424a.627.627 0 0 1-.86.208c-2.355-1.44-5.32-1.766-8.814-.968a.627.627 0 1 1-.28-1.222c3.824-.874 7.108-.504 9.746 1.122a.627.627 0 0 1 .208.86zm1.225-2.723a.785.785 0 0 1-1.08.257c-2.695-1.658-6.805-2.138-9.993-1.17a.786.786 0 1 1-.453-1.504c3.638-1.104 8.18-.574 11.27 1.33a.785.785 0 0 1 .256 1.087zm.105-2.835C14.692 8.95 9.375 8.775 6.297 9.71a.942.942 0 1 1-.552-1.8c3.535-1.073 9.404-.863 13.115 1.34a.942.942 0 1 1-.944 1.616z"></path>
+</svg>
+</div>
+<div class="flex items-center justify-between w-full">
+<span class="font-headline-md text-[11px] font-medium text-on-surface truncate">Spotify</span>
+<span class="font-label-xs text-[9px] text-outline">MEDIA</span>
+</div>
+</div>
+<!-- TASTE 3: Chrome -->
+<div class="relative group aspect-square rounded-xl bg-surface-container hover:bg-surface-container-high border border-outline-variant/40 p-2.5 flex flex-col justify-between cursor-pointer transition-all hover:border-outline">
+<div class="flex items-center justify-between w-full">
+<span class="font-label-xs text-[10px] text-outline font-mono">K3</span>
+</div>
+<div class="flex flex-col items-center justify-center my-auto">
+<span class="material-symbols-outlined text-[28px] text-on-surface">public</span>
+</div>
+<div class="flex items-center justify-between w-full">
+<span class="font-headline-md text-[11px] font-medium text-on-surface truncate">Chrome</span>
+<span class="font-label-xs text-[9px] text-outline">BROWSER</span>
+</div>
+</div>
+<!-- TASTE 4: OBS Studio -->
+<div class="relative group aspect-square rounded-xl bg-surface-container hover:bg-surface-container-high border border-outline-variant/40 p-2.5 flex flex-col justify-between cursor-pointer transition-all hover:border-outline">
+<div class="flex items-center justify-between w-full">
+<span class="font-label-xs text-[10px] text-outline font-mono">K4</span>
+<span class="font-label-xs text-[8px] bg-surface-container-high text-on-surface-variant px-1 rounded">STREAM</span>
+</div>
+<div class="flex flex-col items-center justify-center my-auto">
+<span class="material-symbols-outlined text-[28px] text-on-surface">videocam</span>
+</div>
+<div class="flex items-center justify-between w-full">
+<span class="font-headline-md text-[11px] font-medium text-on-surface truncate">OBS Studio</span>
+<span class="font-label-xs text-[9px] text-outline">LIVE</span>
+</div>
+</div>
+<!-- TASTE 5: Steam -->
+<div class="relative group aspect-square rounded-xl bg-surface-container hover:bg-surface-container-high border border-outline-variant/40 p-2.5 flex flex-col justify-between cursor-pointer transition-all hover:border-outline">
+<div class="flex items-center justify-between w-full">
+<span class="font-label-xs text-[10px] text-outline font-mono">K5</span>
+</div>
+<div class="flex flex-col items-center justify-center my-auto">
+<span class="material-symbols-outlined text-[28px] text-on-surface">sports_esports</span>
+</div>
+<div class="flex items-center justify-between w-full">
+<span class="font-headline-md text-[11px] font-medium text-on-surface truncate">Steam</span>
+<span class="font-label-xs text-[9px] text-outline">GAME</span>
+</div>
+</div>
+<!-- TASTE 6: VS Code -->
+<div class="relative group aspect-square rounded-xl bg-surface-container hover:bg-surface-container-high border border-outline-variant/40 p-2.5 flex flex-col justify-between cursor-pointer transition-all hover:border-outline">
+<div class="flex items-center justify-between w-full">
+<span class="font-label-xs text-[10px] text-outline font-mono">K6</span>
+</div>
+<div class="flex flex-col items-center justify-center my-auto">
+<span class="material-symbols-outlined text-[28px] text-primary">terminal</span>
+</div>
+<div class="flex items-center justify-between w-full">
+<span class="font-headline-md text-[11px] font-medium text-on-surface truncate">VS Code</span>
+<span class="font-label-xs text-[9px] text-outline">DEV</span>
+</div>
+</div>
+<!-- TASTE 7: Blender -->
+<div class="relative group aspect-square rounded-xl bg-surface-container hover:bg-surface-container-high border border-outline-variant/40 p-2.5 flex flex-col justify-between cursor-pointer transition-all hover:border-outline">
+<div class="flex items-center justify-between w-full">
+<span class="font-label-xs text-[10px] text-outline font-mono">K7</span>
+</div>
+<div class="flex flex-col items-center justify-center my-auto">
+<span class="material-symbols-outlined text-[28px] text-on-surface">view_in_ar</span>
+</div>
+<div class="flex items-center justify-between w-full">
+<span class="font-headline-md text-[11px] font-medium text-on-surface truncate">Blender</span>
+<span class="font-label-xs text-[9px] text-outline">3D</span>
+</div>
+</div>
+<!-- TASTE 8: Mute Mic (Cyan Glow) -->
+<div class="relative group aspect-square rounded-xl bg-surface-container hover:bg-surface-container-high border border-primary/40 p-2.5 flex flex-col justify-between cursor-pointer transition-all shadow-[inset_0_0_8px_rgba(34,211,238,0.1)]">
+<div class="flex items-center justify-between w-full">
+<span class="font-label-xs text-[10px] text-primary font-mono">K8</span>
+<span class="w-1.5 h-1.5 rounded-full bg-primary shadow-[0_0_4px_#22d3ee]"></span>
+</div>
+<div class="flex flex-col items-center justify-center my-auto">
+<span class="material-symbols-outlined text-[28px] text-primary drop-shadow-[0_0_8px_rgba(34,211,238,0.7)]">mic_off</span>
+</div>
+<div class="flex items-center justify-between w-full">
+<span class="font-headline-md text-[11px] font-medium text-primary truncate">Mute Mic</span>
+<span class="font-label-xs text-[9px] text-primary">F13</span>
+</div>
+</div>
+<!-- TASTE 9: Lautstärke (62% Circular Ring) -->
+<div class="relative group aspect-square rounded-xl bg-surface-container hover:bg-surface-container-high border border-outline-variant/40 p-2.5 flex flex-col justify-between cursor-pointer transition-all hover:border-outline">
+<div class="flex items-center justify-between w-full">
+<span class="font-label-xs text-[10px] text-outline font-mono">K9</span>
+</div>
+<div class="flex flex-col items-center justify-center my-auto relative">
+<!-- Circular Progress Ring SVG -->
+<svg class="w-11 h-11 transform -rotate-90">
+<circle class="text-surface-container-highest" cx="22" cy="22" fill="transparent" r="18" stroke="currentColor" stroke-width="2.5"></circle>
+<circle class="text-primary" cx="22" cy="22" fill="transparent" r="18" stroke="currentColor" stroke-dasharray="113.1" stroke-dashoffset="43" stroke-linecap="round" stroke-width="2.5"></circle>
+</svg>
+<span class="absolute font-label-xs text-[10px] font-bold text-on-surface font-mono">62</span>
+</div>
+<div class="flex items-center justify-between w-full">
+<span class="font-headline-md text-[11px] font-medium text-on-surface truncate">Lautstärke</span>
+<span class="font-label-xs text-[9px] text-outline">DIAL</span>
+</div>
+</div>
+<!-- TASTE 10: Play / Pause -->
+<div class="relative group aspect-square rounded-xl bg-surface-container hover:bg-surface-container-high border border-outline-variant/40 p-2.5 flex flex-col justify-between cursor-pointer transition-all hover:border-outline">
+<div class="flex items-center justify-between w-full">
+<span class="font-label-xs text-[10px] text-outline font-mono">K10</span>
+</div>
+<div class="flex flex-col items-center justify-center my-auto">
+<span class="material-symbols-outlined text-[28px] text-on-surface">play_arrow</span>
+</div>
+<div class="flex items-center justify-between w-full">
+<span class="font-headline-md text-[11px] font-medium text-on-surface truncate">Play/Pause</span>
+<span class="font-label-xs text-[9px] text-outline">MEDIA</span>
+</div>
+</div>
+<!-- TASTE 11: Nächster Track -->
+<div class="relative group aspect-square rounded-xl bg-surface-container hover:bg-surface-container-high border border-outline-variant/40 p-2.5 flex flex-col justify-between cursor-pointer transition-all hover:border-outline">
+<div class="flex items-center justify-between w-full">
+<span class="font-label-xs text-[10px] text-outline font-mono">K11</span>
+</div>
+<div class="flex flex-col items-center justify-center my-auto">
+<span class="material-symbols-outlined text-[28px] text-on-surface">skip_next</span>
+</div>
+<div class="flex items-center justify-between w-full">
+<span class="font-headline-md text-[11px] font-medium text-on-surface truncate">Nächster Track</span>
+<span class="font-label-xs text-[9px] text-outline">MEDIA</span>
+</div>
+</div>
+<!-- TASTE 12: Aufnahme (Recording / Pulsing Red Dot) -->
+<div class="relative group aspect-square rounded-xl bg-surface-container hover:bg-surface-container-high border border-error/50 p-2.5 flex flex-col justify-between cursor-pointer transition-all shadow-[inset_0_0_8px_rgba(255,180,171,0.1)]">
+<div class="flex items-center justify-between w-full">
+<span class="font-label-xs text-[10px] text-error font-mono">K12</span>
+<span class="w-2 h-2 rounded-full bg-error animate-ping"></span>
+</div>
+<div class="flex flex-col items-center justify-center my-auto">
+<span class="material-symbols-outlined text-[28px] text-error">radio_button_checked</span>
+</div>
+<div class="flex items-center justify-between w-full">
+<span class="font-headline-md text-[11px] font-medium text-error truncate">Aufnahme</span>
+<span class="font-label-xs text-[9px] text-error">REC</span>
+</div>
+</div>
+<!-- TASTE 13: Ordner -->
+<div class="relative group aspect-square rounded-xl bg-surface-container hover:bg-surface-container-high border border-outline-variant/40 p-2.5 flex flex-col justify-between cursor-pointer transition-all hover:border-outline">
+<div class="flex items-center justify-between w-full">
+<span class="font-label-xs text-[10px] text-outline font-mono">K13</span>
+</div>
+<div class="flex flex-col items-center justify-center my-auto">
+<span class="material-symbols-outlined text-[28px] text-on-surface">folder</span>
+</div>
+<div class="flex items-center justify-between w-full">
+<span class="font-headline-md text-[11px] font-medium text-on-surface truncate">Ordner</span>
+<span class="font-label-xs text-[9px] text-outline">SUB</span>
+</div>
+</div>
+<!-- TASTE 14: Sperren -->
+<div class="relative group aspect-square rounded-xl bg-surface-container hover:bg-surface-container-high border border-outline-variant/40 p-2.5 flex flex-col justify-between cursor-pointer transition-all hover:border-outline">
+<div class="flex items-center justify-between w-full">
+<span class="font-label-xs text-[10px] text-outline font-mono">K14</span>
+</div>
+<div class="flex flex-col items-center justify-center my-auto">
+<span class="material-symbols-outlined text-[28px] text-on-surface">lock</span>
+</div>
+<div class="flex items-center justify-between w-full">
+<span class="font-headline-md text-[11px] font-medium text-on-surface truncate">Sperren</span>
+<span class="font-label-xs text-[9px] text-outline">SYS</span>
+</div>
+</div>
+<!-- TASTE 15: Leer 1 -->
+<div class="relative group aspect-square rounded-xl bg-surface-container/30 border border-dashed border-outline-variant/50 p-2.5 flex flex-col items-center justify-center cursor-pointer hover:border-primary/60 hover:bg-surface-container transition-all">
+<span class="material-symbols-outlined text-[20px] text-outline group-hover:text-primary transition-colors">add</span>
+<span class="font-label-xs text-[9px] text-outline mt-1">K15 Frei</span>
+</div>
+<!-- TASTE 16: Leer 2 -->
+<div class="relative group aspect-square rounded-xl bg-surface-container/30 border border-dashed border-outline-variant/50 p-2.5 flex flex-col items-center justify-center cursor-pointer hover:border-primary/60 hover:bg-surface-container transition-all">
+<span class="material-symbols-outlined text-[20px] text-outline group-hover:text-primary transition-colors">add</span>
+<span class="font-label-xs text-[9px] text-outline mt-1">K16 Frei</span>
+</div>
+<!-- TASTE 17: Leer 3 -->
+<div class="relative group aspect-square rounded-xl bg-surface-container/30 border border-dashed border-outline-variant/50 p-2.5 flex flex-col items-center justify-center cursor-pointer hover:border-primary/60 hover:bg-surface-container transition-all">
+<span class="material-symbols-outlined text-[20px] text-outline group-hover:text-primary transition-colors">add</span>
+<span class="font-label-xs text-[9px] text-outline mt-1">K17 Frei</span>
+</div>
+<!-- TASTE 18: Leer 4 -->
+<div class="relative group aspect-square rounded-xl bg-surface-container/30 border border-dashed border-outline-variant/50 p-2.5 flex flex-col items-center justify-center cursor-pointer hover:border-primary/60 hover:bg-surface-container transition-all">
+<span class="material-symbols-outlined text-[20px] text-outline group-hover:text-primary transition-colors">add</span>
+<span class="font-label-xs text-[9px] text-outline mt-1">K18 Frei</span>
+</div>
+<!-- TASTE 19: Leer 5 -->
+<div class="relative group aspect-square rounded-xl bg-surface-container/30 border border-dashed border-outline-variant/50 p-2.5 flex flex-col items-center justify-center cursor-pointer hover:border-primary/60 hover:bg-surface-container transition-all">
+<span class="material-symbols-outlined text-[20px] text-outline group-hover:text-primary transition-colors">add</span>
+<span class="font-label-xs text-[9px] text-outline mt-1">K19 Frei</span>
+</div>
+<!-- TASTE 20: Leer 6 -->
+<div class="relative group aspect-square rounded-xl bg-surface-container/30 border border-dashed border-outline-variant/50 p-2.5 flex flex-col items-center justify-center cursor-pointer hover:border-primary/60 hover:bg-surface-container transition-all">
+<span class="material-symbols-outlined text-[20px] text-outline group-hover:text-primary transition-colors">add</span>
+<span class="font-label-xs text-[9px] text-outline mt-1">K20 Frei</span>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- COL 4: Right Inspector Panel (Taste 1) -->
+<aside class="w-80 lg:w-96 shrink-0 bg-surface-container-low border-l border-outline-variant/30 flex flex-col h-full overflow-hidden z-20">
+<!-- Header -->
+<div class="h-12 border-b border-outline-variant/30 px-space-md flex items-center justify-between shrink-0 bg-surface-container-low">
+<div class="flex items-center gap-2">
+<span class="font-headline-md text-headline-md font-semibold text-on-surface">Taste 1</span>
+<span class="font-label-xs text-[10px] text-primary bg-primary/10 border border-primary/30 px-1.5 py-0.5 rounded font-mono">K1 · [1, 1]</span>
+</div>
+<button class="text-outline hover:text-on-surface transition-colors p-1 rounded hover:bg-surface-container">
+<span class="material-symbols-outlined text-[18px]">close</span>
+</button>
+</div>
+<!-- Scrollable Inspector Content -->
+<div class="flex-1 overflow-y-auto p-space-md flex flex-col gap-space-lg">
+<!-- Live Preview Card -->
+<div class="p-space-md rounded-xl bg-surface-container-lowest border border-outline-variant/40 flex items-center gap-space-md">
+<div class="w-16 h-16 rounded-lg bg-surface-container border-2 border-primary flex flex-col items-center justify-center p-2 shadow-[0_0_12px_rgba(34,211,238,0.25)] shrink-0">
+<svg class="w-7 h-7 text-primary fill-current" viewbox="0 0 24 24">
+<path d="M20.317 4.37a19.791 19.791 0 0 0-4.885-1.515.074.074 0 0 0-.079.037c-.21.375-.444.864-.608 1.25a18.27 18.27 0 0 0-5.487 0 12.64 12.64 0 0 0-.617-1.25.077.077 0 0 0-.079-.037A19.736 19.736 0 0 0 3.677 4.37a.07.07 0 0 0-.032.027C.533 9.046-.32 13.58.099 18.057a.082.082 0 0 0 .031.057 19.9 19.9 0 0 0 5.993 3.03.078.078 0 0 0 .084-.028c.462-.63.874-1.295 1.226-1.994.021-.041.001-.09-.041-.106a13.107 13.107 0 0 1-1.872-.892.077.077 0 0 1-.008-.128 10.2 10.2 0 0 0 .372-.292.074.074 0 0 1 .077-.01c3.929 1.793 8.18 1.793 12.061 0a.074.074 0 0 1 .078.01c.12.098.246.198.373.292a.077.077 0 0 1-.006.127 12.299 12.299 0 0 1-1.873.893.077.077 0 0 0-.041.107c.36.698.772 1.362 1.225 1.993a.076.076 0 0 0 .084.028 19.839 19.839 0 0 0 6.002-3.03.077.077 0 0 0 .032-.054c.5-5.177-.838-9.674-3.549-13.66a.061.061 0 0 0-.031-.028zM8.02 15.33c-1.183 0-2.157-1.085-2.157-2.419 0-1.333.956-2.419 2.157-2.419 1.21 0 2.176 1.096 2.157 2.42 0 1.333-.956 2.418-2.157 2.418zm7.975 0c-1.183 0-2.157-1.085-2.157-2.419 0-1.333.955-2.419 2.157-2.419 1.21 0 2.176 1.096 2.157 2.42 0 1.333-.946 2.418-2.157 2.418z"></path>
+</svg>
+<span class="font-headline-md text-[9px] font-semibold text-primary mt-1">Discord</span>
+</div>
+<div class="flex flex-col gap-1 min-w-0">
+<span class="font-headline-md text-[13px] font-semibold text-on-surface truncate">Discord Voice &amp; Chat</span>
+<span class="font-body-sm text-[11px] text-on-surface-variant font-mono truncate">discord.exe</span>
+<div class="flex items-center gap-1.5 mt-0.5">
+<span class="w-1.5 h-1.5 rounded-full bg-secondary"></span>
+<span class="font-label-xs text-[10px] text-secondary">Bereit</span>
+</div>
+</div>
+</div>
+<!-- Section: Logo / Icon Selection -->
+<div class="flex flex-col gap-space-sm">
+<span class="font-label-sm text-label-sm uppercase tracking-wider text-on-surface-variant font-semibold">Logo / Icon</span>
+<!-- STRICT THREE PILL TABS -->
+<div class="grid grid-cols-3 gap-1 bg-surface-container p-0.5 rounded border border-outline-variant/30">
+<button class="py-1 text-center rounded font-label-xs text-[11px] font-semibold bg-primary text-on-primary shadow-sm">Software</button>
+<button class="py-1 text-center rounded font-label-xs text-[11px] font-medium text-on-surface-variant hover:text-on-surface transition-colors">Browser</button>
+<button class="py-1 text-center rounded font-label-xs text-[11px] font-medium text-on-surface-variant hover:text-on-surface transition-colors">Symbole</button>
+</div>
+<!-- Search & Scan Bar -->
+<div class="flex items-center gap-1.5 mt-1">
+<div class="relative flex-1">
+<span class="material-symbols-outlined absolute left-2 top-2 text-[16px] text-outline">search</span>
+<input class="w-full h-8 pl-8 pr-2 rounded bg-surface-container-lowest border border-outline-variant/40 text-on-surface placeholder:text-outline font-body-sm text-[12px] focus:outline-none focus:border-primary transition-colors" placeholder="Installierte App suchen…" type="text"/>
+</div>
+<button class="h-8 px-2.5 rounded bg-surface-container hover:bg-surface-container-high border border-outline-variant/40 text-on-surface-variant hover:text-on-surface flex items-center gap-1 transition-colors" title="Apps neu scannen">
+<span class="material-symbols-outlined text-[15px]">sync</span>
+<span class="font-label-xs text-[10px]">Scan</span>
+</button>
+</div>
+<!-- Detected PC Apps Grid -->
+<div class="grid grid-cols-4 gap-2 pt-1">
+<!-- Discord (Selected) -->
+<button class="flex flex-col items-center justify-center p-2 rounded bg-surface-container border border-primary/80 group shadow-[0_0_8px_rgba(34,211,238,0.2)]">
+<div class="w-7 h-7 flex items-center justify-center text-primary mb-1">
+<span class="material-symbols-outlined text-[22px]">forum</span>
+</div>
+<span class="font-label-xs text-[9px] text-primary truncate max-w-full font-medium">Discord</span>
+</button>
+<!-- Spotify -->
+<button class="flex flex-col items-center justify-center p-2 rounded bg-surface-container hover:bg-surface-container-high border border-outline-variant/30 hover:border-outline transition-all group">
+<div class="w-7 h-7 flex items-center justify-center text-secondary mb-1">
+<span class="material-symbols-outlined text-[22px]">music_note</span>
+</div>
+<span class="font-label-xs text-[9px] text-on-surface-variant group-hover:text-on-surface truncate max-w-full">Spotify</span>
+</button>
+<!-- OBS Studio -->
+<button class="flex flex-col items-center justify-center p-2 rounded bg-surface-container hover:bg-surface-container-high border border-outline-variant/30 hover:border-outline transition-all group">
+<div class="w-7 h-7 flex items-center justify-center text-on-surface mb-1">
+<span class="material-symbols-outlined text-[22px]">videocam</span>
+</div>
+<span class="font-label-xs text-[9px] text-on-surface-variant group-hover:text-on-surface truncate max-w-full">OBS Studio</span>
+</button>
+<!-- Chrome -->
+<button class="flex flex-col items-center justify-center p-2 rounded bg-surface-container hover:bg-surface-container-high border border-outline-variant/30 hover:border-outline transition-all group">
+<div class="w-7 h-7 flex items-center justify-center text-on-surface mb-1">
+<span class="material-symbols-outlined text-[22px]">public</span>
+</div>
+<span class="font-label-xs text-[9px] text-on-surface-variant group-hover:text-on-surface truncate max-w-full">Chrome</span>
+</button>
+<!-- Steam -->
+<button class="flex flex-col items-center justify-center p-2 rounded bg-surface-container hover:bg-surface-container-high border border-outline-variant/30 hover:border-outline transition-all group">
+<div class="w-7 h-7 flex items-center justify-center text-on-surface mb-1">
+<span class="material-symbols-outlined text-[22px]">sports_esports</span>
+</div>
+<span class="font-label-xs text-[9px] text-on-surface-variant group-hover:text-on-surface truncate max-w-full">Steam</span>
+</button>
+<!-- VS Code -->
+<button class="flex flex-col items-center justify-center p-2 rounded bg-surface-container hover:bg-surface-container-high border border-outline-variant/30 hover:border-outline transition-all group">
+<div class="w-7 h-7 flex items-center justify-center text-primary mb-1">
+<span class="material-symbols-outlined text-[22px]">terminal</span>
+</div>
+<span class="font-label-xs text-[9px] text-on-surface-variant group-hover:text-on-surface truncate max-w-full">VS Code</span>
+</button>
+<!-- Blender -->
+<button class="flex flex-col items-center justify-center p-2 rounded bg-surface-container hover:bg-surface-container-high border border-outline-variant/30 hover:border-outline transition-all group">
+<div class="w-7 h-7 flex items-center justify-center text-on-surface mb-1">
+<span class="material-symbols-outlined text-[22px]">view_in_ar</span>
+</div>
+<span class="font-label-xs text-[9px] text-on-surface-variant group-hover:text-on-surface truncate max-w-full">Blender</span>
+</button>
+<!-- VLC Player -->
+<button class="flex flex-col items-center justify-center p-2 rounded bg-surface-container hover:bg-surface-container-high border border-outline-variant/30 hover:border-outline transition-all group">
+<div class="w-7 h-7 flex items-center justify-center text-on-surface mb-1">
+<span class="material-symbols-outlined text-[22px]">play_circle</span>
+</div>
+<span class="font-label-xs text-[9px] text-on-surface-variant group-hover:text-on-surface truncate max-w-full">VLC Player</span>
+</button>
+</div>
+<!-- Capture Active Window Button -->
+<button class="w-full mt-1 py-1.5 px-3 rounded bg-surface-container hover:bg-surface-container-high border border-outline-variant/40 text-on-surface-variant hover:text-on-surface flex items-center justify-center gap-1.5 transition-colors">
+<span class="material-symbols-outlined text-[16px] text-primary">screenshot_monitor</span>
+<span class="font-label-sm text-[11px] font-medium">Aktives Fenster übernehmen</span>
+</button>
+</div>
+<!-- Section: Aktion -->
+<div class="flex flex-col gap-space-sm pt-2 border-t border-outline-variant/20">
+<span class="font-label-sm text-label-sm uppercase tracking-wider text-on-surface-variant font-semibold">Aktion</span>
+<!-- Dropdown Type -->
+<div class="relative">
+<label class="font-label-xs text-[10px] text-outline mb-1 block">Aktionstyp</label>
+<div class="w-full h-8 px-2.5 rounded bg-surface-container-lowest border border-outline-variant/40 flex items-center justify-between text-on-surface font-body-sm text-[12px] cursor-pointer">
+<span>Installierte App öffnen</span>
+<span class="material-symbols-outlined text-[16px] text-outline">expand_more</span>
+</div>
+</div>
+<!-- File Path Input -->
+<div class="flex flex-col gap-1">
+<label class="font-label-xs text-[10px] text-outline">Dateipfad / Ziel</label>
+<div class="flex items-center gap-1">
+<input class="flex-1 h-8 px-2.5 rounded bg-surface-container-lowest border border-outline-variant/40 text-on-surface font-label-xs text-[10px] font-mono truncate focus:outline-none" readonly="" type="text" value="C:\Users\AppData\Local\Discord\app-1.0.9013\Discord.exe"/>
+<button class="h-8 px-2 rounded bg-surface-container hover:bg-surface-container-high border border-outline-variant/40 text-on-surface-variant hover:text-on-surface transition-colors" title="Durchsuchen">
+<span class="material-symbols-outlined text-[16px]">folder_open</span>
+</button>
+</div>
+</div>
+<!-- Action Buttons (Testen / Entfernen) -->
+<div class="grid grid-cols-2 gap-2 mt-2">
+<button class="h-8 rounded bg-surface-container hover:bg-surface-container-high border border-primary/50 text-primary hover:border-primary font-label-sm text-[11px] font-semibold flex items-center justify-center gap-1 transition-all">
+<span class="material-symbols-outlined text-[15px]">play_arrow</span>
+<span>Testen</span>
+</button>
+<button class="h-8 rounded bg-surface-container hover:bg-error-container/20 border border-error/50 text-error hover:border-error font-label-sm text-[11px] font-semibold flex items-center justify-center gap-1 transition-all">
+<span class="material-symbols-outlined text-[15px]">delete</span>
+<span>Entfernen</span>
+</button>
+</div>
+</div>
+</div>
+<!-- Inspector Footer Telemetry -->
+<div class="h-9 border-t border-outline-variant/20 px-space-md bg-surface-container-lowest/80 flex items-center justify-between shrink-0 font-label-xs text-[10px] text-outline">
+<span class="flex items-center gap-1 font-mono">STATUS: GEBUNDEN</span>
+<span class="font-mono text-primary">0 ms VERZÖGERUNG</span>
+</div>
+</aside>
+</div>
+</div>
+<script>
+  // Simple interactive tile selector micro-interaction
+  document.addEventListener('DOMContentLoaded', () => {
+    const tiles = document.querySelectorAll('#deck-matrix > div');
+    tiles.forEach((tile, index) => {
+      tile.addEventListener('click', () => {
+        // Visual select state simulation
+        tiles.forEach(t => {
+          t.classList.remove('border-primary', 'shadow-[0_0_16px_rgba(34,211,238,0.3)]', 'ring-1', 'ring-primary');
+          if (!t.classList.contains('border-dashed') && !t.classList.contains('border-error/50')) {
+            t.classList.add('border-outline-variant/40');
+          }
+        });
+        tile.classList.remove('border-outline-variant/40');
+        tile.classList.add('border-primary', 'shadow-[0_0_16px_rgba(34,211,238,0.3)]', 'ring-1', 'ring-primary');
+      });
+    });
+  });
+</script></main></div></body></html>

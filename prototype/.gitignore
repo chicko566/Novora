@@ -1,0 +1,5 @@
+data.json
+data-test.json
+node_modules/
+*.log
+*.jks

@@ -1,0 +1,850 @@
+{
+  "count": 71,
+  "icons": [
+    {
+      "key": "mic",
+      "label_de": "Mikrofon",
+      "label_en": "Microphone",
+      "category": "medien",
+      "tags": [
+        "audio",
+        "sprechen",
+        "eingabe",
+        "input"
+      ]
+    },
+    {
+      "key": "mic-off",
+      "label_de": "Mikrofon aus",
+      "label_en": "Microphone off",
+      "category": "medien",
+      "tags": [
+        "audio",
+        "stumm",
+        "mute",
+        "eingabe"
+      ]
+    },
+    {
+      "key": "volume",
+      "label_de": "Lautstärke",
+      "label_en": "Volume",
+      "category": "medien",
+      "tags": [
+        "audio",
+        "laut",
+        "level",
+        "ton"
+      ]
+    },
+    {
+      "key": "volume-up",
+      "label_de": "Lautstärke hoch",
+      "label_en": "Volume up",
+      "category": "medien",
+      "tags": [
+        "audio",
+        "laut",
+        "level",
+        "ton"
+      ]
+    },
+    {
+      "key": "volume-low",
+      "label_de": "Lautstärke niedrig",
+      "label_en": "Volume low",
+      "category": "medien",
+      "tags": [
+        "audio",
+        "leise",
+        "level"
+      ]
+    },
+    {
+      "key": "volume-mute",
+      "label_de": "Stumm",
+      "label_en": "Muted",
+      "category": "medien",
+      "tags": [
+        "audio",
+        "stumm",
+        "mute",
+        "aus"
+      ]
+    },
+    {
+      "key": "play",
+      "label_de": "Abspielen",
+      "label_en": "Play",
+      "category": "medien",
+      "tags": [
+        "wiedergabe",
+        "start",
+        "media"
+      ]
+    },
+    {
+      "key": "pause",
+      "label_de": "Pause",
+      "label_en": "Pause",
+      "category": "medien",
+      "tags": [
+        "wiedergabe",
+        "anhalten",
+        "media"
+      ]
+    },
+    {
+      "key": "next",
+      "label_de": "Nächster Titel",
+      "label_en": "Next track",
+      "category": "medien",
+      "tags": [
+        "wiedergabe",
+        "skip",
+        "weiter"
+      ]
+    },
+    {
+      "key": "prev",
+      "label_de": "Vorheriger Titel",
+      "label_en": "Previous track",
+      "category": "medien",
+      "tags": [
+        "wiedergabe",
+        "skip",
+        "zurück"
+      ]
+    },
+    {
+      "key": "stop",
+      "label_de": "Stopp",
+      "label_en": "Stop",
+      "category": "medien",
+      "tags": [
+        "wiedergabe",
+        "ende",
+        "media"
+      ]
+    },
+    {
+      "key": "record",
+      "label_de": "Aufnahme",
+      "label_en": "Record",
+      "category": "medien",
+      "tags": [
+        "aufnehmen",
+        "rec",
+        "capture"
+      ]
+    },
+    {
+      "key": "equalizer",
+      "label_de": "Equalizer",
+      "label_en": "Equalizer",
+      "category": "medien",
+      "tags": [
+        "audio",
+        "pegel",
+        "bänder",
+        "mix"
+      ]
+    },
+    {
+      "key": "mixer",
+      "label_de": "Mischpult",
+      "label_en": "Mixer",
+      "category": "medien",
+      "tags": [
+        "audio",
+        "regler",
+        "kanäle",
+        "fader"
+      ]
+    },
+    {
+      "key": "music",
+      "label_de": "Musik",
+      "label_en": "Music",
+      "category": "medien",
+      "tags": [
+        "audio",
+        "note",
+        "song",
+        "titel"
+      ]
+    },
+    {
+      "key": "podcast",
+      "label_de": "Podcast",
+      "label_en": "Podcast",
+      "category": "medien",
+      "tags": [
+        "audio",
+        "folge",
+        "sprechen",
+        "episode"
+      ]
+    },
+    {
+      "key": "radio",
+      "label_de": "Radio",
+      "label_en": "Radio",
+      "category": "medien",
+      "tags": [
+        "audio",
+        "sender",
+        "frequenz",
+        "live"
+      ]
+    },
+    {
+      "key": "stream",
+      "label_de": "Stream",
+      "label_en": "Stream",
+      "category": "medien",
+      "tags": [
+        "live",
+        "übertragen",
+        "signal",
+        "broadcast"
+      ]
+    },
+    {
+      "key": "video",
+      "label_de": "Video",
+      "label_en": "Video",
+      "category": "medien",
+      "tags": [
+        "film",
+        "aufnahme",
+        "kamera",
+        "clip"
+      ]
+    },
+    {
+      "key": "voice-chat",
+      "label_de": "Sprachchat",
+      "label_en": "Voice chat",
+      "category": "kommunikation",
+      "tags": [
+        "sprechen",
+        "gruppe",
+        "call",
+        "bubble"
+      ]
+    },
+    {
+      "key": "video-call",
+      "label_de": "Videoanruf",
+      "label_en": "Video call",
+      "category": "kommunikation",
+      "tags": [
+        "anruf",
+        "gesicht",
+        "kamera",
+        "treffen"
+      ]
+    },
+    {
+      "key": "chat",
+      "label_de": "Chat",
+      "label_en": "Chat",
+      "category": "kommunikation",
+      "tags": [
+        "nachricht",
+        "text",
+        "bubble",
+        "dialog"
+      ]
+    },
+    {
+      "key": "mail",
+      "label_de": "E-Mail",
+      "label_en": "Mail",
+      "category": "kommunikation",
+      "tags": [
+        "post",
+        "nachricht",
+        "brief",
+        "inbox"
+      ]
+    },
+    {
+      "key": "calendar",
+      "label_de": "Kalender",
+      "label_en": "Calendar",
+      "category": "kommunikation",
+      "tags": [
+        "termin",
+        "datum",
+        "plan",
+        "woche"
+      ]
+    },
+    {
+      "key": "bell",
+      "label_de": "Glocke",
+      "label_en": "Bell",
+      "category": "kommunikation",
+      "tags": [
+        "hinweis",
+        "alarm",
+        "meldung",
+        "push"
+      ]
+    },
+    {
+      "key": "contacts",
+      "label_de": "Kontakte",
+      "label_en": "Contacts",
+      "category": "kommunikation",
+      "tags": [
+        "personen",
+        "adressbuch",
+        "buch",
+        "leute"
+      ]
+    },
+    {
+      "key": "settings",
+      "label_de": "Einstellungen",
+      "label_en": "Settings",
+      "category": "system",
+      "tags": [
+        "zahnrad",
+        "optionen",
+        "konfiguration",
+        "setup"
+      ]
+    },
+    {
+      "key": "power",
+      "label_de": "Ein/Aus",
+      "label_en": "Power",
+      "category": "system",
+      "tags": [
+        "ausschalten",
+        "start",
+        "betrieb",
+        "an"
+      ]
+    },
+    {
+      "key": "restart",
+      "label_de": "Neustart",
+      "label_en": "Restart",
+      "category": "system",
+      "tags": [
+        "neu starten",
+        "reload",
+        "kreis",
+        "aktualisieren"
+      ]
+    },
+    {
+      "key": "sleep",
+      "label_de": "Ruhezustand",
+      "label_en": "Sleep",
+      "category": "system",
+      "tags": [
+        "mond",
+        "nacht",
+        "standby",
+        "sparen"
+      ]
+    },
+    {
+      "key": "lock",
+      "label_de": "Sperren",
+      "label_en": "Lock",
+      "category": "system",
+      "tags": [
+        "sicherheit",
+        "schloss",
+        "privat",
+        "passwort"
+      ]
+    },
+    {
+      "key": "monitor",
+      "label_de": "Bildschirm",
+      "label_en": "Monitor",
+      "category": "system",
+      "tags": [
+        "display",
+        "anzeige",
+        "screen",
+        "pc"
+      ]
+    },
+    {
+      "key": "keyboard",
+      "label_de": "Tastatur",
+      "label_en": "Keyboard",
+      "category": "system",
+      "tags": [
+        "tippen",
+        "eingabe",
+        "tasten",
+        "input"
+      ]
+    },
+    {
+      "key": "headset",
+      "label_de": "Kopfhörer",
+      "label_en": "Headset",
+      "category": "system",
+      "tags": [
+        "audio",
+        "hören",
+        "ohrmuschel",
+        "mikrofon"
+      ]
+    },
+    {
+      "key": "camera",
+      "label_de": "Kamera",
+      "label_en": "Camera",
+      "category": "system",
+      "tags": [
+        "foto",
+        "bild",
+        "objektiv",
+        "aufnahme"
+      ]
+    },
+    {
+      "key": "screenshot",
+      "label_de": "Bildschirmfoto",
+      "label_en": "Screenshot",
+      "category": "system",
+      "tags": [
+        "aufnahme",
+        "auswahl",
+        "rahmen",
+        "capture"
+      ]
+    },
+    {
+      "key": "network",
+      "label_de": "Netzwerk",
+      "label_en": "Network",
+      "category": "system",
+      "tags": [
+        "verbindung",
+        "lan",
+        "knoten",
+        "pfad"
+      ]
+    },
+    {
+      "key": "cpu",
+      "label_de": "Prozessor",
+      "label_en": "CPU",
+      "category": "system",
+      "tags": [
+        "chip",
+        "rechner",
+        "leistung",
+        "hardware"
+      ]
+    },
+    {
+      "key": "printer",
+      "label_de": "Drucker",
+      "label_en": "Printer",
+      "category": "system",
+      "tags": [
+        "papier",
+        "ausgabe",
+        "gerät",
+        "drucken"
+      ]
+    },
+    {
+      "key": "clipboard",
+      "label_de": "Zwischenablage",
+      "label_en": "Clipboard",
+      "category": "system",
+      "tags": [
+        "kopieren",
+        "einfügen",
+        "liste",
+        "notiz"
+      ]
+    },
+    {
+      "key": "search",
+      "label_de": "Suche",
+      "label_en": "Search",
+      "category": "system",
+      "tags": [
+        "finden",
+        "lupe",
+        "filter",
+        "suchen"
+      ]
+    },
+    {
+      "key": "star",
+      "label_de": "Favorit",
+      "label_en": "Favorite",
+      "category": "system",
+      "tags": [
+        "stern",
+        "markiert",
+        "wichtig",
+        "favorit"
+      ]
+    },
+    {
+      "key": "bolt",
+      "label_de": "Schnellaktion",
+      "label_en": "Quick action",
+      "category": "system",
+      "tags": [
+        "blitz",
+        "energie",
+        "sofort",
+        "schnell"
+      ]
+    },
+    {
+      "key": "folder",
+      "label_de": "Ordner",
+      "label_en": "Folder",
+      "category": "dateien",
+      "tags": [
+        "verzeichnis",
+        "ablage",
+        "dateien",
+        "struktur"
+      ]
+    },
+    {
+      "key": "file",
+      "label_de": "Datei",
+      "label_en": "File",
+      "category": "dateien",
+      "tags": [
+        "dokument",
+        "blatt",
+        "einzeln",
+        "papier"
+      ]
+    },
+    {
+      "key": "files",
+      "label_de": "Dateien",
+      "label_en": "Files",
+      "category": "dateien",
+      "tags": [
+        "stapel",
+        "mehrere",
+        "dokumente",
+        "sammlung"
+      ]
+    },
+    {
+      "key": "terminal",
+      "label_de": "Terminal",
+      "label_en": "Terminal",
+      "category": "dateien",
+      "tags": [
+        "konsole",
+        "shell",
+        "befehl",
+        "zeile"
+      ]
+    },
+    {
+      "key": "code",
+      "label_de": "Code",
+      "label_en": "Code",
+      "category": "dateien",
+      "tags": [
+        "entwicklung",
+        "klammern",
+        "programm",
+        "script"
+      ]
+    },
+    {
+      "key": "image",
+      "label_de": "Bild",
+      "label_en": "Image",
+      "category": "dateien",
+      "tags": [
+        "foto",
+        "grafik",
+        "motiv",
+        "datei"
+      ]
+    },
+    {
+      "key": "notes",
+      "label_de": "Notizen",
+      "label_en": "Notes",
+      "category": "dateien",
+      "tags": [
+        "text",
+        "liste",
+        "schreiben",
+        "zettel"
+      ]
+    },
+    {
+      "key": "link",
+      "label_de": "Verknüpfung",
+      "label_en": "Link",
+      "category": "dateien",
+      "tags": [
+        "kette",
+        "verbindung",
+        "url",
+        "verweisen"
+      ]
+    },
+    {
+      "key": "text",
+      "label_de": "Text",
+      "label_en": "Text",
+      "category": "dateien",
+      "tags": [
+        "schrift",
+        "buchstabe",
+        "titel",
+        "typografie"
+      ]
+    },
+    {
+      "key": "grid",
+      "label_de": "Raster",
+      "label_en": "Grid",
+      "category": "dateien",
+      "tags": [
+        "kacheln",
+        "layout",
+        "anordnung",
+        "vier"
+      ]
+    },
+    {
+      "key": "app",
+      "label_de": "App",
+      "label_en": "App",
+      "category": "dateien",
+      "tags": [
+        "anwendung",
+        "kachel",
+        "programm",
+        "punkte"
+      ]
+    },
+    {
+      "key": "tool",
+      "label_de": "Werkzeug",
+      "label_en": "Tool",
+      "category": "dateien",
+      "tags": [
+        "schraubendreher",
+        "werkzeuge",
+        "einstellen",
+        "reparieren"
+      ]
+    },
+    {
+      "key": "store",
+      "label_de": "Store",
+      "label_en": "Store",
+      "category": "dateien",
+      "tags": [
+        "laden",
+        "markt",
+        "kaufen",
+        "angebot"
+      ]
+    },
+    {
+      "key": "browser",
+      "label_de": "Browser",
+      "label_en": "Browser",
+      "category": "dateien",
+      "tags": [
+        "web",
+        "seite",
+        "fenster",
+        "internet"
+      ]
+    },
+    {
+      "key": "games",
+      "label_de": "Spiele",
+      "label_en": "Games",
+      "category": "dateien",
+      "tags": [
+        "würfel",
+        "spiel",
+        "zufall",
+        "unterhaltung"
+      ]
+    },
+    {
+      "key": "gamepad",
+      "label_de": "Gamepad",
+      "label_en": "Gamepad",
+      "category": "dateien",
+      "tags": [
+        "controller",
+        "steuerung",
+        "spielen",
+        "tasten"
+      ]
+    },
+    {
+      "key": "editor",
+      "label_de": "Editor",
+      "label_en": "Editor",
+      "category": "dateien",
+      "tags": [
+        "stift",
+        "bearbeiten",
+        "schreiben",
+        "pencil"
+      ]
+    },
+    {
+      "key": "warning",
+      "label_de": "Warnung",
+      "label_en": "Warning",
+      "category": "dateien",
+      "tags": [
+        "achtung",
+        "dreieck",
+        "hinweis",
+        "alarm"
+      ]
+    },
+    {
+      "key": "error",
+      "label_de": "Fehler",
+      "label_en": "Error",
+      "category": "dateien",
+      "tags": [
+        "abbruch",
+        "kreuz",
+        "problem",
+        "rot"
+      ]
+    },
+    {
+      "key": "info",
+      "label_de": "Info",
+      "label_en": "Info",
+      "category": "dateien",
+      "tags": [
+        "hinweis",
+        "erklärung",
+        "hilfe",
+        "details"
+      ]
+    },
+    {
+      "key": "check",
+      "label_de": "Bestätigen",
+      "label_en": "Confirm",
+      "category": "dateien",
+      "tags": [
+        "haken",
+        "ok",
+        "fertig",
+        "erledigt"
+      ]
+    },
+    {
+      "key": "close",
+      "label_de": "Schließen",
+      "label_en": "Close",
+      "category": "dateien",
+      "tags": [
+        "kreuz",
+        "abbrechen",
+        "x",
+        "zu"
+      ]
+    },
+    {
+      "key": "plus",
+      "label_de": "Hinzufügen",
+      "label_en": "Add",
+      "category": "dateien",
+      "tags": [
+        "mehr",
+        "neu",
+        "erstellen",
+        "einfügen"
+      ]
+    },
+    {
+      "key": "minus",
+      "label_de": "Entfernen",
+      "label_en": "Remove",
+      "category": "dateien",
+      "tags": [
+        "weniger",
+        "löschen",
+        "reduzieren",
+        "abziehen"
+      ]
+    },
+    {
+      "key": "arrow-left",
+      "label_de": "Pfeil links",
+      "label_en": "Arrow left",
+      "category": "dateien",
+      "tags": [
+        "zurück",
+        "richtung",
+        "navigation",
+        "previous"
+      ]
+    },
+    {
+      "key": "arrow-right",
+      "label_de": "Pfeil rechts",
+      "label_en": "Arrow right",
+      "category": "dateien",
+      "tags": [
+        "weiter",
+        "richtung",
+        "navigation",
+        "next"
+      ]
+    },
+    {
+      "key": "arrow-up",
+      "label_de": "Pfeil hoch",
+      "label_en": "Arrow up",
+      "category": "dateien",
+      "tags": [
+        "oben",
+        "richtung",
+        "hoch",
+        "navigation"
+      ]
+    },
+    {
+      "key": "arrow-down",
+      "label_de": "Pfeil runter",
+      "label_en": "Arrow down",
+      "category": "dateien",
+      "tags": [
+        "unten",
+        "richtung",
+        "runter",
+        "navigation"
+      ]
+    }
+  ]
+}

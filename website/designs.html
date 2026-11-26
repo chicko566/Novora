@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Novora – Designrichtungen</title>
+<style>
+  :root{--font-sans:'Inter','Segoe UI',system-ui,sans-serif;--font-serif:Georgia,'Times New Roman',serif;--font-mono:ui-monospace,'Cascadia Code',Consolas,monospace}
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{background:#07090C;color:#EAF1F8;font-family:var(--font-sans);padding:0 0 60px}
+  .toolbar{position:sticky;top:0;z-index:10;display:flex;gap:8px;flex-wrap:wrap;align-items:center;padding:14px 18px;background:rgba(7,9,12,.9);border-bottom:1px solid #1D2733;backdrop-filter:blur(12px)}
+  .toolbar b{font-size:13px;margin-right:8px}
+  .toolbar span{font-size:11px;color:#8D9AAA;margin-right:auto}
+  .tbtn{border:1px solid #1D2733;background:#0F141B;color:#8D9AAA;border-radius:999px;padding:7px 13px;font-size:12px;cursor:pointer;font-family:inherit}
+  .tbtn.on{background:#22D3EE;color:#041014;border-color:#22D3EE;font-weight:600}
+  .stage{max-width:1180px;margin:26px auto 0;padding:0 18px}
+  .frame{border-radius:22px;overflow:hidden;border:1px solid #1D2733;background:#0A0E14;min-height:640px}
+  .preview{padding:0;min-height:640px;position:relative;overflow:hidden}
+  .nav{display:flex;align-items:center;gap:22px;padding:18px 30px;position:relative;z-index:2}
+  .brand{display:flex;align-items:center;gap:9px;font-weight:700;font-size:15px;letter-spacing:-.02em}
+  .dotlogo{width:24px;height:24px;border-radius:7px;background:linear-gradient(135deg,var(--ac),#67E8F9);display:grid;place-items:center;color:#041014;font-size:13px;font-weight:800}
+  .links{display:flex;gap:18px;margin-left:auto;font-size:12.5px;color:var(--dim)}
+  .links a{color:inherit;text-decoration:none}
+  .nav .cta{border:1px solid transparent;background:var(--ac);color:var(--ac-ink,#041014);border-radius:var(--r-sm,10px);padding:9px 15px;font-size:12px;font-weight:700;text-decoration:none}
+  .hero{display:grid;grid-template-columns:1.1fr .9fr;gap:40px;padding:46px 30px 54px;position:relative;z-index:2}
+  .badge{display:inline-block;font-size:10px;letter-spacing:.14em;text-transform:uppercase;color:var(--dim);border:1px solid var(--line);border-radius:999px;padding:6px 11px}
+  h1{font-size:clamp(34px,4.6vw,58px);line-height:1.02;letter-spacing:-.04em;margin:18px 0 14px;font-weight:650}
+  h1 em{font-style:normal;color:var(--ac)}
+  .lead{color:var(--dim);font-size:15px;max-width:480px;line-height:1.6}
+  .hero .actions{display:flex;gap:10px;margin-top:24px}
+  .btn{display:inline-flex;align-items:center;border-radius:var(--r-sm,10px);padding:11px 18px;font-size:13px;font-weight:600;text-decoration:none;border:1px solid var(--line);color:var(--text);background:var(--panel)}
+  .btn.solid{background:var(--ac);color:var(--ac-ink,#041014);border-color:transparent}
+  .art{position:relative;display:flex;align-items:center;justify-content:center}
+  .cardmock{width:100%;max-width:330px;background:var(--panel);border:1px solid var(--line);border-radius:calc(var(--r,16px) + 6px);padding:16px;box-shadow:var(--shadow)}
+  .cardmock .row{display:flex;align-items:center;gap:9px;margin-bottom:12px}
+  .cardmock .sq{width:30px;height:30px;border-radius:9px;background:var(--ac);opacity:.9}
+  .cardmock .lines{flex:1}
+  .cardmock .lines i{display:block;height:7px;border-radius:4px;background:var(--line);margin-bottom:5px}
+  .cardmock .lines i:last-child{width:60%}
+  .cardmock .grid{display:grid;grid-template-columns:repeat(3,1fr);gap:7px;margin-top:14px}
+  .cardmock .cell{aspect-ratio:1/1;border-radius:calc(var(--r,16px)/2);background:var(--panel2);border:1px solid var(--line)}
+  .cardmock .cell.on{background:color-mix(in srgb,var(--ac) 22%,var(--panel2));border-color:var(--ac)}
+  .features{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;padding:0 30px 46px;position:relative;z-index:2}
+  .f{background:var(--panel);border:1px solid var(--line);border-radius:var(--r,16px);padding:18px;box-shadow:var(--shadow)}
+  .f b{display:block;font-size:14px;margin-bottom:6px}
+  .f p{font-size:12px;color:var(--dim);line-height:1.5}
+
+  /* A – Aurora (dark glass) */
+  .preview{--ac:#22D3EE;--ac-ink:#041014;--dim:#8D9AAA;--line:#1D2733;--text:#EAF1F8;--panel:#0F141B;--panel2:#141C26;--r:16px;--r-sm:12px;--shadow:0 24px 50px -30px #000;background:radial-gradient(700px 350px at 15% 0%,rgba(34,211,238,.14),transparent 60%),radial-gradient(600px 380px at 88% 6%,rgba(167,139,250,.14),transparent 60%),#080C11;color:var(--text)}
+  .preview[data-style="aurora"] .nav{border-bottom:1px solid var(--line)}
+  .preview[data-style="aurora"] .cardmock{backdrop-filter:blur(6px)}
+
+  /* B – Editorial (light, serif) */
+  .preview[data-style="editorial"]{--ac:#0B0B0B;--ac-ink:#FFFFFF;--dim:#5A5A5A;--line:#DADADA;--text:#0B0B0B;--panel:#FFFFFF;--panel2:#F4F4F2;--r:0px;--r-sm:0px;--shadow:none;background:#FAFAF7;color:var(--text)}
+  .preview[data-style="editorial"] h1{font-family:var(--font-serif);font-weight:400;letter-spacing:-.02em;font-size:clamp(38px,5.2vw,64px)}
+  .preview[data-style="editorial"] .nav{border-bottom:1px solid var(--line)}
+  .preview[data-style="editorial"] .btn,.preview[data-style="editorial"] .nav .cta,.preview[data-style="editorial"] .cardmock,.preview[data-style="editorial"] .f{border-radius:0}
+  .preview[data-style="editorial"] .badge{border-radius:0;letter-spacing:.2em}
+  .preview[data-style="editorial"] .dotlogo{background:#0B0B0B;color:#fff;border-radius:0}
+  .preview[data-style="editorial"] .cell{border-radius:0}
+
+  /* C – Neon Grid (cyber, mono) */
+  .preview[data-style="neon"]{--ac:#39FF88;--ac-ink:#04140A;--dim:#7E8C86;--line:#123024;--text:#D8FFE9;--panel:#07120C;--panel2:#0A1A11;--r:0px;--r-sm:0px;--shadow:none;background:linear-gradient(#050A07,#050A07);color:var(--text);font-family:var(--font-mono)}
+  .preview[data-style="neon"]:before{content:"";position:absolute;inset:0;pointer-events:none;background-image:linear-gradient(rgba(57,255,136,.06) 1px,transparent 1px),linear-gradient(90deg,rgba(57,255,136,.06) 1px,transparent 1px);background-size:44px 44px}
+  .preview[data-style="neon"] h1{font-family:var(--font-mono);text-transform:uppercase;letter-spacing:-.01em;font-size:clamp(30px,4.2vw,52px)}
+  .preview[data-style="neon"] .btn,.preview[data-style="neon"] .nav .cta,.preview[data-style="neon"] .cardmock,.preview[data-style="neon"] .f,.preview[data-style="neon"] .cell,.preview[data-style="neon"] .dotlogo{border-radius:0}
+  .preview[data-style="neon"] .cardmock{box-shadow:0 0 0 1px var(--ac),0 0 30px -12px var(--ac)}
+  .preview[data-style="neon"] h1 em{text-shadow:0 0 18px rgba(57,255,136,.55)}
+  .preview[data-style="neon"] .nav{border-bottom:1px solid var(--ac)}
+
+  /* D – Warm Studio */
+  .preview[data-style="warm"]{--ac:#C4552D;--ac-ink:#FFF7F0;--dim:#7A6A5C;--line:#E8DACA;--text:#2B2118;--panel:#FFF9F1;--panel2:#F6EADB;--r:26px;--r-sm:18px;--shadow:0 26px 50px -34px rgba(80,50,20,.45);background:radial-gradient(700px 400px at 12% 0%,#FDF1E3,transparent 60%),#FAF3E9;color:var(--text)}
+  .preview[data-style="warm"] h1{font-family:var(--font-serif);font-weight:500}
+  .preview[data-style="warm"] .dotlogo{background:#2B2118;color:#FFF7F0}
+  .preview[data-style="warm"] .cardmock{border:0}
+  .preview[data-style="warm"] .f{border:0}
+
+  /* E – Swiss Bold */
+  .preview[data-style="swiss"]{--ac:#E11D2E;--ac-ink:#FFFFFF;--dim:#555;--line:#111;--text:#111;--panel:#FFFFFF;--panel2:#F1F1F1;--r:0px;--r-sm:0px;--shadow:none;background:#FFFFFF;color:#111}
+  .preview[data-style="swiss"] h1{font-size:clamp(40px,6.4vw,78px);text-transform:uppercase;letter-spacing:-.055em;font-weight:800;line-height:.92}
+  .preview[data-style="swiss"] .nav{border-bottom:2px solid #111}
+  .preview[data-style="swiss"] .links{font-weight:600}
+  .preview[data-style="swiss"] .dotlogo{background:#E11D2E;color:#fff}
+  .preview[data-style="swiss"] .btn,.preview[data-style="swiss"] .nav .cta,.preview[data-style="swiss"] .cardmock,.preview[data-style="swiss"] .f,.preview[data-style="swiss"] .cell{border-radius:0}
+  .preview[data-style="swiss"] .cardmock{border:2px solid #111}
+  .preview[data-style="swiss"] .f{border:2px solid #111}
+  .preview[data-style="swiss"] .badge{border-radius:0;border-color:#111;color:#111}
+
+  .hint{max-width:1180px;margin:12px auto 0;padding:0 18px;color:#8D9AAA;font-size:11.5px}
+  @media(max-width:900px){.hero{grid-template-columns:1fr}.features{grid-template-columns:1fr}.links{display:none}}
+</style>
+</head>
+<body>
+<div class="toolbar">
+  <b>Designrichtungen</b>
+  <span>Klick durch die Varianten – gleiche Inhalte, unterschiedlicher Charakter.</span>
+  <button class="tbtn on" data-style="aurora">A · Aurora</button>
+  <button class="tbtn" data-style="editorial">B · Editorial</button>
+  <button class="tbtn" data-style="neon">C · Neon Grid</button>
+  <button class="tbtn" data-style="warm">D · Warm Studio</button>
+  <button class="tbtn" data-style="swiss">E · Swiss Bold</button>
+</div>
+
+<div class="stage">
+  <div class="frame">
+    <div class="preview" id="preview" data-style="aurora">
+      <nav class="nav">
+        <span class="brand"><span class="dotlogo">N</span> Novora</span>
+        <span class="links"><a href="#">Funktionen</a><a href="#">Ablauf</a><a href="#">Sicherheit</a><a href="#">FAQ</a></span>
+        <a class="cta" href="#">Download</a>
+      </nav>
+      <section class="hero">
+        <div>
+          <span class="badge">Windows · WLAN · kein Account</span>
+          <h1>Dein PC.<br><em>In Tasten.</em></h1>
+          <p class="lead">Hotkeys, Mixer, Profile und Live-Zustände auf Handy oder Tablet. Alles im lokalen Netz, ohne Cloud und ohne Login.</p>
+          <div class="actions"><a class="btn solid" href="#">APK holen</a><a class="btn" href="#">So geht's</a></div>
+        </div>
+        <div class="art">
+          <div class="cardmock">
+            <div class="row"><span class="sq"></span><div class="lines"><i></i><i></i></div></div>
+            <div class="grid">
+              <span class="cell on"></span><span class="cell"></span><span class="cell"></span>
+              <span class="cell"></span><span class="cell on"></span><span class="cell"></span>
+              <span class="cell"></span><span class="cell"></span><span class="cell"></span>
+            </div>
+          </div>
+        </div>
+      </section>
+      <section class="features">
+        <div class="f"><b>Tasten</b><p>Hotkeys, Apps und Seiten – quadratisch, ohne Beschriftung.</p></div>
+        <div class="f"><b>Mixer</b><p>Lautstärke je App, live vom PC, Stumm sofort sichtbar.</p></div>
+        <div class="f"><b>Sicherheit</b><p>Nur im LAN, Code-Pairing, Geräte jederzeit widerrufbar.</p></div>
+      </section>
+    </div>
+  </div>
+</div>
+<div class="hint">Varianten sind reine Design-Richtungen. Inhalte und Aufbau bleiben gleich; Schrift, Farbe, Radius und Flächen ändern sich.</div>
+
+<script>
+const p = document.getElementById('preview');
+document.querySelectorAll('.tbtn').forEach(btn => {
+  btn.onclick = () => {
+    document.querySelectorAll('.tbtn').forEach(b => b.classList.remove('on'));
+    btn.classList.add('on');
+    p.dataset.style = btn.dataset.style;
+  };
+});
+</script>
+</body>
+</html>

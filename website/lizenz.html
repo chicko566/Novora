@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Lizenz – Novora</title>
+<link rel="icon" href="assets/novora-512.png">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<header><div class="wrap nav"><a href="index.html"><img src="assets/novora-wordmark.png" alt="Novora"></a><nav class="links"><a href="index.html">Start</a><a href="impressum.html">Impressum</a><a href="datenschutz.html">Datenschutz</a><a href="agb.html">AGB</a></nav></div></header>
+<div class="wrap doc">
+  <h1>Lizenz &amp; Drittanbieter</h1>
+  <p>Diese Seite beschreibt, wie Novora lizenziert wird und welche fremden Komponenten enthalten sind.</p>
+
+  <h2>Lizenzmodell</h2>
+  <p>Novora ist in den Plänen <b>Standard</b> (1 Gerät), <b>Pro</b> (bis zu 3 Geräte) und <b>Team</b> (bis zu 10 Geräte) verfügbar. Beim Aktivieren stellt der Lizenzserver ein Ed25519-signiertes Lizenz-Token aus, das sieben Tage gültig ist und automatisch erneuert wird. Für Aktivierung und Verlängerung muss der PC eine Internetverbindung haben; dazwischen arbeitet Novora vollständig offline.</p>
+
+  <h2>Aktivierung</h2>
+  <p>Der Schlüssel wird im PC-Editor im Bereich Lizenz eingegeben. Der PC muss dabei online sein. Nach erfolgreicher Aktivierung prüft Novora den Lizenzstatus im Hintergrund alle sechs Stunden (stiller Check) und verlängert das Token, solange der Schlüssel gültig ist.</p>
+
+  <h2>Verhalten ohne Lizenz</h2>
+  <p>Novora lässt sich installieren und starten, ist ohne gültigen Schlüssel aber vollständig gesperrt: sichtbar ist nur das Aktivierungsfenster, Raster und Steuerung bleiben unzugänglich. Läuft das Token ab, ohne dass der Server erreicht werden kann, gilt derselbe Zustand mit dem Hinweis, dass eine Internetverbindung erforderlich ist.</p>
+
+  <h2>Gerätewechsel</h2>
+  <p>Ein Schlüssel ist an ein Gerät gebunden. Für einen Umzug wird das bisherige Gerät freigegeben – im PC-Editor oder durch den Anbieter. Danach kann der Schlüssel auf dem neuen PC aktiviert werden. Geht der alte PC verloren, hilft ein Reset durch den Anbieter.</p>
+
+  <h2>Updates</h2>
+  <p>Updates sind lizenzunabhängig: Neue Versionen lassen sich unabhängig vom Lizenzstatus herunterladen und installieren. Nach der Installation gelten die Bedingungen dieser Seite unverändert.</p>
+
+  <h2>Drittanbieter-Komponenten</h2>
+  <ul>
+    <li><b>Node.js</b> – MIT License, © OpenJS Foundation</li>
+    <li><b>Inter</b> (Schrift) – SIL Open Font License 1.1</li>
+    <li><b>Logo und Symbole</b> – eigene Zeichnungen, keine fremden Icon-Sammlungen</li>
+    <li><b>Markenlogos installierter Programme</b> – werden nicht mitgeliefert und nicht weitergegeben; Novora liest sie ausschließlich lokal aus den Installationsdateien des jeweiligen Herstellers, um das Programm auf dem eigenen PC anzuzeigen</li>
+  </ul>
+
+  <h2>Urheberrecht</h2>
+  <p class="placeholder">Copyright © 2026 [vor Veröffentlichung eintragen] — Alle Rechte vorbehalten.</p>
+
+  <h2>Markenhinweis</h2>
+  <p>Genannte Produkt- und Firmennamen sind Marken der jeweiligen Inhaber. Novora steht in keiner Verbindung zu Dritten. App-Namen und Logos werden nur zur Beschreibung und Anzeige der Verknüpfung auf dem eigenen Gerät verwendet.</p>
+</div>
+<footer><div class="wrap"><img src="assets/novora-wordmark.png" alt="" style="height:20px"><div class="links"><a href="index.html">Start</a><a href="impressum.html">Impressum</a><a href="datenschutz.html">Datenschutz</a><a href="agb.html">AGB</a></div></div></footer>
+</body>
+</html>

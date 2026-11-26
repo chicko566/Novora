@@ -1,0 +1,21 @@
+{
+  "port": 47850,
+  "host": "0.0.0.0",
+  "publicBaseUrl": "https://example.org",
+  "secureCookies": true,
+  "licenseKeyPepper": "ERSETZEN-mindestens-32-zufaellige-zeichen",
+  "adminSetupToken": "ERSETZEN-einmal-token-fuer-den-ersten-admin",
+  "adminLoginToken": "ERSETZEN-token-fuer-die-anmeldung-ohne-passwort",
+  "minVersion": "0.1.4",
+  "tokenDays": 7,
+  "heartbeatHours": 6,
+  "adminSessionHours": 12,
+  "db": {
+    "driver": "mysql",
+    "host": "127.0.0.1",
+    "port": 3306,
+    "user": "db_user",
+    "password": "ERSETZEN",
+    "name": "db_name"
+  }
+}

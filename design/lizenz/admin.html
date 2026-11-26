@@ -1,0 +1,817 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="color-scheme" content="dark">
+<title>Novora – Lizenz-Admin</title>
+<style>
+:root{
+  --bg:#0A0D12; --panel:#0F141B; --surface:#151C25; --surface2:#1B2430;
+  --line:#212B38; --text:#EAF1F8; --dim:#8D9AAA;
+  --accent:#22D3EE; --violet:#A78BFA; --ok:#34D399; --warn:#FBBF24; --danger:#F87171;
+  --font:'Inter','Segoe UI',system-ui,-apple-system,sans-serif;
+  --mono:'Cascadia Mono','SFMono-Regular',Consolas,monospace;
+}
+*{box-sizing:border-box}
+html,body{min-height:100%}
+body{
+  margin:0;min-height:100vh;padding:20px 18px 64px;color:var(--text);
+  font-family:var(--font);-webkit-font-smoothing:antialiased;
+  background:
+    radial-gradient(820px 460px at 8% -8%,rgba(34,211,238,.10),transparent 62%),
+    radial-gradient(720px 460px at 104% 108%,rgba(167,139,250,.09),transparent 62%),
+    var(--bg);
+}
+.shell{width:min(1180px,100%);margin:0 auto}
+.sr{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap;border:0}
+.brandbar{
+  display:flex;align-items:center;justify-content:space-between;gap:14px;
+  padding:2px 2px 16px;margin-bottom:18px;border-bottom:1px solid rgba(33,43,56,.9)
+}
+.brand{display:flex;align-items:center;gap:10px;min-width:0}
+.brand img{width:26px;height:26px;border-radius:8px;display:block}
+.brand strong{font-size:15px;letter-spacing:-.01em}
+.brand .div{color:#3A4757}
+.brand .muted{font-size:13px;color:var(--dim)}
+.env{
+  display:inline-flex;align-items:center;gap:7px;font-size:11px;font-weight:600;
+  letter-spacing:.08em;text-transform:uppercase;color:#8C9AAB;
+  border:1px solid var(--line);border-radius:999px;padding:5px 11px;background:rgba(255,255,255,.02)
+}
+.dot{width:7px;height:7px;border-radius:50%;background:currentColor;box-shadow:0 0 8px currentColor;flex:0 0 auto}
+.dot.ok{color:var(--ok)}
+.centered{min-height:calc(100vh - 130px);display:grid;place-items:center;padding:8px 0 40px}
+.card{
+  width:100%;max-width:420px;border:1px solid #202B38;border-radius:18px;
+  padding:28px 26px 24px;background:linear-gradient(180deg,#121A24,#0C1218);
+  box-shadow:0 40px 100px -50px #000,inset 0 1px 0 rgba(255,255,255,.04)
+}
+.card .appicon{display:block;width:50px;height:50px;border-radius:14px;margin-bottom:14px}
+h1{font-size:21px;line-height:1.25;margin:0 0 6px;letter-spacing:-.015em;font-weight:650}
+.lede{margin:0 0 20px;font-size:13px;line-height:1.55;color:var(--dim)}
+.field{display:flex;flex-direction:column;gap:6px;margin-bottom:13px}
+label{font-size:11px;font-weight:600;letter-spacing:.07em;text-transform:uppercase;color:var(--dim)}
+label .opt{text-transform:none;letter-spacing:0;font-weight:500;color:#5E6C7D}
+input,select,textarea{
+  width:100%;padding:10px 12px;border-radius:10px;border:1px solid var(--line);
+  background:#0A0F15;color:var(--text);font:inherit;font-size:13.5px
+}
+input::placeholder,textarea::placeholder{color:#4E5C6C}
+input:focus,select:focus,textarea:focus{outline:none;border-color:var(--accent);box-shadow:0 0 0 3px rgba(34,211,238,.13)}
+input[aria-invalid=true]{border-color:rgba(248,113,113,.72);box-shadow:0 0 0 3px rgba(248,113,113,.12)}
+select{appearance:none;background-image:linear-gradient(45deg,transparent 50%,#7C8A9B 50%),linear-gradient(135deg,#7C8A9B 50%,transparent 50%);background-position:calc(100% - 16px) 50%,calc(100% - 11px) 50%;background-size:5px 5px,5px 5px;background-repeat:no-repeat;padding-right:32px}
+textarea{resize:vertical;min-height:60px;font-size:13px}
+.btn{
+  appearance:none;border:1px solid var(--line);background:var(--surface);color:var(--text);
+  font:inherit;font-size:13px;font-weight:600;padding:10px 14px;border-radius:10px;
+  cursor:pointer;transition:border-color .15s,background .15s,transform .06s,filter .15s;white-space:nowrap
+}
+.btn:hover{border-color:#303D4E;background:#182130}
+.btn:active{transform:translateY(1px)}
+.btn:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+.btn[disabled]{opacity:.55;cursor:not-allowed;transform:none}
+.btn.primary{border-color:transparent;color:#04161C;background:linear-gradient(135deg,#22D3EE,#0EA5C4);box-shadow:0 12px 26px -16px rgba(34,211,238,.85)}
+.btn.primary:hover{filter:brightness(1.07)}
+.btn.sm{padding:6px 10px;font-size:12px;border-radius:8px}
+.btn.danger{color:#FCA5A5;border-color:rgba(248,113,113,.34);background:rgba(248,113,113,.08)}
+.btn.danger:hover{border-color:rgba(248,113,113,.6);background:rgba(248,113,113,.13)}
+.btn.ghost{background:transparent}
+.btn.block{width:100%;padding:11px 16px;font-size:13.5px;border-radius:11px}
+.err{
+  margin:0 0 12px;font-size:12.5px;line-height:1.45;color:#FCA5A5;
+  border:1px solid rgba(248,113,113,.3);background:rgba(248,113,113,.08);
+  border-radius:9px;padding:8px 10px
+}
+.err:empty{display:none}
+.loading{display:none;align-items:center;gap:9px;justify-content:center;font-size:12.5px;color:var(--dim);margin-top:12px}
+.loading.on{display:flex}
+.spin{width:15px;height:15px;border-radius:50%;flex:0 0 auto;border:2px solid rgba(255,255,255,.16);border-top-color:var(--accent);animation:spin .7s linear infinite}
+@keyframes spin{to{transform:rotate(360deg)}}
+.footnote{margin:14px 0 0;font-size:11.5px;line-height:1.5;color:#687687}
+
+/* Dashboard */
+.dashhead{display:flex;align-items:flex-end;justify-content:space-between;gap:14px;flex-wrap:wrap;margin-bottom:16px}
+.dashhead h1{margin:0 0 3px;font-size:22px}
+.who{margin:0;font-size:12.5px;color:var(--dim)}
+.stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(158px,1fr));gap:12px;margin-bottom:18px}
+.stat{
+  border:1px solid var(--line);border-radius:14px;padding:13px 15px;
+  background:linear-gradient(180deg,#111925,#0D141B)
+}
+.stat .k{display:flex;align-items:center;gap:7px;font-size:10.5px;font-weight:600;letter-spacing:.09em;text-transform:uppercase;color:var(--dim)}
+.stat .v{font-size:28px;font-weight:700;letter-spacing:-.03em;margin:6px 0 2px;font-variant-numeric:tabular-nums}
+.stat .h{font-size:11.5px;color:#6E7C8D}
+.stat.a .v{color:var(--accent)} .stat.b .v{color:#A7F3D0} .stat.c .v{color:#FDE68A} .stat.d .v{color:#FCA5A5}
+.tabs{display:flex;gap:2px;border-bottom:1px solid var(--line);margin-bottom:16px;overflow-x:auto}
+.tabs [role=tab]{
+  appearance:none;border:0;background:transparent;font:inherit;font-size:13px;font-weight:600;
+  color:var(--dim);padding:10px 14px;border-radius:8px 8px 0 0;cursor:pointer;
+  border-bottom:2px solid transparent;white-space:nowrap
+}
+.tabs [role=tab]:hover{color:var(--text)}
+.tabs [role=tab][aria-selected=true]{color:var(--text);border-bottom-color:var(--accent);background:rgba(34,211,238,.06)}
+.tabs [role=tab]:focus-visible{outline:2px solid var(--accent);outline-offset:-2px}
+.panel{border:1px solid var(--line);border-radius:16px;background:rgba(15,20,27,.72);padding:16px}
+.panel h2{font-size:14px;margin:0 0 12px;letter-spacing:.01em}
+.toolbar{display:flex;flex-wrap:wrap;gap:10px;align-items:center;margin-bottom:14px}
+.search{position:relative;flex:1 1 240px;min-width:180px}
+.search svg{position:absolute;left:11px;top:50%;transform:translateY(-50%);color:#5E6C7D;pointer-events:none}
+.search input{padding-left:34px}
+.toolbar select{flex:0 0 auto;width:auto;min-width:150px}
+.tablewrap{overflow-x:auto;border-radius:10px}
+table{width:100%;border-collapse:collapse;min-width:700px}
+th,td{padding:10px 12px;text-align:left;font-size:12.5px;border-bottom:1px solid rgba(33,43,56,.72);vertical-align:middle}
+th{font-size:10.5px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:var(--dim);white-space:nowrap;border-bottom-color:var(--line)}
+tbody tr:hover{background:rgba(34,211,238,.03)}
+tbody tr:last-child td{border-bottom:0}
+td.right,th.right{text-align:right}
+code.key{font-family:var(--mono);font-size:11.5px;letter-spacing:.02em;color:#CFE8F5;white-space:nowrap}
+td .sub{display:block;font-size:11px;color:#6E7C8D;margin-top:2px}
+.pill{display:inline-flex;align-items:center;gap:6px;font-size:11px;font-weight:600;padding:3px 9px;border-radius:999px;border:1px solid;white-space:nowrap}
+.pill.ok{color:#A7F3D0;border-color:rgba(52,211,153,.4);background:rgba(52,211,153,.1)}
+.pill.warn{color:#FDE68A;border-color:rgba(251,191,36,.4);background:rgba(251,191,36,.1)}
+.pill.danger{color:#FCA5A5;border-color:rgba(248,113,113,.4);background:rgba(248,113,113,.1)}
+.pill.muted{color:#A8B4C3;border-color:rgba(141,154,170,.35);background:rgba(141,154,170,.1)}
+.rowact{display:flex;gap:6px;justify-content:flex-end}
+.empty{padding:22px 12px;text-align:center;color:#6E7C8D;font-size:12.5px}
+.empty[hidden]{display:none}
+.log{list-style:none;margin:0;padding:0;display:flex;flex-direction:column}
+.log li{display:flex;gap:11px;align-items:flex-start;padding:11px 4px;border-bottom:1px solid rgba(33,43,56,.6);font-size:12.5px}
+.log li:last-child{border-bottom:0}
+.log .evt{flex:1;min-width:0}
+.log .evt strong{font-weight:600}
+.log .evt .t{color:var(--dim);font-family:var(--mono);font-size:11.5px}
+.log time{margin-left:auto;color:#5E6C7D;font-size:11.5px;white-space:nowrap;font-variant-numeric:tabular-nums}
+.log .dot{margin-top:5px}
+.k-ok{color:var(--ok)} .k-warn{color:var(--warn)} .k-danger{color:var(--danger)} .k-info{color:var(--accent)}
+.toast{
+  position:fixed;left:50%;bottom:22px;transform:translate(-50%,12px);opacity:0;pointer-events:none;
+  max-width:min(460px,calc(100vw - 32px));padding:10px 14px;border-radius:10px;z-index:30;
+  background:#132029;border:1px solid rgba(34,211,238,.35);color:#D7F6FB;font-size:12.5px;
+  box-shadow:0 20px 44px -20px #000;transition:opacity .2s,transform .2s
+}
+.toast.show{opacity:1;transform:translate(-50%,0)}
+dialog{
+  border:1px solid #24303F;border-radius:18px;padding:0;color:var(--text);
+  width:min(540px,calc(100vw - 32px));background:#0F161F;box-shadow:0 50px 140px -50px #000
+}
+dialog::backdrop{background:rgba(4,7,10,.72);backdrop-filter:blur(3px)}
+dialog form{padding:22px 22px 18px}
+dialog h2{font-size:17px;margin:0 0 4px;letter-spacing:-.01em}
+dialog .lede{margin:0 0 16px;font-size:12.5px}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:0 12px}
+.dlgfoot{display:flex;justify-content:flex-end;gap:9px;margin-top:6px}
+@media (max-width:720px){
+  .grid2{grid-template-columns:1fr}
+  .panel{padding:13px}
+}
+@media (prefers-reduced-motion:reduce){
+  *{animation-duration:.01ms!important;transition-duration:.01ms!important}
+}
+</style>
+</head>
+<body>
+<div class="shell">
+  <header class="brandbar">
+    <div class="brand">
+      <img src="../logo/novora/novora-48.png" alt="" width="26" height="26">
+      <strong>Novora</strong><span class="div">/</span><span class="muted">Lizenz-Admin</span>
+    </div>
+    <span class="env"><span class="dot ok" aria-hidden="true"></span>Lokaler Mock</span>
+  </header>
+
+  <!-- ================= Login ================= -->
+  <main id="login-screen" class="centered">
+    <section class="card" aria-labelledby="login-h">
+      <img class="appicon" src="../logo/novora/novora-96.png" alt="" width="50" height="50">
+      <h1 id="login-h">Admin-Anmeldung</h1>
+      <p class="lede">Lizenzverwaltung für Novora. Zugang nur für Administratoren.</p>
+
+      <form id="login-form" novalidate>
+        <div class="field">
+          <label for="email">E-Mail</label>
+          <input id="email" name="email" type="email" autocomplete="username" spellcheck="false"
+                 placeholder="admin@novora.local" aria-describedby="login-error">
+        </div>
+        <div class="field">
+          <label for="pw">Passwort</label>
+          <input id="pw" name="password" type="password" autocomplete="current-password"
+                 placeholder="••••••••" aria-describedby="login-error">
+        </div>
+        <div class="field">
+          <label for="totp">TOTP-Code <span class="opt">optional</span></label>
+          <input id="totp" name="totp" type="text" inputmode="numeric" maxlength="6"
+                 autocomplete="one-time-code" placeholder="123456" aria-describedby="login-error">
+        </div>
+        <p class="err" id="login-error" role="alert"></p>
+        <button class="btn primary block" id="login-btn" type="submit">Anmelden</button>
+        <div class="loading" id="login-load" role="status" aria-live="polite">
+          <span class="spin" aria-hidden="true"></span><span>Anmeldung wird geprüft…</span>
+        </div>
+      </form>
+      <p class="footnote">Mock ohne Serveranfrage. Jede gültige E-Mail und ein Passwort ab 4 Zeichen werden akzeptiert.</p>
+    </section>
+  </main>
+
+  <!-- ================= Dashboard ================= -->
+  <main id="dash-screen" hidden>
+    <div class="dashhead">
+      <div>
+        <h1>Lizenzverwaltung</h1>
+        <p class="who" id="who">admin@novora.local</p>
+      </div>
+      <button class="btn" id="logout" type="button">Abmelden</button>
+    </div>
+
+    <section class="stats" aria-label="Kennzahlen">
+      <div class="stat a"><div class="k">Keys gesamt</div><div class="v" id="s-total">0</div><div class="h">alle ausgegebenen Schlüssel</div></div>
+      <div class="stat b"><div class="k">Aktiv</div><div class="v" id="s-active">0</div><div class="h" id="s-active-h">nutzbar, inkl. ablaufend</div></div>
+      <div class="stat c"><div class="k">Ablaufend</div><div class="v" id="s-expiring">0</div><div class="h">in den nächsten 14 Tagen</div></div>
+      <div class="stat d"><div class="k">Gesperrt / abgelaufen</div><div class="v" id="s-locked">0</div><div class="h">nicht nutzbar</div></div>
+    </section>
+
+    <nav class="tabs" role="tablist" aria-label="Bereiche">
+      <button role="tab" id="tab-keys" aria-controls="panel-keys" aria-selected="true" tabindex="0" type="button">Keys</button>
+      <button role="tab" id="tab-act" aria-controls="panel-act" aria-selected="false" tabindex="-1" type="button">Aktivierungen</button>
+      <button role="tab" id="tab-audit" aria-controls="panel-audit" aria-selected="false" tabindex="-1" type="button">Audit-Log</button>
+    </nav>
+
+    <section id="panel-keys" class="panel" role="tabpanel" aria-labelledby="tab-keys" tabindex="0">
+      <div class="toolbar">
+        <div class="search">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true">
+            <circle cx="11" cy="11" r="6.5"></circle><path d="m16 16 4.5 4.5"></path>
+          </svg>
+          <input id="q" type="search" placeholder="Key, Kunde oder Notiz suchen" aria-label="Lizenzschlüssel durchsuchen">
+        </div>
+        <select id="filter" aria-label="Nach Status filtern">
+          <option value="alle">Alle Status</option>
+          <option value="active">Aktiv</option>
+          <option value="expiring">Läuft ab</option>
+          <option value="expired">Abgelaufen</option>
+          <option value="blocked">Gesperrt</option>
+        </select>
+        <button class="btn primary" id="new-key" type="button">
+          <span aria-hidden="true">+</span> Key anlegen
+        </button>
+      </div>
+      <div class="tablewrap">
+        <table>
+          <caption class="sr">Lizenzschlüssel mit Status und Aktionen</caption>
+          <thead>
+            <tr>
+              <th scope="col">Schlüssel</th>
+              <th scope="col">Kunde / Notiz</th>
+              <th scope="col">Plan</th>
+              <th scope="col">Sitze</th>
+              <th scope="col">Ablauf</th>
+              <th scope="col">Status</th>
+              <th scope="col" class="right">Aktionen</th>
+            </tr>
+          </thead>
+          <tbody id="keys-body"></tbody>
+        </table>
+        <p class="empty" id="keys-empty" hidden>Kein Key passt zu Suche und Filter.</p>
+      </div>
+    </section>
+
+    <section id="panel-act" class="panel" role="tabpanel" aria-labelledby="tab-act" tabindex="0" hidden>
+      <h2>Aktivierungen</h2>
+      <div class="tablewrap">
+        <table>
+          <caption class="sr">Aktive Geräte pro Lizenz</caption>
+          <thead>
+            <tr>
+              <th scope="col">Schlüssel</th>
+              <th scope="col">Gerät</th>
+              <th scope="col">System</th>
+              <th scope="col">Aktiviert</th>
+              <th scope="col">Letzter Kontakt</th>
+              <th scope="col" class="right">Aktion</th>
+            </tr>
+          </thead>
+          <tbody id="act-body"></tbody>
+        </table>
+      </div>
+    </section>
+
+    <section id="panel-audit" class="panel" role="tabpanel" aria-labelledby="tab-audit" tabindex="0" hidden>
+      <h2>Audit-Log</h2>
+      <ol class="log" id="audit-list"></ol>
+    </section>
+  </main>
+</div>
+
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+<dialog id="dlg-new" aria-labelledby="dlg-h" aria-describedby="dlg-desc">
+  <form id="new-form" novalidate>
+    <h2 id="dlg-h">Key anlegen</h2>
+    <p class="lede" id="dlg-desc">Der Schlüssel wird lokal erzeugt und kann direkt an den Kunden gehen.</p>
+    <div class="grid2">
+      <div class="field">
+        <label for="n-plan">Plan</label>
+        <select id="n-plan">
+          <option value="monatlich">Monatlich</option>
+          <option value="jaehrlich" selected>Jährlich</option>
+          <option value="lebenslang">Lebenslang</option>
+        </select>
+      </div>
+      <div class="field">
+        <label for="n-term">Laufzeit</label>
+        <select id="n-term">
+          <option value="1">1 Monat</option>
+          <option value="3">3 Monate</option>
+          <option value="6">6 Monate</option>
+          <option value="12" selected>12 Monate</option>
+          <option value="24">24 Monate</option>
+          <option value="unlimited">Unbegrenzt</option>
+        </select>
+      </div>
+      <div class="field">
+        <label for="n-seats">Sitze</label>
+        <input id="n-seats" type="number" min="1" max="10" step="1" value="1" inputmode="numeric">
+      </div>
+      <div class="field">
+        <label for="n-note">Kunde / Notiz</label>
+        <input id="n-note" type="text" maxlength="64" placeholder="z. B. Musterstudio Nord">
+      </div>
+    </div>
+    <p class="err" id="new-error" role="alert"></p>
+    <div class="dlgfoot">
+      <button class="btn ghost" id="dlg-cancel" type="button">Abbrechen</button>
+      <button class="btn primary" id="dlg-save" type="submit">Key erzeugen</button>
+    </div>
+  </form>
+</dialog>
+
+<script>
+(function(){
+  'use strict';
+
+  /* ---------- Basisdaten (Mock) ---------- */
+  var TODAY = new Date(2026, 10, 24);
+  var DAY = 86400000;
+  var RE_EMAIL = /^[^@\s]+@[^@\s]+\.[^@\s]+$/;
+  var AB = '0123456789ABCDEFGHJKMNPQRSTVWXYZ';
+
+  var keys = [
+    { id:'k1', key:'NVR-4TQ8M-2XK9P-7B3WD-HZ6NC', note:'Musterstudio Nord', plan:'Jährlich', seats:1, used:1, created:'2026-01-14', expiry:'2027-01-14', status:'active' },
+    { id:'k2', key:'NVR-9KJ2V-5QW8N-YT4RM-C7PX', note:'Tonstudio Berger', plan:'Monatlich', seats:2, used:2, created:'2026-11-03', expiry:'2026-12-03', status:'active' },
+    { id:'k3', key:'NVR-QW3ZP-8NV6K-2M5TD-JX9RH', note:'Live-Event GmbH', plan:'Jährlich', seats:3, used:1, created:'2025-12-05', expiry:'2026-12-05', status:'active' },
+    { id:'k4', key:'NVR-7HM4T-K2P9X-VB6NC-QW3ZL', note:'Privat: M. Keller', plan:'Monatlich', seats:1, used:0, created:'2026-10-12', expiry:'2026-11-12', status:'active' },
+    { id:'k5', key:'NVR-2XV8N-6RT4M-KP9WQ-5ZHCD', note:'Streamfabrik AG', plan:'Jährlich', seats:5, used:2, created:'2026-06-30', expiry:'2027-06-30', status:'blocked' },
+    { id:'k6', key:'NVR-5NC7Q-XM3KT-9WPRV-4TZHJ', note:'DJ Abendrot', plan:'Jährlich', seats:1, used:1, created:'2026-04-09', expiry:'2027-04-09', status:'active' }
+  ];
+
+  var acts = [
+    { keyId:'k1', device:'NOVORA-PC', os:'Windows 11', activated:'2026-01-14', last:'24.11.2026 09:12' },
+    { keyId:'k2', device:'STUDIO-01', os:'Windows 11', activated:'2026-11-03', last:'24.11.2026 08:40' },
+    { keyId:'k2', device:'LAPTOP-BERG', os:'Windows 10', activated:'2026-11-05', last:'22.11.2026 19:02' },
+    { keyId:'k3', device:'EVENT-RIG-1', os:'Windows 11', activated:'2025-12-06', last:'21.11.2026 22:15' },
+    { keyId:'k6', device:'DJ-ABENDROT', os:'Windows 11', activated:'2026-04-09', last:'23.11.2026 23:51' }
+  ];
+
+  var clock = new Date(2026, 10, 24, 10, 42);
+  var audit = [];
+  var toastTimer = null;
+
+  /* ---------- Helfer ---------- */
+  function $(sel, root){ return (root || document).querySelector(sel); }
+  function pad(n){ return String(n).padStart(2, '0'); }
+  function el(tag, attrs){
+    var node = document.createElement(tag);
+    if (attrs) {
+      Object.keys(attrs).forEach(function(name){
+        var v = attrs[name];
+        if (v === null || v === undefined || v === false) { return; }
+        if (name === 'class') { node.className = v; }
+        else if (name === 'text') { node.textContent = v; }
+        else if (name.slice(0, 2) === 'on') { node.addEventListener(name.slice(2), v); }
+        else { node.setAttribute(name, v === true ? '' : String(v)); }
+      });
+    }
+    for (var i = 2; i < arguments.length; i++) {
+      var child = arguments[i];
+      if (child === null || child === undefined) { continue; }
+      if (Array.isArray(child)) { child.forEach(function(c){ if (c !== null) { node.append(c); } }); }
+      else { node.append(child.nodeType ? child : document.createTextNode(String(child))); }
+    }
+    return node;
+  }
+  function wait(ms){ return new Promise(function(resolve){ setTimeout(resolve, ms); }); }
+
+  function toast(text){
+    var t = $('#toast');
+    t.textContent = text;
+    t.classList.add('show');
+    if (toastTimer) { clearTimeout(toastTimer); }
+    toastTimer = setTimeout(function(){ t.classList.remove('show'); }, 3600);
+  }
+
+  function parseISO(s){
+    var p = s.split('-');
+    return new Date(Number(p[0]), Number(p[1]) - 1, Number(p[2]));
+  }
+  function toISO(d){ return d.getFullYear() + '-' + pad(d.getMonth() + 1) + '-' + pad(d.getDate()); }
+  function fmtDate(s){
+    var d = (typeof s === 'string') ? parseISO(s) : s;
+    return pad(d.getDate()) + '.' + pad(d.getMonth() + 1) + '.' + d.getFullYear();
+  }
+  function fmtTime(d){ return fmtDate(d) + ' ' + pad(d.getHours()) + ':' + pad(d.getMinutes()); }
+  function addMonthsISO(s, months){
+    var d = parseISO(s);
+    var day = d.getDate();
+    d.setDate(1);
+    d.setMonth(d.getMonth() + months);
+    var last = new Date(d.getFullYear(), d.getMonth() + 1, 0).getDate();
+    d.setDate(Math.min(day, last));
+    return toISO(d);
+  }
+  function daysLeft(expiry){ return Math.round((parseISO(expiry) - TODAY) / DAY); }
+
+  function statusOf(k){
+    if (k.status === 'blocked') { return 'blocked'; }
+    var dl = daysLeft(k.expiry);
+    if (dl < 0) { return 'expired'; }
+    if (dl <= 14) { return 'expiring'; }
+    return 'active';
+  }
+  function pillFor(status){
+    var map = {
+      active:  { cls:'ok',     label:'Aktiv' },
+      expiring:{ cls:'warn',   label:'Läuft ab' },
+      expired: { cls:'danger', label:'Abgelaufen' },
+      blocked: { cls:'muted',  label:'Gesperrt' }
+    };
+    var m = map[status];
+    return el('span', { class:'pill ' + m.cls }, el('span', { class:'dot', 'aria-hidden':'true' }), m.label);
+  }
+  function shortKey(key){ return key.slice(-5); }
+
+  function genKey(){
+    var groups = [];
+    for (var g = 0; g < 4; g++) {
+      var s = '';
+      for (var i = 0; i < 5; i++) { s += AB[randInt(AB.length)]; }
+      groups.push(s);
+    }
+    return 'NVR-' + groups.join('-');
+  }
+  function randInt(max){
+    if (window.crypto && window.crypto.getRandomValues) {
+      var a = new Uint32Array(1);
+      window.crypto.getRandomValues(a);
+      return a[0] % max;
+    }
+    return Math.floor(Math.random() * max);
+  }
+
+  function log(action, target, kind){
+    audit.unshift({ time: fmtTime(clock), action: action, target: target, kind: kind || 'info' });
+    if (audit.length > 40) { audit.pop(); }
+    clock = new Date(clock.getTime() + 60000);
+  }
+
+  /* ---------- Kennzahlen ---------- */
+  function renderStats(){
+    var total = keys.length;
+    var active = 0, expiring = 0, locked = 0;
+    keys.forEach(function(k){
+      var s = statusOf(k);
+      if (s === 'active') { active++; }
+      else if (s === 'expiring') { active++; expiring++; }
+      else if (s === 'expired') { locked++; }
+      else { locked++; }
+    });
+    $('#s-total').textContent = String(total);
+    $('#s-active').textContent = String(active);
+    $('#s-expiring').textContent = String(expiring);
+    $('#s-locked').textContent = String(locked);
+  }
+
+  /* ---------- Key-Tabelle ---------- */
+  function renderKeys(focusSpec){
+    var body = $('#keys-body');
+    var q = $('#q').value.trim().toLowerCase();
+    var f = $('#filter').value;
+    body.textContent = '';
+
+    var list = keys.filter(function(k){
+      var s = statusOf(k);
+      if (f !== 'alle' && s !== f) { return false; }
+      if (!q) { return true; }
+      return k.key.toLowerCase().indexOf(q) > -1 || k.note.toLowerCase().indexOf(q) > -1;
+    });
+
+    list.forEach(function(k){
+      var st = statusOf(k);
+      var tr = el('tr', null);
+      tr.append(el('td', null, el('code', { class:'key' }, k.key)));
+      tr.append(el('td', null, k.note || '–'));
+      tr.append(el('td', null, k.plan));
+      tr.append(el('td', null, k.used + ' / ' + k.seats));
+      tr.append(el('td', null, fmtDate(k.expiry), el('span', { class:'sub' }, daysLabel(k.expiry))));
+      tr.append(el('td', null, pillFor(st)));
+
+      var extendBtn = el('button', {
+        class:'btn sm', type:'button',
+        'data-act':'extend', 'data-key':k.id,
+        'aria-label':'Lizenz ' + shortKey(k.key) + ' um 12 Monate verlängern',
+        onclick: function(){ extendKey(k); }
+      }, 'Verlängern');
+
+      var blockBtn = el('button', {
+        class:'btn sm ' + (st === 'blocked' ? '' : 'danger'), type:'button',
+        'data-act':'block', 'data-key':k.id,
+        'aria-label':'Lizenz ' + shortKey(k.key) + (st === 'blocked' ? ' freigeben' : ' sperren'),
+        onclick: function(){ toggleBlock(k); }
+      }, st === 'blocked' ? 'Freigeben' : 'Sperren');
+
+      tr.append(el('td', { class:'right' }, el('div', { class:'rowact' }, extendBtn, blockBtn)));
+      body.append(tr);
+    });
+
+    $('#keys-empty').hidden = list.length > 0;
+
+    if (focusSpec) {
+      var target = body.querySelector('[data-act="' + focusSpec.act + '"][data-key="' + focusSpec.key + '"]');
+      if (target) { target.focus(); }
+    }
+  }
+
+  function daysLabel(expiry){
+    var dl = daysLeft(expiry);
+    if (dl < 0) { return 'seit ' + Math.abs(dl) + ' Tagen abgelaufen'; }
+    if (dl === 0) { return 'läuft heute ab'; }
+    return 'noch ' + dl + ' Tage';
+  }
+
+  function extendKey(k){
+    var base = daysLeft(k.expiry) < 0 ? toISO(TODAY) : k.expiry;
+    k.expiry = addMonthsISO(base, 12);
+    log('Lizenz verlängert', k.key + ' · +12 Monate', 'ok');
+    toast('Lizenz ' + shortKey(k.key) + ' um 12 Monate verlängert.');
+    renderAll({ act:'extend', key:k.id });
+  }
+
+  function toggleBlock(k){
+    var blocked = k.status === 'blocked';
+    k.status = blocked ? 'active' : 'blocked';
+    log(blocked ? 'Lizenz freigegeben' : 'Lizenz gesperrt', k.key, blocked ? 'ok' : 'danger');
+    toast('Lizenz ' + shortKey(k.key) + (blocked ? ' freigegeben.' : ' gesperrt.'));
+    renderAll({ act:'block', key:k.id });
+  }
+
+  /* ---------- Aktivierungen ---------- */
+  function keyById(id){
+    for (var i = 0; i < keys.length; i++) { if (keys[i].id === id) { return keys[i]; } }
+    return null;
+  }
+
+  function renderActs(){
+    var body = $('#act-body');
+    body.textContent = '';
+    acts.forEach(function(a){
+      var k = keyById(a.keyId);
+      if (!k) { return; }
+      var resetBtn = el('button', {
+        class:'btn sm danger', type:'button',
+        'aria-label':'Gerät ' + a.device + ' für Lizenz ' + shortKey(k.key) + ' zurücksetzen',
+        onclick: function(){ resetAct(a); }
+      }, 'Gerät zurücksetzen');
+      body.append(el('tr', null,
+        el('td', null, el('code', { class:'key' }, k.key)),
+        el('td', null, a.device),
+        el('td', null, a.os),
+        el('td', null, fmtDate(a.activated)),
+        el('td', null, a.last),
+        el('td', { class:'right' }, resetBtn)
+      ));
+    });
+  }
+
+  function resetAct(a){
+    var k = keyById(a.keyId);
+    acts = acts.filter(function(x){ return x !== a; });
+    if (k) {
+      k.used = Math.max(0, k.used - 1);
+      log('Gerät zurückgesetzt', a.device + ' · ' + k.key, 'warn');
+    }
+    toast('Gerät ' + a.device + ' wurde zurückgesetzt.');
+    renderAll();
+  }
+
+  /* ---------- Audit ---------- */
+  function renderAudit(){
+    var list = $('#audit-list');
+    list.textContent = '';
+    audit.forEach(function(e){
+      list.append(el('li', null,
+        el('span', { class:'dot k-' + e.kind, 'aria-hidden':'true' }),
+        el('span', { class:'evt' }, el('strong', null, e.action), ' ', el('span', { class:'t' }, e.target)),
+        el('time', null, e.time)
+      ));
+    });
+  }
+
+  function renderAll(focusSpec){
+    renderStats();
+    renderKeys(focusSpec);
+    renderActs();
+    renderAudit();
+  }
+
+  /* ---------- Tabs ---------- */
+  var tabs = Array.prototype.slice.call(document.querySelectorAll('[role=tab]'));
+  function selectTab(tab){
+    tabs.forEach(function(t){
+      var on = t === tab;
+      t.setAttribute('aria-selected', String(on));
+      t.tabIndex = on ? 0 : -1;
+      var panel = document.getElementById(t.getAttribute('aria-controls'));
+      if (panel) { panel.hidden = !on; }
+    });
+  }
+  tabs.forEach(function(t){
+    t.addEventListener('click', function(){ selectTab(t); });
+    t.addEventListener('keydown', function(e){
+      var i = tabs.indexOf(t);
+      var next = null;
+      if (e.key === 'ArrowRight') { next = tabs[(i + 1) % tabs.length]; }
+      else if (e.key === 'ArrowLeft') { next = tabs[(i - 1 + tabs.length) % tabs.length]; }
+      else if (e.key === 'Home') { next = tabs[0]; }
+      else if (e.key === 'End') { next = tabs[tabs.length - 1]; }
+      if (next) {
+        e.preventDefault();
+        selectTab(next);
+        next.focus();
+      }
+    });
+  });
+
+  /* ---------- Login ---------- */
+  var loginForm = $('#login-form');
+  var loginBtn = $('#login-btn');
+  var loginLoad = $('#login-load');
+  var loginError = $('#login-error');
+  var loginBusy = false;
+
+  function loginFail(message, field){
+    loginError.textContent = message;
+    if (field) {
+      field.setAttribute('aria-invalid', 'true');
+      field.focus();
+    }
+  }
+
+  loginForm.addEventListener('submit', async function(e){
+    e.preventDefault();
+    if (loginBusy) { return; }
+    var email = $('#email');
+    var pw = $('#pw');
+    var totp = $('#totp');
+
+    loginError.textContent = '';
+    email.setAttribute('aria-invalid', 'false');
+    pw.setAttribute('aria-invalid', 'false');
+    totp.setAttribute('aria-invalid', 'false');
+
+    if (!RE_EMAIL.test(email.value.trim())) {
+      loginFail('Bitte eine gültige E-Mail-Adresse eingeben.', email);
+      return;
+    }
+    if (pw.value.length < 4) {
+      loginFail('Passwort zu kurz (mindestens 4 Zeichen).', pw);
+      return;
+    }
+    if (totp.value.trim() && !/^\d{6}$/.test(totp.value.trim())) {
+      loginFail('TOTP-Code muss aus 6 Ziffern bestehen.', totp);
+      return;
+    }
+
+    loginBusy = true;
+    loginBtn.disabled = true;
+    loginLoad.classList.add('on');
+    await wait(900);
+    loginLoad.classList.remove('on');
+    loginBtn.disabled = false;
+    loginBusy = false;
+
+    $('#who').textContent = email.value.trim();
+    $('#login-screen').hidden = true;
+    $('#dash-screen').hidden = false;
+    pw.value = '';
+    totp.value = '';
+    log('Admin-Anmeldung', email.value.trim(), 'info');
+    renderAll();
+    var heading = $('#dash-screen h1');
+    heading.setAttribute('tabindex', '-1');
+    heading.focus({ preventScroll: true });
+  });
+
+  ['#email', '#pw', '#totp'].forEach(function(sel){
+    $(sel).addEventListener('input', function(){
+      this.setAttribute('aria-invalid', 'false');
+      loginError.textContent = '';
+    });
+  });
+
+  $('#logout').addEventListener('click', function(){
+    $('#dash-screen').hidden = true;
+    $('#login-screen').hidden = false;
+    $('#email').focus();
+  });
+
+  /* ---------- Suche / Filter ---------- */
+  $('#q').addEventListener('input', function(){ renderKeys(); });
+  $('#filter').addEventListener('change', function(){ renderKeys(); });
+
+  /* ---------- Dialog: Key anlegen ---------- */
+  var dlg = $('#dlg-new');
+  var newForm = $('#new-form');
+  var newError = $('#new-error');
+  var planSel = $('#n-plan');
+  var termSel = $('#n-term');
+  var seatsIn = $('#n-seats');
+  var noteIn = $('#n-note');
+
+  $('#new-key').addEventListener('click', function(){
+    newForm.reset();
+    planSel.value = 'monatlich';
+    termSel.value = '12';
+    seatsIn.value = '1';
+    newError.textContent = '';
+    seatsIn.setAttribute('aria-invalid', 'false');
+    dlg.showModal();
+    planSel.focus();
+  });
+
+  $('#dlg-cancel').addEventListener('click', function(){ dlg.close(); });
+
+  planSel.addEventListener('change', function(){
+    if (planSel.value === 'lebenslang') { termSel.value = 'unlimited'; }
+    else if (termSel.value === 'unlimited') { termSel.value = '12'; }
+  });
+  termSel.addEventListener('change', function(){
+    if (termSel.value === 'unlimited') { planSel.value = 'lebenslang'; }
+    else if (planSel.value === 'lebenslang') { planSel.value = 'jaehrlich'; }
+  });
+
+  newForm.addEventListener('submit', function(e){
+    e.preventDefault();
+    var seats = Number(seatsIn.value);
+    newError.textContent = '';
+    if (!Number.isInteger(seats) || seats < 1 || seats > 10) {
+      newError.textContent = 'Sitze müssen zwischen 1 und 10 liegen.';
+      seatsIn.setAttribute('aria-invalid', 'true');
+      seatsIn.focus();
+      return;
+    }
+
+    var term = termSel.value;
+    var months = term === 'unlimited' ? 0 : Number(term);
+    var expiry = months === 0 ? '2099-12-31' : addMonthsISO(toISO(TODAY), months);
+    var planLabel = planSel.options[planSel.selectedIndex].text;
+    var newKey = {
+      id: 'k' + Date.now(),
+      key: genKey(),
+      note: noteIn.value.trim() || 'Ohne Notiz',
+      plan: planLabel,
+      seats: seats,
+      used: 0,
+      created: toISO(TODAY),
+      expiry: expiry,
+      status: 'active'
+    };
+    keys.unshift(newKey);
+    log('Key angelegt', newKey.key + ' · ' + planLabel, 'ok');
+    dlg.close();
+    renderAll();
+    toast('Key angelegt: ' + shortKey(newKey.key) + ' (' + planLabel + ', ' + seats + ' Sitze).');
+  });
+
+  seatsIn.addEventListener('input', function(){
+    seatsIn.setAttribute('aria-invalid', 'false');
+    newError.textContent = '';
+  });
+
+  /* ---------- Startdaten Audit ---------- */
+  clock = new Date(2026, 10, 24, 9, 58);
+  log('Key angelegt', 'NVR-4TQ8M-2XK9P-7B3WD-HZ6NC · Jährlich', 'ok');
+  clock = new Date(2026, 10, 23, 17, 12);
+  log('Lizenz verlängert', 'NVR-5NC7Q-XM3KT-9WPRV-4TZHJ · +12 Monate', 'ok');
+  clock = new Date(2026, 10, 22, 11, 3);
+  log('Lizenz gesperrt', 'NVR-2XV8N-6RT4M-KP9WQ-5ZHCD', 'danger');
+  clock = new Date(2026, 10, 20, 8, 47);
+  log('Gerät zurückgesetzt', 'STUDIO-02 · NVR-9KJ2V-5QW8N-YT4RM-C7PX', 'warn');
+  clock = new Date(2026, 10, 18, 14, 26);
+  log('Admin-Anmeldung', 'admin@novora.local', 'info');
+  clock = new Date(2026, 10, 24, 10, 42);
+
+  renderAll();
+})();
+</script>
+</body>
+</html>

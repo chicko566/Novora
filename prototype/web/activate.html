@@ -1,0 +1,227 @@
+<!doctype html>
+<html lang="de">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="color-scheme" content="dark">
+<title>Novora – Lizenz aktivieren</title>
+<style>
+  :root {
+    --bg: #080A0F;
+    --card: #11141B;
+    --line: #232833;
+    --text: #E6EDF3;
+    --muted: #9AA3B2;
+    --dim: #8B96A5;
+    --accent: #22D3EE;
+    --ok: #34D399;
+    --warn: #FBBF24;
+    --danger: #F87171;
+  }
+  * { box-sizing: border-box; }
+  html, body { min-height: 100%; }
+  body {
+    margin: 0;
+    padding: 28px 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: radial-gradient(1100px 600px at 50% -10%, #0E1A24 0%, var(--bg) 60%);
+    color: var(--text);
+    font: 15px/1.55 "Segoe UI", system-ui, -apple-system, sans-serif;
+  }
+  .page { width: 100%; max-width: 480px; }
+  .brand {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin: 0 0 18px;
+    justify-content: center;
+  }
+  .brand .bn {
+    width: 34px;
+    height: 34px;
+    border-radius: 10px;
+    display: grid;
+    place-items: center;
+    background: linear-gradient(140deg, #22D3EE, #0EA5B7);
+    color: #06121A;
+    font-weight: 800;
+    font-size: 19px;
+  }
+  .brand .bt {
+    font-size: 24px;
+    font-weight: 650;
+    letter-spacing: 0.02em;
+    color: var(--text);
+  }
+  .card {
+    background: var(--card);
+    border: 1px solid var(--line);
+    border-radius: 18px;
+    padding: 26px 24px;
+    box-shadow: 0 24px 60px rgba(0, 0, 0, 0.45);
+  }
+  .card + .card { margin-top: 16px; }
+  .eyebrow {
+    margin: 0 0 6px;
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--accent);
+  }
+  h1 { margin: 0 0 8px; font-size: 23px; line-height: 1.25; }
+  h2 { margin: 0 0 14px; font-size: 20px; line-height: 1.3; }
+  .lead { margin: 0 0 20px; color: var(--muted); }
+  label {
+    display: block;
+    margin: 0 0 6px;
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--muted);
+  }
+  #key {
+    width: 100%;
+    padding: 13px 14px;
+    border-radius: 11px;
+    border: 1px solid var(--line);
+    background: #0B0E14;
+    color: var(--text);
+    font: 600 16px/1.3 ui-monospace, "Cascadia Mono", "Consolas", monospace;
+    letter-spacing: 0.06em;
+    outline: none;
+  }
+  #key:focus-visible {
+    border-color: var(--accent);
+    box-shadow: 0 0 0 3px rgba(34, 211, 238, 0.22);
+  }
+  #key[aria-invalid="true"] { border-color: var(--danger); }
+  .hint {
+    margin: 7px 0 16px;
+    font-size: 12.5px;
+    color: var(--dim);
+  }
+  .btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    min-height: 44px;
+    padding: 11px 18px;
+    border-radius: 11px;
+    border: 1px solid var(--line);
+    background: #161B24;
+    color: var(--text);
+    font: 600 15px/1 "Segoe UI", system-ui, sans-serif;
+    text-decoration: none;
+    cursor: pointer;
+  }
+  .btn:hover { border-color: #33404f; }
+  .btn:focus-visible {
+    outline: none;
+    box-shadow: 0 0 0 3px rgba(34, 211, 238, 0.25);
+    border-color: var(--accent);
+  }
+  .btn[disabled] { opacity: 0.55; cursor: progress; }
+  .btn.primary {
+    background: var(--accent);
+    border-color: var(--accent);
+    color: #06121A;
+  }
+  .btn.danger { color: var(--danger); border-color: rgba(248, 113, 113, 0.4); background: transparent; }
+  #activateBtn { width: 100%; }
+  .note {
+    margin: 16px 0 0;
+    font-size: 13px;
+    color: var(--dim);
+  }
+  .msg {
+    margin: 12px 0 0;
+    min-height: 20px;
+    font-size: 13.5px;
+    color: var(--muted);
+  }
+  .msg.err { color: var(--danger); }
+  .msg.ok { color: var(--ok); }
+  .facts {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 0;
+    margin: 0 0 18px;
+    border: 1px solid var(--line);
+    border-radius: 12px;
+    overflow: hidden;
+  }
+  .facts > div {
+    display: flex;
+    justify-content: space-between;
+    gap: 16px;
+    padding: 11px 14px;
+    border-top: 1px solid var(--line);
+  }
+  .facts > div:first-child { border-top: 0; }
+  .facts dt { margin: 0; color: var(--muted); font-size: 13.5px; }
+  .facts dd { margin: 0; font-weight: 600; text-align: right; word-break: break-word; }
+  .actions { display: flex; flex-wrap: wrap; gap: 10px; }
+  .actions .btn { flex: 1 1 auto; }
+  .hidden { display: none !important; }
+  .sr {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0 0 0 0);
+    white-space: nowrap;
+    border: 0;
+  }
+  @media (max-width: 430px) {
+    .card { padding: 22px 18px; }
+    .actions .btn { flex-basis: 100%; }
+  }
+</style>
+</head>
+<body>
+<main class="page">
+  <div class="brand" aria-label="Novora">
+    <span class="bn" aria-hidden="true">N</span>
+    <span class="bt">novora</span>
+  </div>
+
+  <section class="card" id="formCard" aria-labelledby="title">
+    <p class="eyebrow">Lizenz</p>
+    <h1 id="title">Novora aktivieren</h1>
+    <p class="lead">Gib den Lizenzschlüssel dieses PCs ein. Gespeichert wird nur das signierte Lizenz-Token und die letzten vier Zeichen des Keys.</p>
+    <form id="keyForm" novalidate>
+      <label for="key">Lizenzschlüssel</label>
+      <input id="key" name="key" type="text" inputmode="text" autocomplete="off" autocapitalize="characters"
+        spellcheck="false" maxlength="27" placeholder="NVR-XXXXX-XXXXX-XXXXX-XXXXX"
+        aria-describedby="keyHint" aria-required="true" required>
+      <p class="hint" id="keyHint">Format: NVR-XXXXX-XXXXX-XXXXX-XXXXX</p>
+      <button class="btn primary" id="activateBtn" type="submit">Aktivieren</button>
+    </form>
+    <p class="note">Der PC muss während der Aktivierung online sein. Danach prüft Novora die Lizenz alle 6 Stunden im Hintergrund.</p>
+    <p class="msg" id="msg" role="status" aria-live="polite"></p>
+  </section>
+
+  <section class="card hidden" id="statusCard" aria-labelledby="statusTitle">
+    <p class="eyebrow">Aktiv</p>
+    <h2 id="statusTitle">Diese Installation ist lizenziert</h2>
+    <dl class="facts">
+      <div><dt>Plan</dt><dd id="fPlan">–</dd></div>
+      <div><dt>Gültig bis</dt><dd id="fExp">–</dd></div>
+      <div><dt>Key</dt><dd id="fKey">–</dd></div>
+    </dl>
+    <div class="actions">
+      <a class="btn primary" href="/pc">Novora öffnen</a>
+      <button class="btn" id="changeBtn" type="button">Key ändern</button>
+      <button class="btn danger" id="releaseBtn" type="button">Gerät freigeben</button>
+    </div>
+    <p class="msg" id="statusMsg" role="status" aria-live="polite"></p>
+  </section>
+</main>
+<script src="/activate.js"></script>
+</body>
+</html>

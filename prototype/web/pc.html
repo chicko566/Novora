@@ -1,0 +1,663 @@
+﻿<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Novora - PC-Editor</title>
+<link rel="icon" type="image/png" sizes="192x192" href="/icon-192.png">
+<link rel="stylesheet" href="/style.css">
+<style>
+  html,body{height:100%}
+  body{overflow:hidden;background:var(--bg)}
+  .wrap{height:100dvh;max-width:none;margin:0;padding:0;display:flex;flex-direction:column;min-height:0;overflow:hidden}
+  .editor{background:var(--bg);overflow:hidden;display:flex;flex-direction:column;flex:1;min-height:0}
+  .winbar{display:flex;align-items:center;gap:9px;padding:8px 14px;border-bottom:1px solid var(--line);background:#10161F;flex:0 0 auto}
+  .winbar .brand{gap:8px}
+  .winbar .tag{font-size:9.5px;color:var(--dim);border:1px solid var(--line);border-radius:5px;padding:2px 6px}
+  .tl{display:flex;gap:5px;margin-right:6px}
+  .tl i{width:9px;height:9px;border-radius:50%;background:var(--surface3)}
+  .tl i:nth-child(1){background:#F87171}.tl i:nth-child(2){background:#FBBF24}.tl i:nth-child(3){background:#34D399}
+  .winbar b{font-size:12px;font-weight:600}
+  .tag{font-size:9.5px;color:var(--dim);border:1px solid var(--line);border-radius:5px;padding:2px 5px;white-space:nowrap}
+  .sbtn{border:1px solid var(--line);background:var(--surface);color:var(--text);font-size:10.5px;padding:5px 9px;border-radius:7px;font-family:var(--font);cursor:pointer}
+  .sbtn:hover{color:var(--text);border-color:#37475E;background:var(--surface2)}
+  .sbtn.primary{background:var(--accent);color:#081318;border-color:transparent;font-weight:600}
+
+  /* Reiter-Leiste + Panes */
+  .shell{display:flex;flex:1;min-height:0;min-width:0}
+  .rail{width:68px;flex:0 0 auto;border-right:1px solid var(--line);background:#121821;
+    display:flex;flex-direction:column;gap:4px;padding:10px 6px;overflow:auto}
+  .rail-it{position:relative;display:flex;flex-direction:column;align-items:center;gap:4px;
+    border:1px solid transparent;background:transparent;color:var(--dim);font:inherit;font-size:9px;
+    padding:8px 2px;border-radius:8px;cursor:pointer;text-align:center;line-height:1.15;font-family:var(--font)}
+  .rail-it svg{width:16px;height:16px;stroke:currentColor;fill:none;stroke-width:1.85;stroke-linecap:round;stroke-linejoin:round}
+  .rail-it:hover{color:var(--text);background:var(--surface)}
+  .rail-it.active{background:var(--panel);border-color:var(--line);color:var(--text)}
+  .rail-it.active::before{content:"";position:absolute;left:-6px;top:8px;bottom:8px;width:2.5px;border-radius:2px;background:var(--accent)}
+  .rail-it .rb{position:absolute;top:4px;right:5px;min-width:14px;height:14px;border-radius:7px;background:var(--accent);
+    color:#081318;font-size:8px;font-weight:700;display:none;place-items:center;padding:0 3px;font-variant-numeric:tabular-nums}
+  .rail-it .rb.on{display:grid}
+  .panes{flex:1;min-width:0;min-height:0;display:flex}
+  .pane{display:none;flex:1;min-width:0;min-height:0}
+  .pane.active{display:flex}
+  .pane.scroll{display:none;overflow:auto;padding:16px 20px 24px}
+  .pane.scroll.active{display:block}
+  .pane.scroll>.card{max-width:none;margin-bottom:12px}
+
+  .ed-body{display:flex;flex:1;min-height:0;min-width:0}
+
+  /* Horizontale Seiten-Tabs */
+  .ed-center{flex:1;min-width:0;min-height:0;display:flex;flex-direction:column}
+  .pages-tabs-bar{display:flex;align-items:center;gap:6px;padding:8px 14px;background:var(--panel);border-bottom:1px solid var(--line);overflow-x:auto;flex:0 0 auto}
+  .pages-tabs-list{display:flex;align-items:center;gap:6px;flex:1;min-width:0;overflow-x:auto}
+  .pg-tab{display:inline-flex;align-items:center;gap:6px;padding:5px 10px;border-radius:7px;border:1px solid var(--line);background:#121821;color:var(--dim);font-size:11.5px;cursor:pointer;white-space:nowrap;flex:0 0 auto}
+  .pg-tab:hover{color:var(--text);border-color:#37475E}
+  .pg-tab.active{background:var(--accent-soft);border-color:var(--accent);color:var(--text);font-weight:600}
+  .pg-tab .pg-dot{width:6px;height:6px;border-radius:50%;background:var(--surface3);flex:0 0 auto}
+  .pg-tab.active .pg-dot{background:var(--ok)}
+  .pg-tab .pg-name{background:none;border:0;color:inherit;font:inherit;cursor:pointer;padding:0}
+  .pg-tab .pg-act{display:inline-flex;gap:2px;margin-left:2px}
+  .pg-tab .pg-act button{width:16px;height:16px;border-radius:4px;border:1px solid var(--line);background:var(--surface);color:var(--dim);font-size:9px;line-height:1;cursor:pointer;display:grid;place-items:center;padding:0}
+  .pg-tab .pg-act button:hover{color:var(--text)}
+  .pg-tab .pg-act button.del:hover{color:var(--danger);border-color:rgba(248,113,113,.45)}
+  .addpg{border:1px dashed #37475E;background:transparent;color:var(--dim);font-size:11px;padding:5px 10px;border-radius:7px;cursor:pointer;font-family:var(--font);white-space:nowrap;flex:0 0 auto}
+  .addpg:hover{color:var(--text);border-color:var(--accent)}
+
+  .ed-main{flex:1;padding:12px 16px;display:flex;flex-direction:column;gap:8px;min-width:0;min-height:0;position:relative;overflow:hidden}
+  .ed-head{display:flex;align-items:center;gap:8px;font-size:11px;color:var(--dim);flex-wrap:wrap;flex:0 0 auto}
+  .ed-head h3{font-size:12.5px;font-weight:600;color:var(--text)}
+  .ed-head .meta{font-size:10.5px}
+  .ed-head .grow{flex:1}
+
+  /* Live-Geräterahmen (Bezel) */
+  .bezel-wrap{flex:1;min-height:0;display:flex;align-items:center;justify-content:center;padding:4px}
+  .device-bezel{width:100%;height:100%;max-width:920px;background:#080B10;border:2px solid #2C394D;border-radius:24px;padding:12px 18px 14px;display:flex;flex-direction:column;gap:8px;min-height:0}
+  .bezel-top{display:flex;align-items:center;gap:8px;font-size:10.5px;color:var(--dim);flex:0 0 auto;border-bottom:1px solid rgba(255,255,255,.06);padding-bottom:6px}
+  .bezel-top b{color:var(--text);font-size:11px}
+  .bezel-top .live-chip{margin-left:auto;color:var(--ok);font-family:ui-monospace,Consolas,monospace;font-size:10px}
+  /* Breadcrumb: Home › Ordnername, jeder Teil anklickbar */
+  .crumbs{display:flex;align-items:center;gap:5px;flex-wrap:wrap;font-size:10.5px;color:var(--dim);min-height:20px}
+  .crumb{border:1px solid transparent;background:transparent;color:var(--dim);font:inherit;font-size:10.5px;
+    padding:2px 6px;border-radius:6px;cursor:pointer;font-family:var(--font);white-space:nowrap}
+  .crumb:hover{color:var(--text);background:var(--surface);border-color:var(--line)}
+  .crumb.cur{color:var(--text);font-weight:600;cursor:default}
+  .crumb.cur:hover{background:transparent;border-color:transparent}
+  .crumb-sep{color:var(--surface3);font-size:10.5px}
+  .crumb-back{border:1px solid var(--line);background:var(--surface);color:var(--dim);font-size:10px;
+    padding:3px 8px;border-radius:7px;cursor:pointer;font-family:var(--font);margin-left:6px}
+  .crumb-back:hover{color:var(--text);border-color:var(--accent)}
+  .crumb-back.hidden{display:none!important}
+  .mini-lbl{font-size:9.5px;color:var(--dim);text-transform:uppercase;letter-spacing:.1em}
+  .stepper{display:flex;align-items:center;gap:5px}
+  .stepper .sb{width:24px;height:24px;border-radius:7px;border:1px solid var(--line);background:var(--surface);
+    color:var(--text);font-size:13px;line-height:1;display:grid;place-items:center;cursor:pointer;font-family:var(--font);padding:0}
+  .stepper .sv{min-width:26px;text-align:center;font-size:11.5px;font-weight:600;font-variant-numeric:tabular-nums;color:var(--text)}
+  .edgrid{display:grid;gap:7px;flex:1;min-height:0;justify-content:center;align-content:center;
+    grid-template-columns:repeat(var(--cols,5),var(--tile,96px))}
+  .edgrid .tile{border-radius:var(--r-tile);cursor:pointer;position:relative}
+  .edgrid .tile.dead{outline:1px dashed rgba(251,191,36,.55);outline-offset:-2px}
+  .edgrid .tile.has-applogo{background:transparent;border-color:transparent}
+  .edgrid .tile .tile-applogo{position:absolute;inset:4%;width:92%;height:92%;object-fit:contain;pointer-events:none;border-radius:calc(var(--r-tile) * .8)}
+
+  .tileimgwrap{position:absolute;inset:0;display:grid;place-items:center;padding:9%}
+  .tileimg{width:100%;height:100%;object-fit:contain;border-radius:7px;filter:drop-shadow(0 4px 10px rgba(0,0,0,.35))}
+  .edgrid .tile.sel{outline:2px solid var(--accent);outline-offset:2px}
+  /* Entfernen-X pro Kachel: fester Slot, nichts rückt nach.
+     Sichtbar bei Hover, bei Auswahl (Touch) und bei Tastaturfokus. */
+  .killx{position:absolute;top:5px;right:5px;width:18px;height:18px;border-radius:50%;
+    border:1px solid rgba(248,113,113,.55);background:rgba(8,11,15,.88);color:#FCA5A5;
+    font-size:11px;line-height:1;display:grid;place-items:center;padding:0;cursor:pointer;
+    font-family:var(--font);opacity:0;pointer-events:none;
+    transition:opacity .12s,background .12s,color .12s;z-index:3}
+  .edgrid .tile:hover .killx,.edgrid .tile.sel .killx,.killx:focus-visible{opacity:1;pointer-events:auto}
+  .killx:hover{background:var(--danger);border-color:transparent;color:#0A0D12}
+  .edgrid .tile.ghost{cursor:pointer}
+  .edgrid .tile.dragover{outline:2px dashed var(--accent);outline-offset:2px}
+  .edgrid .tile[data-tint]{background:linear-gradient(152deg,color-mix(in srgb,var(--tint) 30%,var(--surface)),var(--surface) 78%);
+    border-color:color-mix(in srgb,var(--tint) 45%,transparent)}
+  .hintline{font-size:10px;color:var(--dim)}
+  .name-input{background:var(--surface);border:1px solid var(--line);border-radius:8px;padding:5px 8px;
+    font-size:11.5px;color:var(--text);font-family:var(--font);width:170px;max-width:46vw}
+  .name-input:disabled{opacity:.6;cursor:not-allowed}
+
+  .mixpanel{background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:10px 12px}
+  .mixrow{display:flex;align-items:center;gap:10px;padding:8px 2px;border-top:1px solid var(--line);font-size:11.5px}
+  .mixrow:first-child{border-top:0}
+  .mixrow .mn{width:96px;flex:0 0 auto}
+  .mixbar{position:relative;flex:1;height:8px;border-radius:5px;background:var(--surface3)}
+  .mixbar i{position:absolute;left:0;top:0;bottom:0;border-radius:5px;background:var(--accent)}
+  .mixrow .mv{width:38px;text-align:right;font-size:10.5px;color:var(--dim)}
+  .mixrow .mm{font-size:9px;color:var(--danger);border:1px solid rgba(248,113,113,.4);border-radius:5px;padding:2px 5px}
+
+  .insp{width:320px;border-left:1px solid var(--line);padding:12px;display:flex;flex-direction:column;gap:9px;flex:0 0 auto;background:var(--panel);overflow-y:auto;overflow-x:hidden}
+  /* Große Bildschirme: Fläche ausnutzen statt Ränder */
+  @media(min-width:1700px){ .insp{width:340px} }
+  .ititle{font-size:9px;letter-spacing:.14em;text-transform:uppercase;color:var(--dim)}
+  .ititle span{color:var(--accent);letter-spacing:0}
+  .prev{display:grid;place-items:center;background:#121821;border:1px solid var(--line);border-radius:10px;padding:10px;min-height:92px}
+  .prev .tile{width:72px;height:72px;cursor:default}
+  .field{display:flex;flex-direction:column;gap:4px}
+  .field>label{font-size:9.5px;color:var(--dim)}
+  .field .hint{font-size:9px;color:var(--dim);line-height:1.45}
+  select,.txt{width:100%;background:#121821;border:1px solid var(--line);border-radius:7px;padding:6px 8px;
+    font-size:10.5px;color:var(--text);font-family:var(--font)}
+  .lib-tabs{display:flex;gap:5px}
+  .chip{border:1px solid var(--line);background:#121821;color:var(--dim);padding:4px 9px;border-radius:7px;
+    font-size:10px;cursor:pointer;font-family:var(--font);flex:1;text-align:center}
+  .chip.on{background:var(--accent-soft);border-color:var(--accent);color:var(--text);font-weight:600}
+  .lib-tools{display:flex;gap:5px;margin-top:4px;flex-wrap:wrap}
+  .lib-tools .sbtn{flex:1;font-size:9.5px;padding:4px 7px}
+  .lib-grid{display:grid;grid-template-columns:repeat(3,1fr);grid-auto-rows:max-content;align-content:start;gap:6px;max-height:290px;overflow:auto;padding:2px}
+  .lib-item{border-radius:8px;background:var(--surface);border:1px solid #2C394D;
+    display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px;cursor:pointer;overflow:hidden;padding:6px 4px;min-height:66px}
+  .lib-item:hover{border-color:#37475E;background:var(--surface2)}
+  .lib-item.sel{border-color:var(--accent);box-shadow:inset 0 0 0 1px var(--accent)}
+  .lib-item svg{width:28px;height:28px}
+  .lib-item img.libimg{width:32px;height:32px;object-fit:contain;pointer-events:none;flex:0 0 auto}
+  .lib-item .lib-lbl{font-size:9px;color:var(--dim);max-width:100%;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;text-align:center;line-height:1.2}
+  .lib-item .lib-fb{width:28px;height:28px;border-radius:6px;background:var(--panel);border:1px solid var(--line);display:grid;place-items:center;font-size:11px;font-weight:700;color:var(--text)}
+  .lib-item svg.ic{stroke:var(--text);fill:none;stroke-width:1.7;stroke-linecap:round;stroke-linejoin:round}
+  .edgrid .tile.has-appicon,.prev .tile.has-appicon{background:radial-gradient(circle at 50% 45%,rgba(255,255,255,.075) 0%,transparent 72%),var(--surface);border-color:#2C394D}
+  .tile .appicon{width:70%;height:70%;object-fit:contain;border-radius:0;pointer-events:none;filter:drop-shadow(0 2px 6px rgba(0,0,0,.45))}
+  .conn-dual{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px;margin-bottom:12px}
+  .conn-bot{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
+  .conn-dual>.card,.conn-bot>.card{margin-bottom:0}
+  .dev-table{width:100%;border-collapse:collapse;font-size:11.5px}
+  .dev-table th{text-align:left;font-size:9.5px;text-transform:uppercase;letter-spacing:.08em;color:var(--dim);padding:7px 8px;border-bottom:1px solid var(--line)}
+  .dev-table td{padding:9px 8px;border-bottom:1px solid var(--line);vertical-align:middle}
+  .dev-table tr:last-child td{border-bottom:0}
+  @media(max-width:920px){ .conn-dual,.conn-bot{grid-template-columns:1fr} }
+  .actbadge{position:absolute;left:5px;bottom:4px;font-size:8px;line-height:1;letter-spacing:.04em;
+    color:var(--dim);background:rgba(0,0,0,.55);border:1px solid var(--line);border-radius:5px;padding:2px 4px;max-width:calc(100% - 10px);
+    overflow:hidden;text-overflow:ellipsis;white-space:nowrap;pointer-events:none;z-index:2}
+  .tile.mono,.tile.mono[data-tint]{background:linear-gradient(152deg,color-mix(in srgb,var(--tint) 92%,#fff),color-mix(in srgb,var(--tint) 70%,#000));
+    border-color:rgba(255,255,255,.14)}
+  .tile.mono svg{width:100%;height:100%;display:block}
+  .tile.mono text{fill:var(--mono,#fff);font-family:var(--font);font-weight:700;letter-spacing:-.02em}
+  .applist{display:flex;flex-direction:column;gap:2px;max-height:186px;overflow:auto;background:var(--surface);
+    border:1px solid var(--line);border-radius:8px;padding:4px}
+  .appitem{display:flex;align-items:center;gap:7px;padding:4px 5px;border-radius:6px;cursor:pointer;user-select:none;min-width:0}
+  .appitem:hover{background:var(--accent-soft)}
+  .appitem.cur{box-shadow:inset 0 0 0 1px var(--accent)}
+  .appitem .mdot{width:18px;height:18px;border-radius:5px;flex:0 0 auto;display:grid;place-items:center;
+    font-size:9.5px;font-weight:700;border:1px solid rgba(255,255,255,.14)}
+  .appitem .an{font-size:10.5px;color:var(--text);overflow:hidden;text-overflow:ellipsis;white-space:nowrap;flex:1;min-width:0}
+  .appitem .ai{font-size:8.5px;color:var(--dim);overflow:hidden;text-overflow:ellipsis;white-space:nowrap;max-width:92px;flex:0 0 auto}
+  .btnline{display:flex;gap:5px}
+  .btnline .sbtn{flex:1}
+  .keyrow{display:flex;gap:6px}
+  .keyrow .txt{flex:1;min-width:0}
+  .keyrow .rec{width:auto;padding:0 9px;font-size:10px;border-radius:8px;border:1px solid var(--line);background:var(--surface);color:var(--dim);cursor:pointer}
+  .keyrow .rec.on{border-color:var(--accent);color:var(--text);background:var(--accent-soft)}
+  .actsum{font-size:10px;color:var(--dim);background:var(--panel);border:1px solid var(--line);border-radius:8px;padding:6px 8px;margin-bottom:8px;line-height:1.4}
+  .actsum b{color:var(--text);font-weight:600}
+  .sws{display:flex;gap:5px;padding-top:2px;flex-wrap:wrap}
+  .sw{width:19px;height:19px;border-radius:6px;border:1px solid rgba(255,255,255,.16);cursor:pointer;padding:0}
+  .sw.sel{box-shadow:0 0 0 2px var(--panel),0 0 0 3.5px var(--accent)}
+  .sw.none{background:linear-gradient(135deg,transparent 44%,var(--danger) 44%,var(--danger) 56%,transparent 56%),var(--surface)}
+  .divider{height:1px;background:var(--line)}
+  .row2{display:grid;grid-template-columns:1fr 1fr;gap:7px}
+  .row2 .btn{padding:7px;font-size:10.5px}
+  .saved{display:flex;align-items:center;gap:6px;font-size:9.5px;color:var(--dim);margin-top:auto}
+  .saved i{width:5px;height:5px;border-radius:50%;background:var(--ok);box-shadow:0 0 7px var(--ok)}
+  .saved.err i{background:var(--danger);box-shadow:0 0 7px var(--danger)}
+  .insp.disabled .prev,.insp.disabled .field,.insp.disabled .divider,.insp.disabled .row2{opacity:.42;pointer-events:none}
+
+  .pane.scroll h3{font-size:12px;font-weight:600;margin-bottom:8px;display:flex;align-items:center;gap:6px}
+  .dev{display:flex;align-items:center;gap:8px;padding:7px 0;border-top:1px solid var(--line);font-size:10.5px}
+  .dev:first-of-type{border-top:0}
+  .dev .dn{flex:1;min-width:0}
+  .dev .dn b{display:block;font-size:11px;font-weight:600;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+  .dev .dn small{display:block;color:var(--dim);font-size:9px}
+  .dev .rev{font-size:9.5px;color:var(--danger);border:1px solid rgba(248,113,113,.4);border-radius:6px;
+    padding:3px 7px;background:transparent;cursor:pointer;font-family:var(--font)}
+  .dev .cur{font-size:9px;color:var(--ok);border:1px solid rgba(52,211,153,.4);border-radius:6px;padding:3px 7px}
+  .code{display:flex;gap:6px;justify-content:center;margin:10px 0 6px}
+  .code b{width:34px;height:42px;border-radius:8px;background:var(--surface);border:1px solid var(--line);
+    display:grid;place-items:center;font-size:18px;font-weight:600;color:var(--accent);font-variant-numeric:tabular-nums}
+  .code.empty b{color:var(--dim);opacity:.55}
+  .iplist{display:flex;flex-direction:column;gap:5px;margin:6px 0}
+  .qrwrap{display:flex;flex-direction:column;align-items:center;gap:6px;margin:10px 0 4px}
+  .qrwrap canvas.qr{background:#fff;border-radius:8px;padding:6px;box-shadow:0 4px 14px -6px rgba(0,0,0,.8);
+    max-width:100%;height:auto;image-rendering:pixelated}
+  .qrwrap canvas.qr[hidden]{display:none!important}
+  .qrwrap .qrfallback{font-size:10px;color:var(--dim);border:1px dashed var(--surface3);border-radius:8px;
+    padding:8px 10px;text-align:center}
+  .qrwrap .qrfallback[hidden]{display:none!important}
+  .qrwrap .qrurl{font-family:ui-monospace,Consolas,monospace;font-size:9.5px;color:var(--dim);
+    word-break:break-all;text-align:center;line-height:1.4}
+  .iprow{display:flex;align-items:center;gap:8px;background:var(--surface);border:1px solid var(--line);
+    border-radius:8px;padding:6px 8px;font-size:10.5px}
+  .iprow .ip{font-family:ui-monospace,Consolas,monospace;font-size:11px;color:var(--text)}
+  .iprow .if{color:var(--dim);font-size:9px}
+  .iprow .cpy{margin-left:auto;border:1px solid var(--line);background:var(--panel);color:var(--dim);
+    border-radius:6px;padding:3px 7px;font-size:9px;cursor:pointer;font-family:var(--font)}
+  .iprow .cpy:hover{color:var(--text)}
+  .iprow.sel{border-color:color-mix(in srgb,var(--accent) 55%,transparent);box-shadow:inset 0 0 0 1px var(--accent-soft)}
+  .setrow{display:flex;align-items:center;gap:10px;padding:9px 0;border-bottom:1px solid var(--line)}
+  .setrow:last-of-type{border-bottom:0}
+  .setrow .sl{width:86px;font-size:10.5px;color:var(--dim);flex:0 0 auto}
+  .setrow .sr{flex:1;display:flex;align-items:center;gap:6px;justify-content:flex-end;flex-wrap:wrap}
+  .presets{display:flex;gap:7px}
+  .preset{width:24px;height:24px;border-radius:7px;border:1px solid rgba(255,255,255,.16);cursor:pointer;padding:0}
+  .preset.sel{box-shadow:0 0 0 2px var(--panel),0 0 0 3.5px var(--accent)}
+  .rng{width:150px;accent-color:var(--accent)}
+  .rv{font-size:10px;color:var(--dim);width:34px;text-align:right}
+  .dprev{display:grid;grid-template-columns:repeat(4,1fr);gap:7px;margin-top:10px;max-width:240px}
+  .dprev .tile{width:100%;cursor:default}
+  .lat{font-size:10.5px;color:var(--dim)}
+  .lat b{color:var(--text)}
+  .note{font-size:10px;color:var(--dim);line-height:1.5;margin-top:8px}
+  .row .sub{display:block;font-size:9.5px;color:var(--dim);margin-top:1px}
+
+  /* Kopplung: Bestätigung + offene Anfragen */
+  .swrow{display:flex;align-items:flex-start;gap:9px;padding:9px 0;border-top:1px solid var(--line);
+    cursor:pointer;font-size:11.5px}
+  .swrow input{accent-color:var(--accent);width:auto;margin:2px 0 0;flex:0 0 auto}
+  .swrow .sw-sub{display:block;font-size:9.5px;color:var(--dim);margin-top:1px}
+  .preq{display:flex;align-items:center;gap:8px;padding:7px 8px;border:1px solid var(--line);border-radius:9px;
+    background:var(--surface);margin-top:6px;font-size:10.5px;min-width:0}
+  .preq .pn{flex:1;min-width:0}
+  .preq .pn b{display:block;font-size:11px;font-weight:600;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+  .preq .pn small{display:block;color:var(--dim);font-size:9px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+  .preq button{flex:0 0 auto;font-family:var(--font);font-size:9.5px;border-radius:6px;padding:4px 8px;cursor:pointer;border:1px solid var(--line);background:var(--panel);color:var(--text)}
+  .preq .ok{border-color:rgba(52,211,153,.45);color:var(--ok);background:rgba(52,211,153,.1)}
+  .preq .no{border-color:rgba(248,113,113,.4);color:var(--danger)}
+  .preq-empty{font-size:10px;color:var(--dim);padding:8px 0}
+  .then-grid{display:grid;grid-template-columns:1fr 82px;gap:6px;align-items:center}
+
+  #toast{opacity:0;pointer-events:none;transition:opacity .18s}
+  #toast.show{opacity:1}
+  #toast.err{border-color:rgba(248,113,113,.55);color:#FCA5A5}
+
+  /* Vorlagen-Auswahl beim Anlegen einer Seite */
+  .tpl-wrap{position:fixed;inset:0;z-index:60;display:grid;place-items:center;padding:20px;
+    background:rgba(3,5,8,.72);backdrop-filter:blur(3px)}
+  .tpl-wrap.hidden{display:none!important}
+  .tpl-dialog{width:min(960px,100%);max-height:88vh;display:flex;flex-direction:column;overflow:hidden;
+    background:var(--panel);border:1px solid var(--line);border-radius:18px;
+    box-shadow:0 50px 100px -40px rgba(0,0,0,.98),inset 0 1px 0 rgba(255,255,255,.05)}
+  .tpl-head{display:flex;align-items:flex-start;gap:12px;padding:16px 18px 12px;border-bottom:1px solid var(--line)}
+  .tpl-head h2{font-size:15px;font-weight:600;letter-spacing:-.01em}
+  .tpl-head p{font-size:10.5px;color:var(--dim);margin-top:3px}
+  .tpl-x{margin-left:auto;width:26px;height:26px;flex:0 0 auto;border-radius:8px;border:1px solid var(--line);
+    background:var(--surface);color:var(--dim);font-size:15px;line-height:1;cursor:pointer;font-family:var(--font)}
+  .tpl-x:hover{color:var(--text);border-color:var(--surface3)}
+  .tpl-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(196px,1fr));gap:10px;
+    padding:14px 18px 18px;overflow:auto;min-height:0}
+  .tpl-card{display:flex;flex-direction:column;gap:8px;text-align:left;padding:11px;border-radius:12px;
+    border:1px solid var(--line);background:var(--surface);color:var(--text);font-family:var(--font);cursor:pointer;
+    transition:border-color .15s,background .15s,transform .12s}
+  .tpl-card:hover{border-color:var(--accent);background:var(--surface2)}
+  .tpl-card:active{transform:scale(.985)}
+  .tpl-card:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+  .tpl-card[aria-pressed="true"]{border-color:var(--accent);box-shadow:inset 0 0 0 1px var(--accent)}
+  .tpl-prev{display:flex;align-items:center;gap:4px;flex-wrap:wrap;min-height:36px}
+  .tpl-prev .tile{width:32px;height:32px;min-height:32px;aspect-ratio:auto;cursor:default;pointer-events:none;border-radius:8px}
+  .tpl-prev .tile>svg.ic{width:62%;height:62%}
+  .tpl-more{font-size:9.5px;color:var(--dim);border:1px dashed var(--surface3);border-radius:7px;padding:3px 6px;line-height:1}
+  .tpl-name{font-size:12px;font-weight:600;display:flex;align-items:center;gap:6px}
+  .tpl-count{margin-left:auto;font-size:8.5px;font-weight:500;color:var(--dim);border:1px solid var(--line);
+    border-radius:5px;padding:1px 5px;white-space:nowrap}
+  .tpl-desc{font-size:10px;color:var(--dim);line-height:1.45}
+  .tpl-card.blank{border-style:dashed;background:transparent}
+  .tpl-card.blank .tpl-prev{color:var(--dim)}
+  .tpl-card.blank .tpl-prev svg{width:20px;height:20px;stroke:currentColor;fill:none;stroke-width:1.9;
+    stroke-linecap:round;stroke-linejoin:round;opacity:.7}
+  .tpl-foot{display:flex;align-items:center;gap:12px;flex-wrap:wrap;padding:11px 18px;border-top:1px solid var(--line);
+    background:rgba(0,0,0,.15)}
+  .tpl-check{display:flex;align-items:flex-start;gap:8px;cursor:pointer;font-size:11px;color:var(--text)}
+  .tpl-check input{margin-top:2px;accent-color:var(--accent);width:auto}
+  .tpl-check small{display:block;font-size:9px;color:var(--dim);line-height:1.4;margin-top:1px}
+  .tpl-foot .spacer{flex:1}
+
+  @media(max-width:1180px){
+    .ed-body{flex-direction:column;flex-wrap:nowrap;overflow-y:auto;overflow-x:hidden}
+    .ed-center{flex:0 0 auto;min-height:auto}
+    .ed-main{overflow:visible;flex:0 0 auto}
+    .bezel-wrap{flex:0 0 auto}
+    .device-bezel{height:auto}
+    .insp{width:100%;flex:0 0 auto;border-left:0;border-top:1px solid var(--line);overflow:visible}
+    .edgrid{grid-template-columns:repeat(var(--cols,5),minmax(0,1fr))}
+    .rail{width:60px}
+  }
+  @media(prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="editor">
+    <header class="winbar">
+      <div class="brand">
+        <div class="mark"><img src="/icon-192.png" alt="" style="width:100%;height:100%;display:block;border-radius:6px"></div>
+        <div><b>Novora</b><small>PC-Editor · nur lokal</small></div>
+      </div>
+      <span class="tag" id="savedTag">gespeichert</span>
+      <div class="spacer"></div>
+      <span class="pill" id="ver">–</span>
+      <span class="pill" id="latPill">Latenz –</span>
+      <span class="pill" id="livePill">0 live</span>
+      <a class="btn-connect" href="/app" target="_blank" style="text-decoration:none">Handy-Ansicht</a>
+      <button class="sbtn" id="reloadBtn">Neu laden</button>
+      <button class="sbtn primary" id="saveBtn">Speichern</button>
+    </header>
+
+    <div class="shell">
+      <nav class="rail" id="rail" aria-label="Bereiche">
+        <button class="rail-it active" type="button" data-tab="editor" title="Editor (1)">
+          <svg viewBox="0 0 24 24"><rect x="3.5" y="4" width="17" height="16" rx="2.5"/><path d="M3.5 9h17M9 9v11"/></svg>
+          <span>Editor</span>
+        </button>
+        <button class="rail-it" type="button" data-tab="conn" title="Verbinden (2)">
+          <svg viewBox="0 0 24 24"><path d="M5 12a7 7 0 0 1 14 0"/><path d="M2 12a10 10 0 0 1 20 0"/><circle cx="12" cy="18" r="1.6"/></svg>
+          <span>Verbinden</span>
+          <i class="rb" id="pairBadge">0</i>
+        </button>
+        <button class="rail-it" type="button" data-tab="devices" title="Geräte (3)">
+          <svg viewBox="0 0 24 24"><rect x="7" y="2.5" width="10" height="19" rx="2.5"/><path d="M10.5 18.5h3"/></svg>
+          <span>Geräte</span>
+          <i class="rb on" id="cntDev">0</i>
+        </button>
+      </nav>
+
+      <div class="panes">
+        <!-- Editor: Horizontale Seiten-Tabs + Bezel-Raster | Klassischer Inspektor -->
+        <section class="pane active" data-pane="editor" aria-label="Editor">
+          <div class="ed-body">
+            <div class="ed-center">
+              <nav class="pages-tabs-bar" aria-label="Seiten">
+                <div class="pages-tabs-list" id="pageList"></div>
+                <button class="addpg" id="addPage" type="button">+ Neue Seite</button>
+              </nav>
+
+              <main class="ed-main">
+                <div class="ed-head">
+                  <h3>Raster</h3>
+                  <input id="pageName" class="name-input" maxlength="28" aria-label="Seitenname">
+                  <span class="meta" id="pageMeta">–</span>
+                  <div class="grow"></div>
+                  <span class="mini-lbl">Spalten</span>
+                  <div class="stepper" id="colsStep"><button class="sb" data-d="-1">−</button><span class="sv">5</span><button class="sb" data-d="1">+</button></div>
+                  <span class="mini-lbl">Zeilen</span>
+                  <div class="stepper" id="rowsStep"><button class="sb" data-d="-1">−</button><span class="sv">4</span><button class="sb" data-d="1">+</button></div>
+                </div>
+                <div class="crumbs" id="crumbs" aria-label="Seitenpfad"></div>
+                <div class="bezel-wrap">
+                  <div class="device-bezel">
+                    <div class="bezel-top">
+                      <b id="bezelTitle">Live-Gerätevorschau</b>
+                      <span>1:1 · Flat Precision</span>
+                      <span class="live-chip" id="bezelLive">● bereit</span>
+                    </div>
+                    <div id="edgrid" class="edgrid"></div>
+                    <div id="mixPanel" class="hidden"></div>
+                  </div>
+                </div>
+                <div class="hintline" id="gridHint">App oder Symbol aus dem Inspektor ins Raster ziehen · freie Zelle anklicken fügt eine Taste hinzu · Tasten ziehen tauscht Plätze</div>
+              </main>
+            </div>
+
+            <aside class="insp disabled" id="insp">
+              <div class="ititle">Taste <span id="keyNo">–</span></div>
+              <div class="prev" id="prev"></div>
+              <div class="actsum" id="actsum">Keine Taste gewählt.</div>
+              <div class="field hidden" id="fPageOpen">
+                <button class="sbtn" id="pageOpen" type="button">In Ordner bearbeiten ↗</button>
+                <div class="hint">Wechselt in die Zielseite dieser Ordner-Kachel.</div>
+              </div>
+
+              <div class="field">
+                <label>EXE-Logo / Symbol</label>
+                <div class="lib-tabs">
+                  <button class="chip on" type="button" data-libt="brand">Software</button>
+                  <button class="chip" type="button" data-libt="browser">Browser</button>
+                  <button class="chip" type="button" data-libt="system">Symbole</button>
+                </div>
+                <input id="logoSearch" class="txt" placeholder="Apps oder Symbole durchsuchen …" style="margin-top:4px">
+                <div class="lib-tools" id="pcAppsTools">
+                  <button type="button" class="sbtn" id="pcAppsScan">Apps scannen</button>
+                  <button type="button" class="sbtn" id="pcAppsForeground">Aktives Fenster (3s)</button>
+                </div>
+                <div id="pcAppsMsg" class="hint" role="status" aria-live="polite"></div>
+                <div id="logoGrid" class="lib-grid"></div>
+              </div>
+
+              <div class="field">
+                <label>Aktion</label>
+                <select id="atype">
+                  <option value="none">Keine (frei)</option>
+                  <option value="app">Installierte App öffnen</option>
+                  <option value="hotkey">Tastenkombination</option>
+                  <option value="open">App / URL öffnen</option>
+                  <option value="command">Befehl ausführen (CMD)</option>
+                  <option value="path">Ordner / Datei öffnen</option>
+                  <option value="media">Medien</option>
+                  <option value="volume">Lautstärke</option>
+                  <option value="mic">Mikrofon stumm</option>
+                  <option value="record">Aufnahme an/aus</option>
+                  <option value="system">System / Energie</option>
+                  <option value="page">Seite wechseln</option>
+                </select>
+              </div>
+              <div class="field" id="fKeys"><label>Tasten (z. B. Ctrl+Shift+M)</label>
+                <div class="keyrow"><input id="keys" class="txt" value="Ctrl+Shift+M"><button id="recKey" class="rec" type="button" title="Tastenkombination aufnehmen">aufnehmen</button></div>
+                <div class="hintline" style="margin-top:4px">Feld anklicken, dann Tasten drücken. „aufnehmen“ liest die nächste Kombination.</div>
+              </div>
+              <div class="field" id="fTarget"><label>Ziel (EXE-Pfad, AppID oder URL)</label><input id="target" class="txt" placeholder="C:\Program Files\..."></div>
+              <div class="field hidden" id="fAppExtract">
+                <button class="sbtn" id="extractTargetBtn" type="button">Icon aus EXE-Pfad laden</button>
+                <div class="hint">Extrahiert das Original-Logo direkt aus einer beliebigen .exe auf diesem PC.</div>
+              </div>
+              <div class="field" id="fOpenArgs">
+                <label>Argumente (optional)</label>
+                <input id="openArgs" class="txt" placeholder="z. B. --profile=Arbeit" autocomplete="off" spellcheck="false">
+                <div class="hint">Ein Argument, wird unverändert an das Ziel übergeben.</div>
+              </div>
+              <div class="field" id="fThen">
+                <label>Danach Tastenkombination (optional)</label>
+                <div class="keyrow"><input id="thenKeys" class="txt" placeholder="z. B. Space" autocomplete="off"><button id="recThen" class="rec" type="button" title="Tastenkombination aufnehmen">aufnehmen</button></div>
+                <div class="then-grid" style="margin-top:5px">
+                  <span class="hintline">Verzögerung</span>
+                  <input id="thenDelay" class="txt" type="number" min="0" max="5000" step="50" value="800" aria-label="Verzögerung in ms">
+                </div>
+                <div class="hint">Nach dem Öffnen wird diese Kombination am PC gesendet (Standard 800 ms).</div>
+              </div>
+              <div class="field" id="fCmd">
+                <label>Befehl</label>
+                <input id="cmd" class="txt" placeholder="ipconfig" spellcheck="false" autocomplete="off">
+                <label style="margin-top:5px">Modus</label>
+                <select id="cmdMode">
+                  <option value="window">Fenster (/k · bleibt offen)</option>
+                  <option value="silent">Still (/c · kein Fenster)</option>
+                </select>
+                <div class="hint" style="color:var(--warn)"><strong>Achtung:</strong> Führt lokale Befehle auf diesem PC aus. Nur Befehle eintragen, die vertraut sind.</div>
+              </div>
+              <div class="field" id="fPath">
+                <label>Pfad</label>
+                <input id="pathVal" class="txt" placeholder="D:\Projekte" spellcheck="false" autocomplete="off">
+                <div class="btnline" style="margin-top:4px"><button class="sbtn" id="pathCheck" type="button">Prüfen</button></div>
+                <div class="hint">Absoluter Pfad, z. B. D:\Projekte oder C:\Users\torbe\Downloads</div>
+              </div>
+              <div class="field hidden" id="fMic">
+                <label>Ziel-App (Icon der Kachel bleibt erhalten)</label>
+                <select id="micAppSelect">
+                  <option value="">Systemweit (alle Apps)</option>
+                </select>
+                <input id="micApp" class="txt hidden" placeholder="Prozessname z. B. Discord, obs64" autocomplete="off" style="margin-top:5px">
+                <div id="fMicAppWrap" class="hidden" style="margin-top:6px">
+                  <label>Was soll in der App passieren?</label>
+                  <select id="micScope">
+                    <option value="app">Mikrofon stumm / an</option>
+                    <option value="deaf">Taub / Deafen (Discord)</option>
+                    <option value="output">Ton-Ausgabe stumm / an</option>
+                  </select>
+                  <div id="discordRpcBox" class="hidden" style="margin-top:8px;padding:8px 9px;border:1px solid var(--line);border-radius:8px;background:#121821">
+                    <div style="display:flex;align-items:center;justify-content:space-between;gap:6px;margin-bottom:5px">
+                      <span style="font-size:10px;font-weight:600;color:var(--text)">Discord Live-Sync (2-Wege)</span>
+                      <span id="dcStatusBadge" class="tag">○ nicht verbunden</span>
+                    </div>
+                    <div id="dcFormWrap">
+                      <input id="dcClientId" class="txt" placeholder="Discord Client ID" autocomplete="off" style="margin-bottom:4px">
+                      <input id="dcClientSecret" class="txt" type="password" placeholder="Discord Client Secret" autocomplete="off" style="margin-bottom:5px">
+                      <div style="display:flex;gap:5px">
+                        <button id="dcConnectBtn" class="sbtn" type="button" style="flex:1">Mit Discord verbinden</button>
+                        <button id="dcDisconnectBtn" class="sbtn hidden" type="button">Trennen</button>
+                      </div>
+                      <div class="hint" style="margin-top:5px">Im <a href="https://discord.com/developers/applications" target="_blank" rel="noopener" style="color:var(--accent)">Discord Developer Portal</a> unter <i>OAuth2</i> Redirect-URI <code>http://127.0.0.1:47830/api/discord/callback</code> eintragen, dann verbinden &amp; in Discord bestätigen.</div>
+                    </div>
+                    <div id="dcMsg" class="hint" style="margin-top:4px"></div>
+                  </div>
+                  <div id="fMicKeyWrap" style="margin-top:6px">
+                    <label>App-Hotkey für internes Mute-Symbol (z. B. Discord)</label>
+                    <div class="keyrow">
+                      <input id="micKeys" class="txt" placeholder="leer = Windows-Mikrofon direkt muten" autocomplete="off">
+                      <button id="micPresetDiscord" class="rec" type="button" title="Discord Standard-Hotkey eintragen">Ctrl+Shift+M</button>
+                    </div>
+                    <div class="hint">Ohne Hotkey wird dein Windows-Mikrofon direkt stummgeschaltet (wirkt sofort in Discord). Für das rote Symbol <b>in Discord selbst</b>: in Discord unter <i>Einstellungen → Tastenkürzel → Stummschalten umschalten</i> denselben Hotkey eintragen.</div>
+                  </div>
+                </div>
+                <div class="hint">Wähle eine App aus – dein Kachel-Icon (z. B. Mikrofon) bleibt dabei unverändert.</div>
+              </div>
+              <div class="field" id="fSystem"><label>Energie-Aktion</label>
+                <select id="spreset">
+                  <option value="shutdown">Herunterfahren</option>
+                  <option value="restart">Neustart</option>
+                  <option value="logoff">Abmelden</option>
+                  <option value="sleep">Energiesparen</option>
+                  <option value="hibernate">Ruhezustand</option>
+                  <option value="lock">Sperren</option>
+                  <option value="screenoff">Bildschirm aus</option>
+                </select>
+                <div class="hint">Führt die Aktion sofort am PC aus. Beim Handy ist für Herunterfahren/Neustart/Abmelden eine zweite Bestätigung nötig.</div>
+              </div>
+              <div class="field" id="fMedia"><label>Medien</label>
+                <select id="mkey"><option value="playpause">Play/Pause</option><option value="next">Weiter</option><option value="prev">Zurück</option><option value="stop">Stop</option></select>
+              </div>
+              <div class="field" id="fVol"><label>Richtung</label>
+                <select id="vdir"><option value="up">Lauter</option><option value="down">Leiser</option><option value="mute">Stumm</option></select>
+              </div>
+              <div class="field" id="fPage"><label>Ziel-Seite</label><select id="pageTarget"></select></div>
+
+              <div class="field">
+                <label>Zustandsquelle</label>
+                <select id="stateSrc">
+                  <option value="">keine</option>
+                  <option value="mic">Mikrofon</option>
+                  <option value="volume">Lautstärke</option>
+                  <option value="recording">Aufnahme</option>
+                </select>
+              </div>
+
+              <div class="field">
+                <label>Tastenfarbe</label>
+                <div class="sws" id="sws"></div>
+              </div>
+
+              <div class="divider"></div>
+              <div class="row2">
+                <button class="btn sec" id="testBtn">Testen</button>
+                <button class="btn danger" id="delKey">Entfernen</button>
+              </div>
+              <div class="saved" id="savedLine"><i></i><span id="savedTxt">Änderungen werden sofort gespeichert</span></div>
+            </aside>
+          </div>
+        </section>
+
+        <!-- Verbinden: Dual-QR (APK + Sofort-Verbinden), darunter Anfragen & Netzwerk -->
+        <section class="pane scroll" data-pane="conn" aria-label="Verbinden">
+          <div class="conn-dual">
+            <section class="card" id="apkCard">
+              <h3>1. Handy-App installieren <span class="tag">Android APK</span></h3>
+              <div class="qrwrap">
+                <canvas id="apkQr" class="qr" width="0" height="0"></canvas>
+                <div class="qrfallback" id="apkQrFb" hidden></div>
+                <div class="qrurl" id="apkQrUrl"></div>
+              </div>
+              <div class="note" style="margin-top:0">1. QR mit der Handy-Kamera scannen. 2. APK herunterladen und installieren. 3. Danach rechts den Verbinden-QR scannen.</div>
+              <a class="btn sec" id="apkLink" href="/downloads/novora.apk" download>APK direkt herunterladen</a>
+            </section>
+
+            <section class="card" id="pair">
+              <h3>2. Verbinden &amp; einloggen <span class="tag" id="codeTtl">–</span></h3>
+              <div class="qrwrap">
+                <canvas id="pairQr" class="qr" width="0" height="0"></canvas>
+                <div class="qrfallback" id="pairQrFb" hidden></div>
+                <div class="qrurl" id="pairQrUrl"></div>
+              </div>
+              <div id="codeBox" class="code empty"><b>–</b><b>–</b><b>–</b><b>–</b><b>–</b><b>–</b></div>
+              <button class="btn sec" id="newCode" type="button">Neuen Code erzeugen</button>
+              <div class="note">QR scannen oder Code in der App eingeben (gilt 2 Minuten).</div>
+            </section>
+          </div>
+
+          <div class="conn-bot">
+            <section class="card">
+              <h3>Offene Anfragen &amp; Kopplung <span class="tag" id="pairCount">0</span></h3>
+              <label class="row" style="cursor:pointer;border-top:0">
+                <input type="checkbox" id="autoPair" style="width:auto;margin-right:9px">
+                <div><b>Automatisch koppeln</b><span class="sub">Geräte im WLAN ohne Code verbinden</span></div>
+              </label>
+              <label class="swrow">
+                <input type="checkbox" id="requireApproval" checked>
+                <span><b>Neues Gerät muss bestätigt werden</b>
+                  <span class="sw-sub">Unbekannte Geräte erscheinen hier als Anfrage, bis angenommen wird.</span>
+                </span>
+              </label>
+              <div id="pairReq"><div class="preq-empty">Keine offenen Anfragen.</div></div>
+            </section>
+
+            <section class="card" id="conn">
+              <h3>Netzwerk &amp; Latenz</h3>
+              <div class="row" style="border-top:0"><i class="dot"></i><div><b id="pcname">PC</b><span class="sub" id="hostname">–</span></div><span class="val" id="port">–</span></div>
+              <div class="iplist" id="ipList"></div>
+              <div class="row"><span>Latenz</span><span class="lat" id="latRes">noch nicht gemessen</span><button class="sbtn" id="latBtn" style="margin-left:auto">Messen</button></div>
+              <div class="row"><span>Discovery</span><span class="val" id="discoveryTxt">UDP · Broadcast alle 3 s</span></div>
+              <div class="row"><span>Feste IP</span><span class="tag" style="color:var(--warn);border-color:rgba(251,191,36,.4)">DHCP-Reservierung empfohlen</span></div>
+              <div class="note">Live-Clients: <span id="liveClients">0</span>. Im Router die MAC dieses PCs auf eine feste IP reservieren.</div>
+            </section>
+          </div>
+        </section>
+
+        <!-- Geräte: Kompakte Status-Liste -->
+        <section class="pane scroll" data-pane="devices" aria-label="Geräte">
+          <section class="card">
+            <h3>Gekoppelte Geräte <span class="tag" id="devCount">0</span></h3>
+            <div id="devices"></div>
+            <div class="note">„Entfernen“ widerruft den Geräteschlüssel. Das Gerät muss sich danach neu koppeln.</div>
+          </section>
+        </section>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="tpl-wrap hidden" id="tplModal">
+  <div class="tpl-dialog" role="dialog" aria-modal="true" aria-labelledby="tplTitle" aria-describedby="tplHint">
+    <header class="tpl-head">
+      <div>
+        <h2 id="tplTitle">Neue Seite anlegen</h2>
+        <p id="tplHint">Vorlage wählen – Tasten, Icons und Aktionen lassen sich danach frei ändern.</p>
+      </div>
+      <button class="tpl-x" id="tplClose" type="button" aria-label="Schließen">×</button>
+    </header>
+    <div class="tpl-grid" id="tplGrid"></div>
+    <footer class="tpl-foot">
+      <label class="tpl-check">
+        <input type="checkbox" id="tplFolder">
+        <span>Als Ordner anlegen
+          <small>Seite erscheint nicht als eigene Wischseite, sondern nur als Ziel einer Ordner-Kachel.</small>
+        </span>
+      </label>
+      <div class="spacer"></div>
+      <button class="sbtn" id="tplCancel" type="button">Abbrechen</button>
+    </footer>
+  </div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script src="/iconset.js"></script>
+<script src="/qr.js"></script>
+<script src="/pc.js"></script>
+</body>
+</html>

@@ -1,0 +1,157 @@
+// Novora - native Vorschau (Rust/Slint, ohne WebView)
+// Nur Darstellung: keine Server-, Pairing- oder Geraeteanbindung.
+
+export component Tile inherits Rectangle {
+    in property <string> label: "Kachel";
+    in property <string> hint: "";
+    in property <bool> active: false;
+    callback picked();
+
+    height: 96px;
+    border-radius: 14px;
+    background: active ? #7C5CFF : #171B22;
+    border-width: 1px;
+    border-color: active ? #9B84FF : #232934;
+
+    VerticalLayout {
+        padding: 14px;
+        spacing: 4px;
+        alignment: start;
+
+        Text {
+            text: root.label;
+            color: active ? #FFFFFF : #E7EAF0;
+            font-size: 15px;
+            font-weight: 600;
+        }
+        Text {
+            text: root.hint;
+            color: active ? #E9E3FF : #8C94A3;
+            font-size: 11px;
+        }
+    }
+
+    TouchArea {
+        clicked => { root.picked(); }
+    }
+}
+
+export component AppWindow inherits Window {
+    title: "Novora";
+    width: 900px;
+    height: 520px;
+    background: #0F1216;
+    default-font-family: "Segoe UI";
+
+    in-out property <int> active-tile: 3;
+
+    VerticalLayout {
+        padding: 22px;
+        spacing: 14px;
+
+        // Kopfzeile
+        HorizontalLayout {
+            height: 40px;
+            spacing: 12px;
+
+            VerticalLayout {
+                alignment: center;
+                Rectangle {
+                    width: 8px;
+                    height: 26px;
+                    border-radius: 4px;
+                    background: #7C5CFF;
+                }
+            }
+
+            VerticalLayout {
+                spacing: 2px;
+                alignment: center;
+                Text {
+                    text: "Novora · native Vorschau";
+                    color: #F2F4F8;
+                    font-size: 19px;
+                    font-weight: 700;
+                }
+                Text {
+                    text: "Eigenständiges Fenster - kein WebView, kein Netzwerk";
+                    color: #6F7787;
+                    font-size: 11px;
+                }
+            }
+
+            Rectangle { horizontal-stretch: 1; background: transparent; }
+
+            Rectangle {
+                width: 92px;
+                height: 28px;
+                border-radius: 14px;
+                background: #1A1F28;
+                border-width: 1px;
+                border-color: #262D3A;
+
+                Text {
+                    text: "nativ";
+                    color: #9B84FF;
+                    font-size: 11px;
+                    horizontal-alignment: center;
+                    vertical-alignment: center;
+                }
+            }
+        }
+
+        // 5 x 3 Raster
+        GridLayout {
+            spacing: 12px;
+
+            for i in 15 : Tile {
+                row: i / 5;
+                col: Math.mod(i, 5);
+                label: "Kachel " + (i + 1);
+                hint: "Slot " + (i + 1);
+                active: i == root.active-tile;
+                picked => { root.active-tile = i; }
+            }
+        }
+
+        Rectangle { vertical-stretch: 1; background: transparent; }
+
+        // Statuszeile
+        Rectangle {
+            height: 30px;
+            border-radius: 10px;
+            background: #12161C;
+            border-width: 1px;
+            border-color: #1E242E;
+
+            HorizontalLayout {
+                padding-left: 12px;
+                padding-right: 12px;
+                spacing: 10px;
+
+                VerticalLayout {
+                    alignment: center;
+                    Rectangle {
+                        width: 7px;
+                        height: 7px;
+                        border-radius: 4px;
+                        background: #46D39A;
+                    }
+                }
+                Text {
+                    text: "Rust/Slint · ohne WebView";
+                    color: #98A1B0;
+                    font-size: 11px;
+                    vertical-alignment: center;
+                }
+                Rectangle { horizontal-stretch: 1; background: transparent; }
+                Text {
+                    text: "900 × 520 px";
+                    color: #5E6675;
+                    font-size: 11px;
+                    vertical-alignment: center;
+                }
+            }
+        }
+    }
+}

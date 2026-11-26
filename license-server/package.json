@@ -1,0 +1,20 @@
+{
+  "name": "novora-license-server",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "description": "Novora Lizenzserver mit Admin-Oberflaeche (Node 22, MySQL als einzige npm-Abhaengigkeit)",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "test": "node --test test/license.test.mjs"
+  },
+  "engines": {
+    "node": ">=22"
+  },
+  "dependencies": {
+    "@simplewebauthn/browser": "^14.0.0",
+    "@simplewebauthn/server": "^14.1.0",
+    "mysql2": "^3.11.0"
+  }
+}

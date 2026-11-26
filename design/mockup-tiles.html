@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Novora – Tasten entfernen (Optionen)</title>
+<style>
+  :root{--bg:#05080B;--panel:#0F141B;--panel2:#131A23;--line:#1F2A37;--text:#EAF1F8;--dim:#8D9AAA;--accent:#22D3EE;--danger:#F87171}
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{background:radial-gradient(900px 520px at 18% 0%,rgba(34,211,238,.10),transparent 60%),var(--bg);color:var(--text);
+       font-family:'Inter','Segoe UI',system-ui,sans-serif;min-height:100vh;padding:22px 20px 40px;display:flex;flex-direction:column;align-items:center}
+  .head{width:100%;max-width:980px;display:flex;align-items:center;gap:12px;flex-wrap:wrap;margin-bottom:6px}
+  .head h1{font-size:16px;font-weight:650}
+  .head p{color:var(--dim);font-size:12px;max-width:640px;line-height:1.5}
+  .seg{display:flex;gap:6px;margin:16px 0 4px;flex-wrap:wrap;justify-content:center}
+  .seg button{border:1px solid var(--line);background:var(--panel);color:var(--dim);border-radius:9px;padding:8px 14px;font:inherit;font-size:12px;cursor:pointer}
+  .seg button.on{background:rgba(34,211,238,.14);border-color:rgba(34,211,238,.5);color:var(--text)}
+  .frame{margin-top:14px;padding:10px;border:1px solid var(--line);border-radius:20px;background:linear-gradient(160deg,#101720,#080B10)}
+  .screen{width:min(760px,92vw);aspect-ratio:16/9;position:relative;border-radius:12px;overflow:hidden;background:#080B10}
+  .topbar{height:38px;display:flex;align-items:center;gap:8px;padding:0 10px;border-bottom:1px solid var(--line);background:#0B1118}
+  .back{width:26px;height:26px;border-radius:8px;border:1px solid var(--line);background:#0F1720;display:none;align-items:center;justify-content:center;cursor:pointer}
+  .back svg{width:15px;height:15px;stroke:var(--text);fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+  .back.show{display:flex}
+  .title{font-size:11.5px;color:var(--dim)}
+  .pill{margin-left:auto;font-size:10px;color:var(--dim);border:1px solid var(--line);border-radius:999px;padding:3px 9px}
+  .grid{position:absolute;inset:38px 0 0 0;padding:10px;display:grid;grid-template-columns:repeat(4,1fr);grid-template-rows:repeat(3,1fr);gap:9px}
+  .tile{position:relative;border-radius:13px;border:1px solid rgba(255,255,255,.07);background:linear-gradient(150deg,#1A2330,#111823);
+        display:flex;align-items:center;justify-content:center;transition:transform .14s,border-color .14s,opacity .14s;cursor:pointer}
+  .tile img.ic-img{width:92%;height:92%;object-fit:contain;display:block;pointer-events:none}
+  .tile svg.ic{width:42%;height:42%;stroke:#BFD8E8;fill:none;stroke-width:1.7;stroke-linecap:round;stroke-linejoin:round}
+  .tile.empty{border-style:dashed;border-color:#22303F;background:transparent;cursor:default}
+  .tile.empty .hint{font-size:9.5px;color:#3C4C5D}
+  .tile .x{position:absolute;top:6px;right:6px;width:22px;height:22px;border-radius:50%;border:1px solid rgba(248,113,113,.55);
+           background:rgba(20,10,12,.85);color:#FCA5A5;font-size:13px;line-height:1;display:none;align-items:center;justify-content:center;cursor:pointer}
+  .tile:hover{border-color:rgba(34,211,238,.45)}
+  .variantA .tile:not(.empty):hover .x{display:flex}
+  .tile.dragging{opacity:.35}
+  .tile.drop{border-color:var(--danger);box-shadow:0 0 0 1px rgba(248,113,113,.5)}
+  .trash{position:absolute;left:50%;bottom:12px;transform:translate(-50%,140%);display:flex;align-items:center;gap:8px;
+         padding:9px 16px;border-radius:12px;border:1px dashed rgba(248,113,113,.55);background:rgba(30,10,14,.92);
+         color:#FCA5A5;font-size:11.5px;transition:transform .18s;pointer-events:none}
+  .trash.show{transform:translate(-50%,0)}
+  .trash.hot{background:rgba(74,12,18,.95);border-style:solid}
+  .menu{position:absolute;min-width:168px;padding:6px;border-radius:11px;border:1px solid var(--line);background:#0D131B;
+        box-shadow:0 22px 50px -18px #000;display:none;z-index:5}
+  .menu.show{display:block}
+  .menu button{display:flex;width:100%;align-items:center;gap:8px;border:0;background:transparent;color:var(--text);
+               font:inherit;font-size:11.5px;padding:7px 9px;border-radius:7px;cursor:pointer;text-align:left}
+  .menu button:hover{background:#16202B}
+  .menu button.del{color:#FCA5A5}
+  .menu button.del:hover{background:rgba(60,12,16,.7)}
+  .legend{max-width:760px;margin-top:14px;color:var(--dim);font-size:11.5px;line-height:1.65}
+  .legend b{color:var(--text)}
+  .foot{margin-top:12px;display:flex;gap:8px;flex-wrap:wrap}
+  .foot button{border:1px solid var(--line);background:var(--panel);color:var(--text);border-radius:9px;padding:8px 13px;font:inherit;font-size:11.5px;cursor:pointer}
+  .foot button:hover{border-color:var(--accent)}
+
+  /* Eigen-Satz (novora-icons): Strich-Glyphen, keine Fremd-Logos, keine Markenfarben */
+  .lib-item .lg svg,.mlogo svg{fill:none;stroke:currentColor;stroke-width:1.9;stroke-linecap:round;stroke-linejoin:round}
+  .mlogo{color:var(--text)}
+  .mrow.muted .mlogo{color:var(--dim)}
+  .mlogo svg{width:24px;height:24px}
+
+  .tile{aspect-ratio:1/1}
+  .tile.muted{box-shadow:inset 0 0 0 1.5px var(--danger),0 0 20px -10px var(--danger)}
+</style>
+</head>
+<body>
+
+<div class="head">
+  <h1>Novora · Tasten entfernen – 3 Varianten</h1>
+  <p>Raster bleibt <b>fest</b>: Tasten sitzen immer in ihrem Slot, nichts rutscht nach. Entfernen passiert gezielt – per X, per Ziehen in den Papierkorb oder per Menü.</p>
+</div>
+
+<div class="seg" id="seg">
+  <button data-v="A" class="on">A · X beim Drüberfahren</button>
+  <button data-v="B">B · In den Papierkorb ziehen</button>
+  <button data-v="C">C · Menü (Halten / Rechtsklick)</button>
+</div>
+
+<div class="frame">
+  <div class="screen" id="screen">
+    <div class="topbar">
+      <button class="back" id="back" title="Zurück"><svg viewBox="0 0 24 24"><path d="M15 6l-6 6 6 6"/></svg></button>
+      <span class="title" id="crumb">Home</span>
+      <span class="pill" id="pill">4 × 3</span>
+    </div>
+    <div class="grid" id="grid"></div>
+    <div class="trash" id="trash">🗑 Hier ablegen zum Entfernen</div>
+    <div class="menu" id="menu">
+      <button data-act="open">▶ Öffnen</button>
+      <button data-act="edit">✎ Bearbeiten</button>
+      <button data-act="dup">⧉ Duplizieren</button>
+      <button data-act="folder">📁 In Ordner verschieben</button>
+      <button data-act="del" class="del">✕ Entfernen</button>
+    </div>
+  </div>
+</div>
+
+<div class="legend" id="legend"></div>
+<div class="foot">
+  <button id="reset">Zurücksetzen</button>
+  <button id="toggleEmpty">Leere Slots ein-/ausblenden</button>
+</div>
+
+<script>
+const ICONS = {
+  mic: '<path d="M12 3a3 3 0 0 1 3 3v6a3 3 0 0 1-6 0V6a3 3 0 0 1 3-3z"/><path d="M19 11a7 7 0 0 1-14 0M12 18v3"/>',
+  volume: '<path d="M12 5v14M7 9v6M17 9v6M3 11v2M21 11v2"/>',
+  play: '<circle cx="12" cy="12" r="8"/><path d="M10 9l5 3-5 3z"/>',
+  browser: '<path d="M4 6h16v12H4z"/><path d="M4 10h16"/>',
+  timer: '<circle cx="12" cy="12" r="8"/><path d="M12 8v5l3 2"/>',
+  folder: '<path d="M3 7h6l2 2h10v10H3z"/>',
+  settings: '<circle cx="12" cy="12" r="3"/><path d="M12 3v2M12 19v2M3 12h2M19 12h2M5.6 5.6l1.4 1.4M17 17l1.4 1.4M18.4 5.6L17 7M7 17l-1.4 1.4"/>',
+  camera: '<rect x="3" y="6" width="18" height="13" rx="2"/><circle cx="12" cy="12.5" r="3.4"/>',
+  lock: '<rect x="5" y="10" width="14" height="10" rx="2"/><path d="M8 10V7a4 4 0 0 1 8 0v3"/>',
+  terminal: '<rect x="3" y="4" width="18" height="16" rx="2"/><path d="M7 10l3 2-3 2M13 14h4"/>',
+  music: '<circle cx="7" cy="17" r="2.5"/><circle cx="18" cy="15" r="2.5"/><path d="M9.5 17V7l11-2v8"/>',
+  game: '<rect x="2" y="7" width="20" height="10" rx="3"/><path d="M7 12h3M8.5 10.5v3M16 11h.01M18 13h.01"/>'
+};
+const IMGS = { mic:'mikrofon', music:'musik', browser:'browser', camera:'kamera', game:'spiele', terminal:'code' };
+const DATA = [
+  { k:'mic', label:'Mikro' }, { k:'volume', label:'Lauter' }, { k:'play', label:'Play' }, { k:'browser', label:'Browser' },
+  { k:'timer', label:'Timer' }, { k:'folder', label:'Musik', folder:true }, { k:'settings', label:'Einstellungen' }, { k:'camera', label:'Kamera' },
+  { k:'lock', label:'Sperren' }, { k:'terminal', label:'CMD' }, { k:'music', label:'Musik' }, { k:'game', label:'Spiele' }
+];
+const LEGEND = {
+  A: '<b>Variante A – X beim Drüberfahren.</b> Maus auf eine Taste → oben rechts erscheint ein kleines ✕. Klick entfernt nur diese Taste, der Slot bleibt leer (gestrichelt) und die anderen behalten ihren Platz. Vorteil: schnell und eindeutig. Nachteil: am Handy ohne Hover nicht sichtbar.',
+  B: '<b>Variante B – In den Papierkorb ziehen.</b> Taste greifen und nach unten ziehen; sobald die Bewegung startet, fährt ein Papierkorb ein. Loslassen darüber entfernt die Taste. Vorteil: fühlt sich direkt an, kein versehentliches Löschen. Nachteil: braucht eine Zieh-Geste.',
+  C: '<b>Variante C – Menü per Halten/Rechtsklick.</b> Taste gedrückt halten (Handy) oder Rechtsklick (PC) → kleines Menü mit Öffnen, Bearbeiten, Duplizieren, In Ordner verschieben, Entfernen. Vorteil: ein Ort für alle Aktionen inkl. Verschieben in Ordner. Nachteil: ein Klick mehr.'
+};
+
+let removed = new Set();
+let variant = 'A';
+let showEmpty = true;
+const grid = document.getElementById('grid');
+const trash = document.getElementById('trash');
+const menu = document.getElementById('menu');
+
+function render() {
+  grid.innerHTML = '';
+  document.getElementById('screen').className = 'screen variant' + variant;
+  DATA.forEach((d, i) => {
+    const gone = removed.has(i);
+    const el = document.createElement('div');
+    el.className = 'tile' + (gone ? ' empty' : '');
+    el.dataset.i = i;
+    el.title = d.label;
+    el.setAttribute('aria-label', d.label);
+    if (gone) {
+      el.innerHTML = showEmpty ? '<span class="hint">leer</span>' : '';
+    } else {
+      el.innerHTML = (IMGS[d.k]
+          ? `<img class="ic-img" src="logos/novora-apps/${IMGS[d.k]}-256.png" alt="">`
+          : `<svg class="ic" viewBox="0 0 24 24">${ICONS[d.k]}</svg>`)
+        + (variant === 'A' ? '<button class="x" title="Entfernen">✕</button>' : '');
+      bindTile(el, i);
+    }
+    grid.append(el);
+  });
+  document.getElementById('pill').textContent = `${DATA.length - removed.size} von ${DATA.length} belegt`;
+  document.getElementById('legend').innerHTML = LEGEND[variant];
+  document.getElementById('back').classList.toggle('show', false);
+}
+
+function bindTile(el, i) {
+  const x = el.querySelector('.x');
+  if (x) x.onclick = (e) => { e.stopPropagation(); remove(i); };
+
+  if (variant === 'B') {
+    el.draggable = true;
+    el.ondragstart = (e) => {
+      el.classList.add('dragging');
+      e.dataTransfer.effectAllowed = 'move';
+      try { e.dataTransfer.setData('text/plain', String(i)); } catch {}
+      trash.classList.add('show');
+    };
+    el.ondragend = () => { el.classList.remove('dragging'); trash.classList.remove('show', 'hot'); };
+    trash.ondragover = (e) => { e.preventDefault(); trash.classList.add('hot'); };
+    trash.ondragleave = () => trash.classList.remove('hot');
+    trash.ondrop = (e) => { e.preventDefault(); trash.classList.remove('hot', 'show'); remove(i); };
+  }
+
+  if (variant === 'C') {
+    let timer = null;
+    const open = (x, y) => {
+      menu.style.left = Math.min(x, grid.clientWidth - 180) + 'px';
+      menu.style.top = Math.min(y, grid.clientHeight - 190) + 'px';
+      menu.classList.add('show');
+      menu.dataset.i = i;
+    };
+    el.oncontextmenu = (e) => { e.preventDefault(); open(e.offsetX, e.offsetY); };
+    el.onpointerdown = (e) => {
+      timer = setTimeout(() => open(e.offsetX, e.offsetY), 480);
+    };
+    el.onpointerup = () => clearTimeout(timer);
+    el.onpointerleave = () => clearTimeout(timer);
+  }
+}
+
+function remove(i) { removed.add(i); render(); }
+function closeMenu() { menu.classList.remove('show'); }
+
+menu.onclick = (e) => {
+  const b = e.target.closest('button');
+  if (!b) return;
+  const i = Number(menu.dataset.i);
+  if (b.dataset.act === 'del') remove(i);
+  else if (b.dataset.act === 'folder') {
+    document.getElementById('crumb').textContent = 'Musik';
+    document.getElementById('back').classList.add('show');
+  }
+  closeMenu();
+};
+document.addEventListener('click', (e) => { if (!menu.contains(e.target)) closeMenu(); });
+document.getElementById('back').onclick = () => {
+  document.getElementById('crumb').textContent = 'Home';
+  document.getElementById('back').classList.remove('show');
+};
+document.getElementById('reset').onclick = () => { removed = new Set(); render(); };
+document.getElementById('toggleEmpty').onclick = () => { showEmpty = !showEmpty; render(); };
+document.querySelectorAll('#seg button').forEach((b) => {
+  b.onclick = () => {
+    document.querySelectorAll('#seg button').forEach((x) => x.classList.remove('on'));
+    b.classList.add('on');
+    variant = b.dataset.v;
+    closeMenu();
+    render();
+  };
+});
+
+render();
+</script>
+</body>
+</html>

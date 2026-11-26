@@ -1,0 +1,1189 @@
+<!doctype html>
+<html lang="de" data-theme="hardware">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Novora — Design Studio &amp; Interaktive Vorschau</title>
+<style>
+:root{
+  --font:-apple-system,BlinkMacSystemFont,"Segoe UI","Inter",system-ui,sans-serif;
+  --mono:ui-monospace,"SFMono-Regular","Cascadia Mono",Consolas,monospace;
+  --ok:#22C55E; --ok-soft:rgba(34,197,94,.12);
+  --danger:#EF4444; --danger-soft:rgba(239,68,68,.12);
+  --warn:#F59E0B;
+}
+
+/* 1. Studio Hardware (Braun / Teenage Engineering / Elgato Pro) */
+html[data-theme="hardware"]{
+  --bg:#111214; --bg-elev:#16181C; --panel:#181A1E; --surface:#1F2228; --surface-hover:#262A31;
+  --line:#282C34; --line-strong:#353B45;
+  --text:#F2F3F5; --text-2:#A0A6B0; --dim:#6D7480;
+  --accent:#FF5A1F; --accent-fg:#FFFFFF; --accent-soft:rgba(255,90,31,.13);
+  --tile-bg:linear-gradient(180deg,#23262D 0%,#1B1E24 100%);
+  --tile-shadow:inset 0 1px 0 rgba(255,255,255,.07),0 2px 5px rgba(0,0,0,.45);
+  --card-shadow:0 1px 2px rgba(0,0,0,.35);
+  --topbar-bg:#141518;
+}
+
+/* 2. Monolith (Linear / Raycast / Apple Pro) */
+html[data-theme="monolith"]{
+  --bg:#0A0B0D; --bg-elev:#101115; --panel:#121317; --surface:#181A20; --surface-hover:#20232B;
+  --line:#20222A; --line-strong:#2E323D;
+  --text:#F5F6F8; --text-2:#9CA1AC; --dim:#666C78;
+  --accent:#FFFFFF; --accent-fg:#0A0B0D; --accent-soft:rgba(255,255,255,.09);
+  --tile-bg:#15171C;
+  --tile-shadow:inset 0 1px 0 rgba(255,255,255,.04);
+  --card-shadow:none;
+  --topbar-bg:#0D0E11;
+}
+
+/* 3. Daylight Studio (Ableton / Figma Light) */
+html[data-theme="daylight"]{
+  --bg:#F4F4F1; --bg-elev:#ECECE8; --panel:#FFFFFF; --surface:#F8F8F6; --surface-hover:#EFEFEB;
+  --line:#E2E2DC; --line-strong:#CECEC6;
+  --text:#141518; --text-2:#52555E; --dim:#83868F;
+  --accent:#2563EB; --accent-fg:#FFFFFF; --accent-soft:rgba(37,99,235,.10);
+  --tile-bg:#FFFFFF;
+  --tile-shadow:0 1px 2px rgba(20,21,24,.06),0 4px 12px rgba(20,21,24,.04);
+  --card-shadow:0 1px 3px rgba(20,21,24,.05),0 6px 20px rgba(20,21,24,.03);
+  --topbar-bg:#FFFFFF;
+  --ok:#16A34A; --ok-soft:rgba(22,163,74,.10);
+  --danger:#DC2626; --danger-soft:rgba(220,38,38,.10);
+}
+
+/* 4. Carbon Amber (Warmes Studio-Pult) */
+html[data-theme="amber"]{
+  --bg:#141312; --bg-elev:#191816; --panel:#1C1B19; --surface:#24221F; --surface-hover:#2D2A26;
+  --line:#2C2A26; --line-strong:#3C3933;
+  --text:#F4EFE6; --text-2:#AFA79A; --dim:#7A7368;
+  --accent:#E5A93C; --accent-fg:#141312; --accent-soft:rgba(229,169,60,.13);
+  --tile-bg:linear-gradient(180deg,#272521 0%,#1E1D1A 100%);
+  --tile-shadow:inset 0 1px 0 rgba(255,245,225,.05),0 2px 5px rgba(0,0,0,.4);
+  --card-shadow:0 1px 2px rgba(0,0,0,.3);
+  --topbar-bg:#171614;
+}
+
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{height:100%;background:var(--bg);color:var(--text);font:13px/1.45 var(--font);-webkit-font-smoothing:antialiased;overflow:hidden}
+button,input,select{font:inherit;color:inherit}
+
+/* Studio Switcher Bar */
+.studio-bar{
+  height:48px;padding:0 16px;display:flex;align-items:center;gap:14px;
+  background:var(--topbar-bg);border-bottom:1px solid var(--line);flex:none;overflow-x:auto
+}
+.studio-id{display:flex;align-items:center;gap:8px;font-weight:700;font-size:12.5px;letter-spacing:-.01em;white-space:nowrap}
+.nmark{
+  width:22px;height:22px;border-radius:6px;background:var(--accent);color:var(--accent-fg);
+  display:grid;place-items:center;font-weight:800;font-size:12px;flex:none
+}
+.seg{display:inline-flex;background:var(--bg-elev);border:1px solid var(--line);border-radius:8px;padding:2px;gap:2px}
+.seg button{
+  border:0;background:transparent;color:var(--text-2);padding:4px 10px;border-radius:6px;
+  font-size:11.5px;font-weight:500;cursor:pointer;white-space:nowrap;transition:background .12s,color .12s
+}
+.seg button:hover{color:var(--text)}
+.seg button.on{background:var(--panel);color:var(--text);box-shadow:0 1px 2px rgba(0,0,0,.15);font-weight:600}
+
+.themes{display:flex;align-items:center;gap:6px;margin-left:auto}
+.th-btn{
+  display:inline-flex;align-items:center;gap:6px;padding:4px 10px;border-radius:7px;
+  border:1px solid var(--line);background:transparent;color:var(--text-2);
+  font-size:11.5px;font-weight:500;cursor:pointer;white-space:nowrap
+}
+.th-btn:hover{border-color:var(--line-strong);color:var(--text)}
+.th-btn.on{border-color:var(--accent);background:var(--accent-soft);color:var(--text);font-weight:600}
+.swatch{width:10px;height:10px;border-radius:50%;border:1px solid rgba(128,128,128,.35)}
+
+/* App Shell */
+.app-root{height:calc(100vh - 48px);display:flex;flex-direction:column;min-height:0}
+.view{display:none;flex:1;min-height:0}
+.view.on{display:flex;flex-direction:column}
+
+/* Common Controls */
+.btn{
+  display:inline-flex;align-items:center;justify-content:center;gap:6px;
+  padding:6px 12px;border-radius:7px;border:1px solid var(--line);background:var(--surface);
+  color:var(--text);font-size:12px;font-weight:500;cursor:pointer;white-space:nowrap;transition:background .12s,border-color .12s
+}
+.btn:hover{background:var(--surface-hover);border-color:var(--line-strong)}
+.btn.primary{background:var(--accent);border-color:var(--accent);color:var(--accent-fg);font-weight:600}
+.btn.primary:hover{opacity:.92}
+.btn.danger{color:var(--danger);border-color:rgba(239,68,68,.35);background:var(--danger-soft)}
+.btn.ok{color:var(--ok);border-color:rgba(34,197,94,.35);background:var(--ok-soft)}
+.btn.sm{padding:4px 9px;font-size:11px}
+
+.inp,select.inp{
+  width:100%;padding:6px 9px;border-radius:7px;border:1px solid var(--line);
+  background:var(--bg-elev);color:var(--text);font-size:12px;outline:none
+}
+.inp:focus{border-color:var(--accent)}
+
+.status-dot{width:6px;height:6px;border-radius:50%;background:var(--ok);display:inline-block;flex:none}
+.status-dot.off{background:var(--dim)}
+.pill{
+  display:inline-flex;align-items:center;gap:6px;padding:3px 9px;border-radius:999px;
+  border:1px solid var(--line);background:var(--surface);color:var(--text-2);font-size:11px;white-space:nowrap
+}
+.pill.ok{color:var(--ok);border-color:rgba(34,197,94,.3);background:var(--ok-soft)}
+
+/* ================= 1. PC-EDITOR ================= */
+.winbar{
+  height:44px;padding:0 16px;display:flex;align-items:center;gap:10px;
+  background:var(--panel);border-bottom:1px solid var(--line);flex:none
+}
+.winbar-title{font-weight:650;font-size:13px}
+.winbar-sub{font-size:11px;color:var(--dim)}
+.ed-shell{display:flex;flex:1;min-height:0}
+.rail{
+  width:68px;background:var(--bg-elev);border-right:1px solid var(--line);
+  padding:10px 6px;display:flex;flex-direction:column;gap:4px;flex:none
+}
+.rail-btn{
+  position:relative;display:flex;flex-direction:column;align-items:center;gap:4px;
+  padding:9px 4px;border-radius:8px;border:1px solid transparent;background:transparent;
+  color:var(--dim);font-size:10px;font-weight:500;cursor:pointer
+}
+.rail-btn svg{width:17px;height:17px;stroke:currentColor;fill:none;stroke-width:1.75;stroke-linecap:round;stroke-linejoin:round}
+.rail-btn:hover{color:var(--text);background:var(--surface)}
+.rail-btn.on{color:var(--text);background:var(--panel);border-color:var(--line)}
+.rail-btn.on::before{
+  content:"";position:absolute;left:-6px;top:9px;bottom:9px;width:2.5px;border-radius:2px;background:var(--accent)
+}
+.rail-badge{
+  position:absolute;top:5px;right:7px;min-width:15px;height:15px;border-radius:99px;
+  background:var(--accent);color:var(--accent-fg);font-size:9px;font-weight:700;display:grid;place-items:center;padding:0 4px
+}
+
+.pages-col{
+  width:190px;background:var(--panel);border-right:1px solid var(--line);
+  padding:12px 10px;display:flex;flex-direction:column;gap:4px;flex:none
+}
+.col-lbl{font-size:10px;text-transform:uppercase;letter-spacing:.08em;color:var(--dim);padding:4px 8px 6px;font-weight:600}
+.pg-item{
+  display:flex;align-items:center;justify-content:space-between;padding:7px 9px;border-radius:7px;
+  border:0;background:transparent;color:var(--text-2);font-size:12px;cursor:pointer;text-align:left;width:100%
+}
+.pg-item:hover{background:var(--surface);color:var(--text)}
+.pg-item.on{background:var(--surface);color:var(--text);font-weight:600;border:1px solid var(--line)}
+.pg-meta{font-size:10px;color:var(--dim);font-family:var(--mono)}
+.add-pg{
+  margin-top:8px;padding:7px;border-radius:7px;border:1px dashed var(--line-strong);
+  background:transparent;color:var(--text-2);font-size:11.5px;cursor:pointer
+}
+.add-pg:hover{border-color:var(--accent);color:var(--text)}
+
+.canvas{flex:1;padding:18px 24px;display:flex;flex-direction:column;gap:14px;min-width:0;position:relative;overflow:auto}
+.canvas-head{display:flex;align-items:center;gap:10px;flex-wrap:wrap}
+.stepper{display:inline-flex;align-items:center;border:1px solid var(--line);border-radius:7px;background:var(--panel);overflow:hidden}
+.stepper button{width:26px;height:26px;border:0;background:transparent;cursor:pointer;color:var(--text-2)}
+.stepper button:hover{background:var(--surface-hover);color:var(--text)}
+.stepper span{min-width:26px;text-align:center;font-size:12px;font-weight:600;font-family:var(--mono)}
+
+.grid-wrap{flex:1;display:grid;place-items:center;min-height:0}
+.deck-grid{display:grid;gap:10px;justify-content:center}
+.tile{
+  width:94px;height:94px;border-radius:14px;background:var(--tile-bg);border:1px solid var(--line);
+  box-shadow:var(--tile-shadow);display:flex;align-items:center;justify-content:center;
+  position:relative;cursor:pointer;transition:transform .09s ease,border-color .12s;user-select:none
+}
+.tile:hover{border-color:var(--line-strong)}
+.tile:active{transform:scale(.96)}
+.tile.sel{border-color:var(--accent);box-shadow:var(--tile-shadow),0 0 0 2px var(--accent-soft)}
+.tile.active-state{border-color:var(--accent)}
+.tile.active-state svg.ic{stroke:var(--accent)}
+.tile.rec-state{border-color:var(--danger)}
+.tile.ghost{background:transparent;border:1px dashed var(--line-strong);box-shadow:none}
+.tile.ghost svg{width:18px;height:18px;stroke:var(--dim);opacity:.55}
+.tile svg.ic{width:32px;height:32px;stroke:var(--text);fill:none;stroke-width:1.7;stroke-linecap:round;stroke-linejoin:round}
+.tile .rec-dot{position:absolute;top:8px;right:8px;width:7px;height:7px;border-radius:50%;background:var(--danger)}
+.tile .vol-num{position:absolute;right:8px;bottom:7px;font:700 10.5px var(--mono);color:var(--accent)}
+.tile .ring{position:absolute;inset:7px;width:calc(100% - 14px);height:calc(100% - 14px);transform:rotate(-90deg);pointer-events:none}
+.tile .act-tag{
+  position:absolute;left:6px;bottom:5px;max-width:calc(100% - 12px);overflow:hidden;text-overflow:ellipsis;white-space:nowrap;
+  font-size:9px;color:var(--text-2);background:var(--bg);border:1px solid var(--line);border-radius:4px;padding:1px 4px
+}
+.app-badge{
+  width:42px;height:42px;border-radius:10px;display:grid;place-items:center;font-weight:700;font-size:14px;
+  letter-spacing:-.02em;color:#fff;flex:none
+}
+
+.insp{
+  width:328px;background:var(--panel);border-left:1px solid var(--line);
+  padding:14px 16px;display:flex;flex-direction:column;gap:12px;overflow-y:auto;flex:none
+}
+.insp-prev{
+  display:flex;align-items:center;gap:12px;padding:10px;border-radius:10px;
+  background:var(--surface);border:1px solid var(--line)
+}
+.insp-prev .tile{width:58px;height:58px;border-radius:11px;cursor:default}
+.insp-prev .tile svg.ic{width:24px;height:24px}
+.insp-prev .app-badge{width:32px;height:32px;font-size:12px;border-radius:8px}
+.fld{display:flex;flex-direction:column;gap:5px}
+.fld label{font-size:11px;font-weight:600;color:var(--text-2)}
+.lib-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:6px;max-height:210px;overflow-y:auto}
+.lib-cell{
+  display:flex;flex-direction:column;align-items:center;gap:5px;padding:8px 4px;border-radius:8px;
+  border:1px solid var(--line);background:var(--surface);cursor:pointer;text-align:center
+}
+.lib-cell:hover{border-color:var(--line-strong);background:var(--surface-hover)}
+.lib-cell.on{border-color:var(--accent);background:var(--accent-soft)}
+.lib-cell .app-badge{width:28px;height:28px;font-size:11px;border-radius:7px}
+.lib-cell svg.ic{width:22px;height:22px;stroke:var(--text);fill:none;stroke-width:1.7;stroke-linecap:round;stroke-linejoin:round}
+.lib-cell span{font-size:10px;color:var(--text-2);max-width:82px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+
+/* ================= 2. VERBINDEN ================= */
+.conn-scroll{flex:1;overflow-y:auto;padding:24px 32px;display:flex;flex-direction:column;gap:18px}
+.conn-inner{max-width:1040px;width:100%;margin:0 auto;display:flex;flex-direction:column;gap:18px}
+.conn-top{display:flex;align-items:flex-end;justify-content:space-between;gap:16px;flex-wrap:wrap}
+.conn-top h1{font-size:20px;font-weight:700;letter-spacing:-.02em}
+.conn-top p{font-size:12.5px;color:var(--text-2);margin-top:2px}
+.card{
+  background:var(--panel);border:1px solid var(--line);border-radius:12px;
+  padding:20px;box-shadow:var(--card-shadow)
+}
+.qr-two{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+.qr-single{display:grid;grid-template-columns:1.1fr .9fr;gap:16px;align-items:start}
+.qr-card-h{display:flex;align-items:baseline;justify-content:space-between;margin-bottom:14px}
+.qr-card-h h2{font-size:14.5px;font-weight:650}
+.qr-card-h span{font-size:11px;color:var(--dim)}
+.qr-stage{display:flex;flex-direction:column;align-items:center;gap:12px;padding:6px 0}
+.qr-frame{background:#FFFFFF;padding:12px;border-radius:10px;border:1px solid rgba(0,0,0,.08);display:grid;place-items:center}
+.pin-boxes{display:flex;gap:6px}
+.pin-digit{
+  width:34px;height:40px;border-radius:8px;border:1px solid var(--line-strong);background:var(--bg-elev);
+  display:grid;place-items:center;font:700 18px var(--mono);color:var(--text)
+}
+.mono-url{
+  font:500 11px var(--mono);color:var(--text-2);background:var(--bg-elev);
+  border:1px solid var(--line);border-radius:7px;padding:6px 10px;max-width:100%;overflow:hidden;text-overflow:ellipsis;white-space:nowrap
+}
+.conn-bot{display:grid;grid-template-columns:1.15fr .85fr;gap:16px}
+.row-line{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:10px 0;border-bottom:1px solid var(--line)}
+.row-line:last-child{border-bottom:0;padding-bottom:0}
+.row-line:first-child{padding-top:0}
+.switch{
+  width:36px;height:20px;border-radius:99px;background:var(--line-strong);border:0;position:relative;cursor:pointer;flex:none;transition:background .15s
+}
+.switch.on{background:var(--accent)}
+.switch::after{
+  content:"";position:absolute;top:2px;left:2px;width:16px;height:16px;border-radius:50%;background:#fff;transition:transform .15s
+}
+.switch.on::after{transform:translateX(16px)}
+.req-item{
+  display:flex;align-items:center;gap:10px;padding:10px 12px;border-radius:9px;
+  background:var(--surface);border:1px solid var(--line);margin-top:10px
+}
+
+/* ================= 3. HANDY & TABLET ================= */
+.mob-wrap{flex:1;overflow:auto;padding:24px;display:flex;flex-direction:column;align-items:center;gap:18px}
+.phone-case{
+  width:820px;max-width:100%;height:396px;border-radius:30px;background:#08090B;border:3px solid var(--line-strong);
+  padding:12px 18px;display:flex;flex-direction:column;gap:8px;box-shadow:0 24px 64px rgba(0,0,0,.45);position:relative
+}
+.tablet-case{
+  width:420px;max-width:100%;height:560px;border-radius:22px;background:#08090B;border:3px solid var(--line-strong);
+  padding:14px;display:flex;flex-direction:column;gap:10px;box-shadow:0 24px 64px rgba(0,0,0,.45)
+}
+.dev-screen{
+  flex:1;background:var(--bg);border-radius:18px;padding:10px 14px;display:flex;flex-direction:column;gap:8px;overflow:hidden;position:relative
+}
+.dev-top{display:flex;align-items:center;gap:8px;height:28px;flex:none}
+.dev-grid{flex:1;display:grid;gap:8px;align-content:center;justify-content:center}
+.dev-grid .tile{width:100%;height:auto;aspect-ratio:1/1;border-radius:13px}
+.dev-bot{display:flex;align-items:center;justify-content:space-between;height:20px;flex:none;font-size:10.5px;color:var(--dim)}
+.dots{display:flex;gap:5px;align-items:center}
+.dots button{width:6px;height:6px;border-radius:99px;border:0;background:var(--line-strong);cursor:pointer}
+.dots button.on{width:18px;background:var(--accent)}
+
+.mixer-list{flex:1;overflow-y:auto;display:flex;flex-direction:column;gap:8px;padding:4px 0}
+.mix-row{
+  display:flex;align-items:center;gap:12px;padding:8px 12px;border-radius:10px;
+  background:var(--panel);border:1px solid var(--line)
+}
+.mix-row input[type=range]{flex:1;accent-color:var(--accent);cursor:pointer}
+
+.osd-toast{
+  position:absolute;left:50%;bottom:34px;transform:translateX(-50%);
+  background:var(--panel);border:1px solid var(--line-strong);border-radius:99px;
+  padding:5px 14px;font-size:11.5px;font-weight:600;box-shadow:0 8px 24px rgba(0,0,0,.35);
+  pointer-events:none;opacity:0;transition:opacity .15s
+}
+.osd-toast.show{opacity:1}
+
+/* ================= 4. LIZENZ-DASHBOARD ================= */
+.admin-nav{
+  height:52px;padding:0 28px;background:var(--panel);border-bottom:1px solid var(--line);
+  display:flex;align-items:center;gap:18px;flex:none
+}
+.admin-links{display:flex;gap:4px}
+.admin-links button{
+  border:0;background:transparent;color:var(--text-2);padding:6px 11px;border-radius:7px;font-size:12px;font-weight:500;cursor:pointer
+}
+.admin-links button.on{background:var(--surface);color:var(--text);font-weight:600;border:1px solid var(--line)}
+.admin-body{flex:1;overflow-y:auto;padding:24px 28px}
+.admin-inner{max-width:1080px;margin:0 auto;display:flex;flex-direction:column;gap:18px}
+.kpi-strip{display:grid;grid-template-columns:repeat(4,1fr);gap:14px}
+.kpi-box{background:var(--panel);border:1px solid var(--line);border-radius:10px;padding:14px 16px}
+.kpi-box .k{font-size:11px;color:var(--dim)}
+.kpi-box .v{font-size:24px;font-weight:700;margin-top:3px;font-variant-numeric:tabular-nums}
+.kpi-box .s{font-size:11px;color:var(--text-2);margin-top:2px}
+.tbl-card{background:var(--panel);border:1px solid var(--line);border-radius:10px;overflow:hidden}
+table{width:100%;border-collapse:collapse;font-size:12px}
+th,td{padding:11px 14px;text-align:left;border-bottom:1px solid var(--line)}
+th{font-size:10.5px;text-transform:uppercase;letter-spacing:.06em;color:var(--dim);background:var(--bg-elev);font-weight:600}
+tr:last-child td{border-bottom:0}
+tr:hover td{background:var(--surface)}
+
+/* ================= 5. WEBSITE ================= */
+.web-scroll{flex:1;overflow-y:auto}
+.web-head{
+  height:60px;padding:0 48px;display:flex;align-items:center;gap:24px;
+  border-bottom:1px solid var(--line);background:var(--panel);position:sticky;top:0;z-index:10
+}
+.web-nav-links{display:flex;gap:22px;font-size:12.5px;color:var(--text-2)}
+.web-hero{
+  max-width:1120px;margin:0 auto;padding:56px 32px 42px;
+  display:grid;grid-template-columns:1fr 1.05fr;gap:48px;align-items:center
+}
+.web-hero h1{font-size:48px;line-height:1.04;letter-spacing:-.03em;margin:14px 0 16px}
+.web-hero p{font-size:15px;line-height:1.6;color:var(--text-2);max-width:46ch;margin-bottom:24px}
+.web-strip{
+  max-width:1120px;margin:0 auto;padding:0 32px 48px;
+  display:grid;grid-template-columns:repeat(3,1fr);gap:16px
+}
+.web-card{background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:20px}
+.web-card h3{font-size:14.5px;margin-bottom:6px}
+.web-card p{font-size:12.5px;color:var(--text-2);line-height:1.5}
+
+/* Modal */
+.modal-bg{
+  position:fixed;inset:0;background:rgba(0,0,0,.55);display:none;place-items:center;z-index:200;padding:20px
+}
+.modal-bg.open{display:grid}
+.modal{
+  width:100%;max-width:420px;background:var(--panel);border:1px solid var(--line-strong);
+  border-radius:12px;padding:20px;display:flex;flex-direction:column;gap:14px;box-shadow:0 24px 60px rgba(0,0,0,.5)
+}
+.toast-global{
+  position:fixed;right:20px;bottom:20px;background:var(--panel);border:1px solid var(--line-strong);
+  color:var(--text);padding:9px 14px;border-radius:9px;font-size:12px;font-weight:500;
+  box-shadow:0 10px 30px rgba(0,0,0,.35);opacity:0;transform:translateY(6px);transition:.16s;pointer-events:none;z-index:210
+}
+.toast-global.show{opacity:1;transform:translateY(0)}
+</style>
+</head>
+<body>
+
+<div class="studio-bar">
+  <div class="studio-id"><span class="nmark">N</span><span>Novora Design-Studio</span></div>
+  <div class="seg" id="viewSwitch">
+    <button class="on" data-view="editor">1. PC-Editor</button>
+    <button data-view="connect">2. Verbinden</button>
+    <button data-view="mobile">3. Handy &amp; Tablet</button>
+    <button data-view="admin">4. Lizenz-Admin</button>
+    <button data-view="website">5. Website</button>
+  </div>
+  <div class="themes" id="themeSwitch" title="Design-Richtung live wechseln">
+    <button class="th-btn on" data-theme="hardware"><span class="swatch" style="background:#FF5A1F"></span>Studio Hardware</button>
+    <button class="th-btn" data-theme="monolith"><span class="swatch" style="background:#FFFFFF"></span>Monolith</button>
+    <button class="th-btn" data-theme="daylight"><span class="swatch" style="background:#2563EB"></span>Daylight (Hell)</button>
+    <button class="th-btn" data-theme="amber"><span class="swatch" style="background:#E5A93C"></span>Carbon Amber</button>
+  </div>
+</div>
+
+<div class="app-root">
+
+  <!-- ==================== 1. PC-EDITOR ==================== -->
+  <section class="view on" id="view-editor">
+    <header class="winbar">
+      <span class="nmark">N</span>
+      <div><span class="winbar-title">Novora</span> <span class="winbar-sub">· PC-Editor</span></div>
+      <span class="pill ok" id="edSaved"><span class="status-dot"></span> gespeichert</span>
+      <div style="flex:1"></div>
+      <span class="pill">v0.5.0</span>
+      <span class="pill" id="edLiveCount">1 Gerät live</span>
+      <button class="btn sm" onclick="switchView('mobile')">Handy-Vorschau</button>
+      <button class="btn primary sm" onclick="notify('Layout gespeichert')">Speichern</button>
+    </header>
+    <div class="ed-shell">
+      <nav class="rail" aria-label="Bereiche">
+        <button class="rail-btn on" onclick="switchView('editor')">
+          <svg viewBox="0 0 24 24"><rect x="3.5" y="4" width="17" height="16" rx="2.5"/><path d="M3.5 9h17M9 9v11"/></svg>
+          <span>Editor</span>
+        </button>
+        <button class="rail-btn" onclick="switchView('connect')">
+          <svg viewBox="0 0 24 24"><path d="M5 12a7 7 0 0 1 14 0"/><path d="M2 12a10 10 0 0 1 20 0"/><circle cx="12" cy="18" r="1.5"/></svg>
+          <span>Verbinden</span>
+          <span class="rail-badge" id="railReqBadge">1</span>
+        </button>
+        <button class="rail-btn" onclick="notify('Tab „Geräte“ im Editor')">
+          <svg viewBox="0 0 24 24"><rect x="7" y="2.5" width="10" height="19" rx="2.5"/><path d="M10.5 18.5h3"/></svg>
+          <span>Geräte</span>
+          <span class="rail-badge" id="railDevBadge">1</span>
+        </button>
+        <button class="rail-btn" onclick="switchView('admin')">
+          <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M12 2.5v3M12 18.5v3M2.5 12h3M18.5 12h3"/></svg>
+          <span>Einstell.</span>
+        </button>
+      </nav>
+
+      <aside class="pages-col">
+        <div class="col-lbl">Seiten</div>
+        <div id="edPageList"></div>
+        <button class="add-pg" id="addPageBtn">+ Neue Seite</button>
+      </aside>
+
+      <main class="canvas">
+        <div class="canvas-head">
+          <h2 style="font-size:15px;font-weight:650" id="edPageTitle">Home</h2>
+          <span class="pill" id="edGridMeta">5 × 4</span>
+          <div style="flex:1"></div>
+          <span style="font-size:11px;color:var(--dim)">Spalten</span>
+          <div class="stepper">
+            <button onclick="stepGrid('cols',-1)">−</button>
+            <span id="edColsVal">5</span>
+            <button onclick="stepGrid('cols',1)">+</button>
+          </div>
+          <span style="font-size:11px;color:var(--dim);margin-left:6px">Zeilen</span>
+          <div class="stepper">
+            <button onclick="stepGrid('rows',-1)">−</button>
+            <span id="edRowsVal">4</span>
+            <button onclick="stepGrid('rows',1)">+</button>
+          </div>
+        </div>
+        <div class="grid-wrap"><div class="deck-grid" id="edGrid"></div></div>
+        <div style="font-size:11px;color:var(--dim);text-align:center">
+          Kein „Module“-Ballast · Nur echte PC-App-Icons + Strich-Symbole · Taste anklicken zum Belegen
+        </div>
+        <div class="osd-toast" id="edOsd"></div>
+      </main>
+
+      <aside class="insp">
+        <div style="display:flex;align-items:center;justify-content:space-between">
+          <span style="font-size:11px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--dim)">Taste <span id="inspNo" style="color:var(--accent)">1</span></span>
+          <span style="font-size:11px;color:var(--dim)" id="inspKind">Installierte App</span>
+        </div>
+        <div class="insp-prev">
+          <div class="tile" id="inspTilePrev"></div>
+          <div style="min-width:0">
+            <b style="font-size:13px;display:block;overflow:hidden;text-overflow:ellipsis;white-space:nowrap" id="inspTitle">Discord</b>
+            <span style="font-size:11px;color:var(--text-2)" id="inspSub">Startet direkt am PC</span>
+          </div>
+        </div>
+
+        <div class="fld">
+          <label>Icon / Programm (nur 3 Reiter)</label>
+          <div class="seg" id="libTabs" style="width:100%">
+            <button class="on" data-tab="software" style="flex:1">Software</button>
+            <button data-tab="browser" style="flex:1">Browser</button>
+            <button data-tab="symbols" style="flex:1">Symbole</button>
+          </div>
+          <div style="display:flex;gap:6px;margin-top:4px">
+            <input class="inp" id="libSearch" placeholder="Installierte Apps durchsuchen …">
+            <button class="btn sm" onclick="notify('PC-Apps neu gescannt (25 gefunden)')">Scan</button>
+          </div>
+          <div class="lib-grid" id="libGrid"></div>
+          <button class="btn sm" id="fgBtn" style="margin-top:4px;justify-content:center">Aktives Fenster + Icon übernehmen (3s)</button>
+        </div>
+
+        <div class="fld">
+          <label>Aktion</label>
+          <select class="inp" id="inspAction">
+            <option value="app">Installierte App öffnen</option>
+            <option value="hotkey">Tastenkombination</option>
+            <option value="media">Mediensteuerung</option>
+            <option value="volume">Lautstärke</option>
+            <option value="mic">Mikrofon stumm</option>
+            <option value="record">Aufnahme an/aus</option>
+            <option value="page">Seite wechseln</option>
+            <option value="system">System / Energie</option>
+          </select>
+        </div>
+        <div class="fld">
+          <label>Ziel / Parameter</label>
+          <input class="inp" id="inspTarget" style="font-family:var(--mono);font-size:11px" value="C:\Users\torbe\AppData\Local\Discord\Discord.exe">
+        </div>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:auto;padding-top:6px">
+          <button class="btn" id="testTileBtn">▶ Testen</button>
+          <button class="btn danger" id="delTileBtn">Entfernen</button>
+        </div>
+      </aside>
+    </div>
+  </section>
+
+  <!-- ==================== 2. VERBINDEN ==================== -->
+  <section class="view" id="view-connect">
+    <div class="conn-scroll">
+      <div class="conn-inner">
+        <div class="conn-top">
+          <div>
+            <h1>Handy &amp; Tablet verbinden</h1>
+            <p>Aufgeräumt, ohne Fake-Graphen: App direkt vom Server laden oder QR/PIN zum Koppeln scannen.</p>
+          </div>
+          <div style="display:flex;align-items:center;gap:10px;flex-wrap:wrap">
+            <div class="seg" id="connLayoutSwitch" title="Vergleich der zwei Verbinden-Ideen">
+              <button class="on" data-cl="two">Variante 1: Zwei QR nebeneinander</button>
+              <button data-cl="one">Variante 2: Ein zentraler QR (Tabs)</button>
+            </div>
+            <span class="pill ok"><span class="status-dot"></span> 192.168.1.10:47830</span>
+          </div>
+        </div>
+
+        <div id="connHeroArea"></div>
+
+        <div class="conn-bot">
+          <div class="card">
+            <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:12px">
+              <h2 style="font-size:14px;font-weight:650">Kopplung &amp; Anfragen</h2>
+              <span class="pill" id="reqCounterPill">1 offen</span>
+            </div>
+            <div class="row-line">
+              <div><b style="font-size:12.5px">Automatisch im WLAN koppeln</b><div style="font-size:11px;color:var(--text-2)">Bekannte Geräte verbinden ohne erneute PIN</div></div>
+              <button class="switch on" onclick="this.classList.toggle('on')"></button>
+            </div>
+            <div class="row-line">
+              <div><b style="font-size:12.5px">Neue Geräte einmalig bestätigen</b><div style="font-size:11px;color:var(--text-2)">Unbekannte Handys erscheinen hier sofort zur Freigabe</div></div>
+              <button class="switch on" onclick="this.classList.toggle('on')"></button>
+            </div>
+            <div id="pendingBox"></div>
+          </div>
+
+          <div class="card">
+            <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:12px">
+              <h2 style="font-size:14px;font-weight:650">Netzwerk &amp; gekoppelte Geräte</h2>
+              <button class="btn sm" id="pingBtn">Latenz messen</button>
+            </div>
+            <div class="row-line"><span style="color:var(--text-2)">PC im WLAN</span><div style="display:flex;align-items:center;gap:6px"><span style="font-family:var(--mono);font-size:11.5px">192.168.1.10:47830</span><button class="btn sm" onclick="notify('Adresse kopiert')">Kopieren</button></div></div>
+            <div class="row-line"><span style="color:var(--text-2)">UDP Discovery</span><span>Port 47831 · aktiv</span></div>
+            <div class="row-line"><span style="color:var(--text-2)">Rundlauf-Latenz</span><span id="latVal" style="color:var(--ok);font-weight:600;font-family:var(--mono)">6.2 ms</span></div>
+            <div class="row-line"><span style="color:var(--text-2)">Verbundene Geräte</span><span id="devListTxt">1 Gerät (Mein PC-Handy)</span></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ==================== 3. HANDY & TABLET ==================== -->
+  <section class="view" id="view-mobile">
+    <div class="mob-wrap">
+      <div style="display:flex;align-items:center;gap:12px;flex-wrap:wrap;justify-content:center">
+        <div class="seg" id="deviceClassSwitch">
+          <button class="on" data-dev="phone">Smartphone · Querformat-Pflicht</button>
+          <button data-dev="tablet">Tablet · Hoch- &amp; Querformat erlaubt</button>
+        </div>
+        <div class="seg" id="mobilePageSwitch">
+          <button class="on" data-mp="home">Deck (Home 6×3)</button>
+          <button data-mp="mixer">Live-Mixer</button>
+        </div>
+      </div>
+
+      <div class="phone-case" id="deviceShell">
+        <div class="dev-screen">
+          <div class="dev-top">
+            <span class="nmark" style="width:20px;height:20px;font-size:11px">N</span>
+            <b style="font-size:12px">Novora</b>
+            <span style="font-size:11px;color:var(--dim)" id="mobSub">PC · Home</span>
+            <div style="flex:1"></div>
+            <span class="pill ok" style="padding:2px 8px;font-size:10px"><span class="status-dot"></span> 6 ms</span>
+          </div>
+          <div id="mobViewport" style="flex:1;min-height:0;display:flex;flex-direction:column"></div>
+          <div class="dev-bot">
+            <div class="dots">
+              <button class="on" onclick="setMobPage('home')"></button>
+              <button onclick="setMobPage('mixer')"></button>
+            </div>
+            <span id="mobMeta">Home · 6 × 3 · Klick auf Tasten &amp; Regler testen</span>
+          </div>
+          <div class="osd-toast" id="mobOsd"></div>
+        </div>
+      </div>
+
+      <div style="font-size:12px;color:var(--text-2);text-align:center" id="mobNote">
+        Auf Smartphones sperrt die Android-APK direkt auf <b>Querformat (SENSOR_LANDSCAPE)</b>. Auf Tablets bleiben Hoch- &amp; Querformat frei.
+      </div>
+    </div>
+  </section>
+
+  <!-- ==================== 4. LIZENZ-ADMIN ==================== -->
+  <section class="view" id="view-admin">
+    <header class="admin-nav">
+      <div style="display:flex;align-items:center;gap:9px;font-weight:700"><span class="nmark">N</span><span>NOVORA <span style="color:var(--dim);font-weight:500">/ Lizenzserver</span></span></div>
+      <div class="admin-links">
+        <button onclick="notify('Dashboard-Übersicht')">Dashboard</button>
+        <button class="on">Schlüssel</button>
+        <button onclick="openNewKeyModal()">Neu</button>
+        <button onclick="notify('Audit-Protokoll')">Audit</button>
+        <button onclick="notify('Sicherheit: 2FA & Passkeys')">Sicherheit</button>
+      </div>
+      <div style="flex:1"></div>
+      <span class="pill ok"><span class="status-dot"></span> Ed25519 aktiv</span>
+      <span style="font-size:12px;color:var(--dim)">admin@novora.de</span>
+    </header>
+    <div class="admin-body">
+      <div class="admin-inner">
+        <div style="display:flex;align-items:flex-end;justify-content:space-between;gap:12px;flex-wrap:wrap">
+          <div>
+            <h1 style="font-size:20px;font-weight:700">Lizenzschlüssel</h1>
+            <p style="font-size:12px;color:var(--text-2);margin-top:2px">Bereinigte Liste: nur selbst erstellte Schlüssel · Mehrfachauswahl zum schnellen Löschen</p>
+          </div>
+          <div style="display:flex;gap:8px">
+            <button class="btn" onclick="notify('CSV exportiert')">CSV-Export</button>
+            <button class="btn primary" onclick="openNewKeyModal()">+ Neuer Schlüssel</button>
+          </div>
+        </div>
+
+        <div class="kpi-strip">
+          <div class="kpi-box"><div class="k">Eigene Schlüssel</div><div class="v" id="kpiTotal">3</div><div class="s">alle aktiv</div></div>
+          <div class="kpi-box"><div class="k">Belegte Geräte</div><div class="v" id="kpiSeats">2</div><div class="s">von 5 Plätzen</div></div>
+          <div class="kpi-box"><div class="k">Läuft bald ab</div><div class="v">0</div><div class="s">nächste 30 Tage</div></div>
+          <div class="kpi-box"><div class="k">Offline-Token</div><div class="v" style="font-size:17px;margin-top:7px">7 Tage · 6h Sync</div><div class="s">Ed25519 signiert</div></div>
+        </div>
+
+        <div style="display:flex;gap:8px;align-items:center;flex-wrap:wrap">
+          <input class="inp" id="keySearch" placeholder="Suche nach Schlüssel, Notiz oder Kunde …" style="flex:1;min-width:220px">
+          <select class="inp" id="keyPlanFilter" style="width:160px">
+            <option value="">Alle Pläne</option>
+            <option value="Standard">Standard</option>
+            <option value="Pro">Pro</option>
+            <option value="Team">Team</option>
+          </select>
+          <button class="btn danger" id="bulkDelBtn" disabled>Ausgewählte löschen (0)</button>
+        </div>
+
+        <div class="tbl-card">
+          <table>
+            <thead>
+              <tr>
+                <th style="width:36px"><input type="checkbox" id="chkAll"></th>
+                <th>Schlüssel</th><th>Plan</th><th>Plätze</th><th>Status</th><th>Gültig bis</th><th>Notiz</th><th>Aktion</th>
+              </tr>
+            </thead>
+            <tbody id="keysTbody"></tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ==================== 5. WEBSITE ==================== -->
+  <section class="view" id="view-website">
+    <div class="web-scroll">
+      <header class="web-head">
+        <div style="display:flex;align-items:center;gap:9px;font-weight:700;font-size:15px"><span class="nmark">N</span><span>novora</span></div>
+        <div style="flex:1"></div>
+        <nav class="web-nav-links"><span>Funktionen</span><span>Ablauf</span><span>Sicherheit</span><span>Lizenz</span></nav>
+        <button class="btn primary" onclick="switchView('connect')">Download</button>
+      </header>
+      <div class="web-hero">
+        <div>
+          <span class="pill">Windows 10/11 · Android 8+ · Nur im WLAN</span>
+          <h1>Dein PC.<br>In klaren Tasten.</h1>
+          <p>Handy (Querformat) oder Tablet als direktes Steuerpult: echte Programm-Icons direkt vom PC ausgelesen, Live-Audio-Mixer und Hotkeys. Kein Account, keine Cloud – aktiviert per eigenem Lizenzschlüssel.</p>
+          <div style="display:flex;gap:10px">
+            <button class="btn primary" style="padding:10px 18px" onclick="notify('Download gestartet: NovoraSetup.exe')">Windows &amp; APK laden</button>
+            <button class="btn" style="padding:10px 16px" onclick="switchView('mobile')">Live-Vorschau ansehen</button>
+          </div>
+        </div>
+        <div class="phone-case" style="width:100%;height:280px;border-radius:24px;padding:10px 14px">
+          <div class="dev-screen">
+            <div class="dev-top">
+              <span class="nmark" style="width:18px;height:18px;font-size:10px">N</span>
+              <b style="font-size:11px">Novora · Home</b>
+              <div style="flex:1"></div>
+              <span class="pill ok" style="padding:2px 7px;font-size:9.5px"><span class="status-dot"></span> 6 ms</span>
+            </div>
+            <div class="dev-grid" style="grid-template-columns:repeat(6,52px);gap:8px" id="webPhoneGrid"></div>
+            <div class="dev-bot"><span>Querformat</span><span>6 × 2</span></div>
+          </div>
+        </div>
+      </div>
+      <div class="web-strip">
+        <div class="web-card"><h3>Windows Setup</h3><p>Nativer WebView2-Client, Autostart, App-Icon-Scanner (<code>novora-icons.exe</code>) und signierter Updater.</p></div>
+        <div class="web-card"><h3>Android App (APK)</h3><p>Direkt per QR-Code vom Server ladbar. Auf Smartphones automatisch im Querformat, auf Tablets frei drehbar.</p></div>
+        <div class="web-card"><h3>Lizenzschlüssel</h3><p>Aktivierung am PC per <code>NVR-Key</code>. Signiertes 7-Tage-Offline-Token (Ed25519) mit stillem 6-Stunden-Check.</p></div>
+      </div>
+    </div>
+  </section>
+
+</div>
+
+<!-- Modal: Neuer Lizenzschlüssel -->
+<div class="modal-bg" id="newKeyModal">
+  <div class="modal">
+    <h3 style="font-size:15px">Neuen Lizenzschlüssel anlegen</h3>
+    <div class="fld"><label>Plan</label><select class="inp" id="nkPlan"><option>Standard</option><option>Pro</option><option>Team</option></select></div>
+    <div class="fld"><label>Notiz / Gerät</label><input class="inp" id="nkNote" placeholder="z. B. Wohnzimmer-PC"></div>
+    <div class="fld"><label>Laufzeit (Tage, 0 = unbegrenzt)</label><input class="inp" id="nkDays" type="number" value="365"></div>
+    <div style="display:flex;gap:8px;justify-content:flex-end;margin-top:4px">
+      <button class="btn" onclick="closeNewKeyModal()">Abbrechen</button>
+      <button class="btn primary" onclick="createDemoKey()">Schlüssel erzeugen</button>
+    </div>
+  </div>
+</div>
+
+<div class="toast-global" id="toastGlobal"></div>
+
+<script>
+const ICONS = {
+  mic:'<rect x="9" y="3" width="6" height="11" rx="3"/><path d="M5 11a7 7 0 0 0 14 0M12 18v3M8 21h8"/>',
+  volume:'<path d="M11 5L6 9H3v6h3l5 4zM15.5 8.5a5 5 0 0 1 0 7M18.5 5.5a9 9 0 0 1 0 13"/>',
+  play:'<polygon points="6,4 20,12 6,20"/>',
+  next:'<polygon points="5,4 15,12 5,20"/><line x1="19" y1="5" x2="19" y2="19"/>',
+  prev:'<polygon points="19,4 9,12 19,20"/><line x1="5" y1="5" x2="5" y2="19"/>',
+  record:'<circle cx="12" cy="12" r="7"/><circle cx="12" cy="12" r="2.8" fill="#EF4444" stroke="none"/>',
+  folder:'<path d="M3 7a2 2 0 0 1 2-2h4l2 2h8a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/>',
+  lock:'<rect x="5" y="11" width="14" height="10" rx="2"/><path d="M8 11V7a4 4 0 0 1 8 0v4"/>',
+  terminal:'<polyline points="4 17 10 11 4 5"/><line x1="12" y1="19" x2="20" y2="19"/>',
+  screen:'<rect x="3" y="4" width="18" height="14" rx="2"/><path d="M8 21h8M12 18v3"/>',
+  mixer:'<path d="M4 21v-7M4 10V3M12 21v-9M12 8V3M20 21v-5M20 12V3M2 14h4M10 8h4M18 16h4"/>',
+  power:'<path d="M12 3v9"/><path d="M18.4 6.6a9 9 0 1 1-12.8 0"/>'
+};
+
+const SOFTWARE_LIB = [
+  { id:'discord', name:'Discord', abbr:'DC', bg:'#5865F2', path:'C:\\Users\\torbe\\AppData\\Local\\Discord\\Discord.exe', cat:'software' },
+  { id:'spotify', name:'Spotify', abbr:'SP', bg:'#169C46', path:'shell:AppsFolder\\SpotifyAB.SpotifyMusic!Spotify', cat:'software' },
+  { id:'obs', name:'OBS Studio', abbr:'OBS', bg:'#2B303A', path:'C:\\Program Files\\obs-studio\\bin\\64bit\\obs64.exe', cat:'software' },
+  { id:'steam', name:'Steam', abbr:'ST', bg:'#1B2838', path:'C:\\Program Files (x86)\\Steam\\steam.exe', cat:'software' },
+  { id:'vscode', name:'VS Code', abbr:'VS', bg:'#006BB3', path:'C:\\Users\\torbe\\AppData\\Local\\Programs\\Microsoft VS Code\\Code.exe', cat:'software' },
+  { id:'blender', name:'Blender 5.3', abbr:'BL', bg:'#D96B08', path:'C:\\Program Files\\Blender Foundation\\Blender 5.3\\blender-launcher.exe', cat:'software' },
+  { id:'epic', name:'Epic Games', abbr:'EG', bg:'#22252A', path:'C:\\Program Files\\Epic Games\\Launcher\\Portal\\Binaries\\Win64\\EpicGamesLauncher.exe', cat:'software' },
+  { id:'nvidia', name:'NVIDIA App', abbr:'NV', bg:'#5E9400', path:'C:\\Program Files\\NVIDIA Corporation\\NVIDIA app\\CEF\\NVIDIA App.exe', cat:'software' },
+  { id:'unity', name:'Unity Hub', abbr:'UN', bg:'#2C2F36', path:'C:\\Program Files\\Unity Hub\\Unity Hub.exe', cat:'software' },
+  { id:'chrome', name:'Google Chrome', abbr:'GC', bg:'#2563EB', path:'C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe', cat:'browser' },
+  { id:'edge', name:'Microsoft Edge', abbr:'ED', bg:'#0E7490', path:'C:\\Program Files (x86)\\Microsoft\\Edge\\Application\\msedge.exe', cat:'browser' },
+  { id:'firefox', name:'Firefox', abbr:'FF', bg:'#EA580C', path:'C:\\Program Files\\Mozilla Firefox\\firefox.exe', cat:'browser' }
+];
+
+const SYMBOL_LIB = [
+  { id:'mic', name:'Mikrofon' }, { id:'volume', name:'Lautstärke' }, { id:'play', name:'Play/Pause' },
+  { id:'prev', name:'Zurück' }, { id:'next', name:'Weiter' }, { id:'record', name:'Aufnahme' },
+  { id:'folder', name:'Ordner' }, { id:'screen', name:'Screenshot' }, { id:'terminal', name:'Terminal' },
+  { id:'lock', name:'Sperren' }, { id:'mixer', name:'Mixer' }, { id:'power', name:'Energie' }
+];
+
+const state = {
+  view:'editor', theme:'hardware', pageId:'home', selKey:0, libTab:'software', libQ:'',
+  micOn:true, volume:62, recording:false,
+  connLayout:'two', connSingleTab:'pair', pairCode:'482913', pairSec:108,
+  pending:[{ id:'req1', name:'Google Pixel 8 Pro', ip:'192.168.1.45' }],
+  paired:['Mein PC-Handy'],
+  devClass:'phone', mobPage:'home',
+  mixer:[
+    { id:'spotify', name:'Spotify', vol:62, muted:false },
+    { id:'discord', name:'Discord', vol:48, muted:false },
+    { id:'chrome', name:'Chrome', vol:80, muted:false },
+    { id:'obs', name:'OBS Studio', vol:100, muted:false }
+  ],
+  pages:[
+    { id:'home', name:'Home', cols:5, rows:4, tiles:[
+      { key:0, kind:'app', app:'discord', label:'Discord', action:'app', target:'C:\\Users\\torbe\\AppData\\Local\\Discord\\Discord.exe' },
+      { key:1, kind:'app', app:'spotify', label:'Spotify', action:'app', target:'shell:AppsFolder\\SpotifyAB.SpotifyMusic!Spotify' },
+      { key:2, kind:'app', app:'chrome', label:'Chrome', action:'app', target:'C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe' },
+      { key:3, kind:'app', app:'obs', label:'OBS Studio', action:'app', target:'C:\\Program Files\\obs-studio\\bin\\64bit\\obs64.exe' },
+      { key:4, kind:'app', app:'steam', label:'Steam', action:'app', target:'C:\\Program Files (x86)\\Steam\\steam.exe' },
+      { key:5, kind:'sym', sym:'mic', label:'Mikrofon', action:'mic', target:'Mikrofon umschalten', state:'mic' },
+      { key:6, kind:'sym', sym:'volume', label:'Lautstärke', action:'volume', target:'Lauter (+2 %)', state:'volume' },
+      { key:7, kind:'sym', sym:'play', label:'Play/Pause', action:'media', target:'playpause' },
+      { key:8, kind:'sym', sym:'next', label:'Weiter', action:'media', target:'next' },
+      { key:9, kind:'sym', sym:'record', label:'Aufnahme', action:'record', target:'Win+Alt+R', state:'record' },
+      { key:10, kind:'app', app:'vscode', label:'VS Code', action:'app', target:'C:\\Users\\torbe\\AppData\\Local\\Programs\\Microsoft VS Code\\Code.exe' },
+      { key:11, kind:'app', app:'blender', label:'Blender', action:'app', target:'C:\\Program Files\\Blender Foundation\\Blender 5.3\\blender-launcher.exe' },
+      { key:12, kind:'sym', sym:'folder', label:'Musik', action:'page', target:'Musik' },
+      { key:13, kind:'sym', sym:'screen', label:'Screenshot', action:'hotkey', target:'Win+Shift+S' },
+      { key:14, kind:'sym', sym:'lock', label:'Sperren', action:'system', target:'lock' }
+    ]},
+    { id:'music', name:'Musik', cols:5, rows:3, tiles:[
+      { key:0, kind:'sym', sym:'play', label:'Play', action:'media', target:'playpause' },
+      { key:1, kind:'sym', sym:'prev', label:'Zurück', action:'media', target:'prev' },
+      { key:2, kind:'sym', sym:'next', label:'Weiter', action:'media', target:'next' },
+      { key:3, kind:'sym', sym:'volume', label:'Lauter', action:'volume', target:'up', state:'volume' },
+      { key:4, kind:'app', app:'spotify', label:'Spotify', action:'app', target:'shell:AppsFolder\\SpotifyAB.SpotifyMusic!Spotify' }
+    ]},
+    { id:'mixer', name:'Mixer', type:'mixer', cols:5, rows:4, tiles:[] }
+  ],
+  keys:[
+    { id:1, masked:'NVR-8K4M-…-7P2Q', plan:'Pro', seats:'1 / 3', status:'aktiv', exp:'unbegrenzt', note:'Eigener Haupt-PC', checked:false },
+    { id:2, masked:'NVR-3R9T-…-4W8N', plan:'Standard', seats:'1 / 1', status:'aktiv', exp:'24.11.2027', note:'Laptop', checked:false },
+    { id:3, masked:'NVR-6V2X-…-9L5K', plan:'Standard', seats:'0 / 1', status:'aktiv', exp:'24.11.2027', note:'Reserve-Key', checked:false }
+  ]
+};
+
+let toastT;
+function notify(msg){
+  const el=document.getElementById('toastGlobal');
+  el.textContent=msg; el.classList.add('show');
+  clearTimeout(toastT); toastT=setTimeout(()=>el.classList.remove('show'),2200);
+}
+function osd(id,msg){
+  const el=document.getElementById(id); if(!el)return;
+  el.textContent=msg; el.classList.add('show');
+  clearTimeout(el._t); el._t=setTimeout(()=>el.classList.remove('show'),1400);
+}
+function switchView(v){
+  state.view=v;
+  document.querySelectorAll('#viewSwitch button').forEach(b=>b.classList.toggle('on',b.dataset.view===v));
+  document.querySelectorAll('.view').forEach(n=>n.classList.toggle('on',n.id==='view-'+v));
+}
+document.querySelectorAll('#viewSwitch button').forEach(b=>b.onclick=()=>switchView(b.dataset.view));
+document.querySelectorAll('#themeSwitch button').forEach(b=>b.onclick=()=>{
+  state.theme=b.dataset.theme;
+  document.documentElement.setAttribute('data-theme',state.theme);
+  document.querySelectorAll('#themeSwitch button').forEach(x=>x.classList.toggle('on',x===b));
+});
+
+function appById(id){return SOFTWARE_LIB.find(a=>a.id===id);}
+
+function tileInner(t){
+  if(!t) return '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M12 5v14M5 12h14"/></svg>';
+  if(t.kind==='app'){
+    const a=appById(t.app)||{abbr:'APP',bg:'#334155'};
+    return `<div class="app-badge" style="background:${a.bg}">${a.abbr}</div>`;
+  }
+  const svg=`<svg class="ic" viewBox="0 0 24 24">${ICONS[t.sym]||ICONS.folder}</svg>`;
+  if(t.state==='volume'){
+    const off=(251.2*(1-state.volume/100)).toFixed(1);
+    return `<svg class="ring" viewBox="0 0 100 100"><circle cx="50" cy="50" r="40" fill="none" stroke="var(--line-strong)" stroke-width="4"/><circle cx="50" cy="50" r="40" fill="none" stroke="var(--accent)" stroke-width="4" stroke-dasharray="251.2" stroke-dashoffset="${off}" stroke-linecap="round"/></svg>${svg}<span class="vol-num">${state.volume}</span>`;
+  }
+  if(t.state==='record' && state.recording) return `<span class="rec-dot"></span>${svg}`;
+  return svg;
+}
+
+function renderEditor(){
+  const pl=document.getElementById('edPageList');
+  pl.innerHTML=state.pages.map(p=>`<button class="pg-item ${p.id===state.pageId?'on':''}" onclick="selectEdPage('${p.id}')"><span>${p.name}</span><span class="pg-meta">${p.type==='mixer'?'Live':p.cols+'×'+p.rows}</span></button>`).join('');
+  const page=state.pages.find(p=>p.id===state.pageId)||state.pages[0];
+  document.getElementById('edPageTitle').textContent=page.name;
+  document.getElementById('edColsVal').textContent=page.cols;
+  document.getElementById('edRowsVal').textContent=page.rows;
+  document.getElementById('edGridMeta').textContent=page.type==='mixer'?'Mixer · Live':`${page.cols} × ${page.rows}`;
+  const g=document.getElementById('edGrid');
+  if(page.type==='mixer'){
+    g.style.gridTemplateColumns='1fr';
+    g.innerHTML='<div class="card" style="width:480px;max-width:100%"><h3 style="margin-bottom:8px">Live-Mixer</h3><p style="font-size:12px;color:var(--text-2)">Die Lautstärke-Fader pro Windows-Programm werden automatisch am Handy &amp; Tablet angezeigt.</p></div>';
+    return;
+  }
+  g.style.gridTemplateColumns=`repeat(${page.cols},94px)`;
+  let html='';
+  for(let i=0;i<page.cols*page.rows;i++){
+    const t=page.tiles.find(x=>x.key===i);
+    const sel=i===state.selKey?' sel':'';
+    const act=(t&&((t.state==='mic'&&state.micOn)||(t.state==='volume')))?' active-state':'';
+    const rec=(t&&t.state==='record'&&state.recording)?' rec-state':'';
+    if(!t){
+      html+=`<div class="tile ghost${sel}" onclick="addOrSelectTile(${i})">${tileInner(null)}</div>`;
+    } else {
+      html+=`<div class="tile${sel}${act}${rec}" onclick="selectTile(${i})">${tileInner(t)}<span class="act-tag">${t.label}</span></div>`;
+    }
+  }
+  g.innerHTML=html;
+  renderInspector();
+}
+function selectEdPage(id){state.pageId=id;state.selKey=0;renderEditor();}
+function selectTile(k){state.selKey=k;renderEditor();}
+function addOrSelectTile(k){
+  const page=state.pages.find(p=>p.id===state.pageId);
+  if(!page||page.type==='mixer')return;
+  page.tiles.push({key:k,kind:'sym',sym:'folder',label:'Neu',action:'hotkey',target:'Ctrl+Shift+M'});
+  state.selKey=k; renderEditor(); notify(`Taste ${k+1} angelegt`);
+}
+function stepGrid(prop,d){
+  const page=state.pages.find(p=>p.id===state.pageId);
+  if(!page||page.type==='mixer')return;
+  page[prop]=Math.max(3,Math.min(8,page[prop]+d));
+  renderEditor();
+}
+document.getElementById('addPageBtn').onclick=()=>{
+  const idx=state.pages.filter(p=>p.type!=='mixer').length+1;
+  const id='p'+Date.now();
+  state.pages.splice(state.pages.length-1,0,{id,name:'Seite '+idx,cols:5,rows:3,tiles:[]});
+  state.pageId=id; state.selKey=0; renderEditor(); notify(`„Seite ${idx}“ angelegt`);
+};
+
+function renderInspector(){
+  const page=state.pages.find(p=>p.id===state.pageId);
+  const t=page&&page.tiles.find(x=>x.key===state.selKey);
+  document.getElementById('inspNo').textContent=state.selKey+1;
+  const prev=document.getElementById('inspTilePrev');
+  prev.className='tile'+(t&&t.state==='mic'&&state.micOn?' active-state':'');
+  prev.innerHTML=t?tileInner(t):tileInner(null);
+  document.getElementById('inspTitle').textContent=t?t.label:'Freie Taste';
+  document.getElementById('inspSub').textContent=t?(t.kind==='app'?'Startet installierte App':'Steuerungs-Aktion'):'Klicken zum Hinzufügen';
+  document.getElementById('inspKind').textContent=t?(t.kind==='app'?'Installierte App':'Symbol'):'Frei';
+  document.getElementById('inspAction').value=t?t.action:'app';
+  document.getElementById('inspTarget').value=t?t.target:'';
+  renderLibGrid();
+}
+
+function renderLibGrid(){
+  const q=state.libQ.toLowerCase();
+  const box=document.getElementById('libGrid');
+  if(state.libTab==='symbols'){
+    const list=SYMBOL_LIB.filter(s=>!q||s.name.toLowerCase().includes(q));
+    box.innerHTML=list.map(s=>`<div class="lib-cell" onclick="assignSymbol('${s.id}','${s.name}')"><svg class="ic" viewBox="0 0 24 24">${ICONS[s.id]}</svg><span>${s.name}</span></div>`).join('');
+    return;
+  }
+  const wantBrowser=state.libTab==='browser';
+  const list=SOFTWARE_LIB.filter(a=>(wantBrowser?a.cat==='browser':a.cat==='software')&&(!q||a.name.toLowerCase().includes(q)));
+  box.innerHTML=list.map(a=>`<div class="lib-cell" onclick="assignApp('${a.id}')"><div class="app-badge" style="background:${a.bg}">${a.abbr}</div><span>${a.name}</span></div>`).join('');
+}
+document.querySelectorAll('#libTabs button').forEach(b=>b.onclick=()=>{
+  state.libTab=b.dataset.tab;
+  document.querySelectorAll('#libTabs button').forEach(x=>x.classList.toggle('on',x===b));
+  renderLibGrid();
+});
+document.getElementById('libSearch').oninput=e=>{state.libQ=e.target.value;renderLibGrid();};
+
+function ensureTile(){
+  const page=state.pages.find(p=>p.id===state.pageId);
+  if(!page||page.type==='mixer')return null;
+  let t=page.tiles.find(x=>x.key===state.selKey);
+  if(!t){t={key:state.selKey};page.tiles.push(t);}
+  return t;
+}
+function assignApp(id){
+  const a=appById(id), t=ensureTile(); if(!a||!t)return;
+  t.kind='app'; t.app=a.id; t.label=a.name; t.action='app'; t.target=a.path; delete t.state;
+  renderEditor(); notify(`Zugewiesen: ${a.name}`);
+}
+function assignSymbol(id,name){
+  const t=ensureTile(); if(!t)return;
+  t.kind='sym'; t.sym=id; t.label=name; t.action=(id==='mic'||id==='record'||id==='volume')?id:'hotkey';
+  if(id==='mic'||id==='record'||id==='volume') t.state=id; else delete t.state;
+  t.target=id==='mic'?'Mikrofon umschalten':id==='volume'?'Lauter (+2 %)':'Ctrl+Shift+M';
+  renderEditor(); notify(`Symbol gesetzt: ${name}`);
+}
+document.getElementById('testTileBtn').onclick=()=>{
+  const page=state.pages.find(p=>p.id===state.pageId);
+  const t=page&&page.tiles.find(x=>x.key===state.selKey);
+  if(!t)return notify('Keine Taste gewählt');
+  if(t.state==='mic'){state.micOn=!state.micOn; osd('edOsd','Mikrofon: '+(state.micOn?'an':'stumm'));}
+  else if(t.state==='volume'){state.volume=(state.volume+6)%102; osd('edOsd',`Lautstärke: ${state.volume} %`);}
+  else if(t.state==='record'){state.recording=!state.recording; osd('edOsd','Aufnahme: '+(state.recording?'läuft':'gestoppt'));}
+  else osd('edOsd',`Ausgeführt: ${t.label}`);
+  renderEditor(); renderMobile();
+};
+document.getElementById('delTileBtn').onclick=()=>{
+  const page=state.pages.find(p=>p.id===state.pageId);
+  if(!page)return;
+  page.tiles=page.tiles.filter(x=>x.key!==state.selKey);
+  renderEditor(); notify('Taste geleert');
+};
+document.getElementById('fgBtn').onclick=()=>{
+  const btn=document.getElementById('fgBtn');
+  let sec=3; btn.disabled=true; btn.textContent=`Zum Ziel-Fenster wechseln (${sec} s) …`;
+  const iv=setInterval(()=>{
+    sec--;
+    if(sec>0){btn.textContent=`Zum Ziel-Fenster wechseln (${sec} s) …`;return;}
+    clearInterval(iv); btn.disabled=false; btn.textContent='Aktives Fenster + Icon übernehmen (3s)';
+    assignApp('nvidia');
+  },1000);
+};
+
+/* ---------- QR SVG ---------- */
+function qrSvg(seed,sz=156){
+  const n=21,c=sz/n; let s=seed;
+  const rnd=()=>{s=(s*1664525+1013904223)>>>0;return(s>>>24)&1;};
+  const fin=(r,k)=>(r<7&&k<7)||(r<7&&k>=n-7)||(r>=n-7&&k<7);
+  const fbit=(r,k)=>{const lr=r>=n-7?r-(n-7):r,lk=k>=n-7?k-(n-7):k;return lr===0||lr===6||lk===0||lk===6||(lr>=2&&lr<=4&&lk>=2&&lk<=4);};
+  let out='';
+  for(let r=0;r<n;r++)for(let k=0;k<n;k++){
+    const on=fin(r,k)?fbit(r,k):((r===6||k===6)?(r+k)%2===0:rnd());
+    if(on) out+=`<rect x="${(k*c).toFixed(2)}" y="${(r*c).toFixed(2)}" width="${(c+.15).toFixed(2)}" height="${(c+.15).toFixed(2)}" fill="#111214"/>`;
+  }
+  return `<svg width="${sz}" height="${sz}" viewBox="0 0 ${sz} ${sz}">${out}</svg>`;
+}
+
+function renderConnect(){
+  const hero=document.getElementById('connHeroArea');
+  const pins=[...state.pairCode].map(d=>`<span class="pin-digit">${d}</span>`).join('');
+  const mm=String(Math.floor(state.pairSec/60)).padStart(2,'0'), ss=String(state.pairSec%60).padStart(2,'0');
+  const apkCard=`
+    <div class="card">
+      <div class="qr-card-h"><h2>1. Handy-App installieren</h2><span>Android 8+ · direkt vom Server</span></div>
+      <div class="qr-stage">
+        <div class="qr-frame">${qrSvg(774123)}</div>
+        <div class="mono-url">https://test.diviesx.de/downloads/novora.apk</div>
+        <button class="btn" onclick="notify('APK-Download von test.diviesx.de gestartet')">APK direkt herunterladen</button>
+      </div>
+    </div>`;
+  const pairCard=`
+    <div class="card">
+      <div class="qr-card-h"><h2>2. Verbinden &amp; einloggen</h2><span style="font-family:var(--mono)">Gültig ${mm}:${ss}</span></div>
+      <div class="qr-stage">
+        <div class="qr-frame">${qrSvg(Number(state.pairCode)+991)}</div>
+        <div class="pin-boxes">${pins}</div>
+        <button class="btn primary" onclick="regenPin()">Neuen Code erzeugen</button>
+      </div>
+    </div>`;
+  if(state.connLayout==='two'){
+    hero.innerHTML=`<div class="qr-two">${apkCard}${pairCard}</div>`;
+  } else {
+    const isPair=state.connSingleTab==='pair';
+    hero.innerHTML=`
+      <div class="card">
+        <div style="display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:16px;flex-wrap:wrap">
+          <div><h2 style="font-size:15px;font-weight:650">${isPair?'Handy direkt verbinden & einloggen':'Android-App vom Server laden'}</h2>
+          <p style="font-size:12px;color:var(--text-2);margin-top:2px">${isPair?'Scannen koppelt automatisch mit diesem PC – oder PIN in der App eingeben.':'Einmalig mit der Handy-Kamera scannen und Novora.apk installieren.'}</p></div>
+          <div class="seg"><button class="${isPair?'on':''}" onclick="setSingleTab('pair')">Verbinden</button><button class="${!isPair?'on':''}" onclick="setSingleTab('apk')">App installieren</button></div>
+        </div>
+        <div class="qr-single">
+          <div class="qr-stage"><div class="qr-frame">${qrSvg(isPair?Number(state.pairCode)+991:774123,176)}</div></div>
+          <div style="display:flex;flex-direction:column;gap:14px;padding-top:12px">
+            ${isPair?`
+              <div><div style="font-size:11px;color:var(--dim);margin-bottom:6px">Kopplungs-PIN · gültig ${mm}:${ss}</div><div class="pin-boxes">${pins}</div></div>
+              <div><button class="btn primary" onclick="regenPin()">Neuen Code erzeugen</button></div>
+            `:`
+              <div><div style="font-size:11px;color:var(--dim);margin-bottom:6px">Server-Download (APK)</div><div class="mono-url">https://test.diviesx.de/downloads/novora.apk</div></div>
+              <div><button class="btn primary" onclick="notify('APK-Download gestartet')">APK herunterladen</button></div>
+            `}
+          </div>
+        </div>
+      </div>`;
+  }
+  const pb=document.getElementById('pendingBox');
+  document.getElementById('reqCounterPill').textContent=state.pending.length+' offen';
+  document.getElementById('railReqBadge').textContent=state.pending.length;
+  document.getElementById('railReqBadge').style.display=state.pending.length?'grid':'none';
+  pb.innerHTML=state.pending.length?state.pending.map(r=>`
+    <div class="req-item">
+      <div style="flex:1"><b style="font-size:12px;display:block">${r.name}</b><span style="font-size:11px;color:var(--dim)">${r.ip} · wartet auf Freigabe</span></div>
+      <button class="btn ok sm" onclick="decideReq('${r.id}',true)">Annehmen</button>
+      <button class="btn danger sm" onclick="decideReq('${r.id}',false)">Ablehnen</button>
+    </div>`).join(''):'<div style="font-size:11.5px;color:var(--dim);padding-top:8px">Keine offenen Anfragen.</div>';
+  document.getElementById('devListTxt').textContent=`${state.paired.length} Gerät${state.paired.length===1?'':'e'} (${state.paired.join(', ')})`;
+  document.getElementById('railDevBadge').textContent=state.paired.length;
+  document.getElementById('edLiveCount').textContent=`${state.paired.length} Gerät${state.paired.length===1?'':'e'} live`;
+}
+function regenPin(){state.pairCode=String(Math.floor(100000+Math.random()*900000));state.pairSec=120;renderConnect();notify('Neuer Code erzeugt');}
+function setSingleTab(t){state.connSingleTab=t;renderConnect();}
+function decideReq(id,ok){
+  const r=state.pending.find(x=>x.id===id);
+  state.pending=state.pending.filter(x=>x.id!==id);
+  if(ok&&r){state.paired.push(r.name);notify(r.name+' gekoppelt');}
+  else notify('Anfrage abgelehnt');
+  renderConnect();
+}
+document.querySelectorAll('#connLayoutSwitch button').forEach(b=>b.onclick=()=>{
+  state.connLayout=b.dataset.cl;
+  document.querySelectorAll('#connLayoutSwitch button').forEach(x=>x.classList.toggle('on',x===b));
+  renderConnect();
+});
+document.getElementById('pingBtn').onclick=()=>{
+  const ms=(4.2+Math.random()*3.5).toFixed(1);
+  document.getElementById('latVal').textContent=ms+' ms';
+  notify(`Latenz gemessen: ${ms} ms`);
+};
+setInterval(()=>{if(state.pairSec>0)state.pairSec--; else{state.pairCode=String(Math.floor(100000+Math.random()*900000));state.pairSec=120;} if(state.view==='connect')renderConnect();},1000);
+
+/* ---------- MOBILE / TABLET ---------- */
+function renderMobile(){
+  const shell=document.getElementById('deviceShell');
+  const isPhone=state.devClass==='phone';
+  shell.className=isPhone?'phone-case':'tablet-case';
+  document.getElementById('mobNote').innerHTML=isPhone
+    ?'Smartphone: <b>Automatisch Querformat (SENSOR_LANDSCAPE)</b> – Hochformat ist in der App blockiert.'
+    :'Tablet (≥ 600 dp): <b>Hoch- &amp; Querformat frei</b> – hier im Hochformat-Raster (4×4).';
+  const vp=document.getElementById('mobViewport');
+  document.getElementById('mobSub').textContent=state.mobPage==='mixer'?'PC · Live-Mixer':'PC · Home';
+  document.getElementById('mobMeta').textContent=state.mobPage==='mixer'?'Live-Mixer · Regler ziehen':(isPhone?'Home · 6 × 3 (Querformat)':'Home · 4 × 4 (Hochformat)');
+  if(state.mobPage==='mixer'){
+    vp.innerHTML='<div class="mixer-list">'+state.mixer.map((m,i)=>`
+      <div class="mix-row">
+        <b style="width:86px;font-size:12px">${m.name}</b>
+        <input type="range" min="0" max="100" value="${m.muted?0:m.vol}" oninput="setMixVol(${i},this.value)">
+        <span style="width:38px;text-align:right;font-family:var(--mono);font-size:11px">${m.muted?'stumm':m.vol+'%'}</span>
+        <button class="btn sm ${m.muted?'danger':''}" onclick="toggleMixMute(${i})">${m.muted?'Ton an':'Stumm'}</button>
+      </div>`).join('')+'</div>';
+    return;
+  }
+  const cols=isPhone?6:4;
+  const tiles=state.pages[0].tiles.slice(0,isPhone?18:16);
+  const g=document.createElement('div');
+  g.className='dev-grid';
+  g.style.gridTemplateColumns=`repeat(${cols},${isPhone?'78px':'76px'})`;
+  g.innerHTML=tiles.map(t=>{
+    const act=(t.state==='mic'&&state.micOn)||t.state==='volume'?' active-state':'';
+    const rec=(t.state==='record'&&state.recording)?' rec-state':'';
+    return `<div class="tile${act}${rec}" onclick="pressMob(${t.key})" title="${t.label}">${tileInner(t)}</div>`;
+  }).join('');
+  vp.innerHTML=''; vp.appendChild(g);
+}
+function pressMob(key){
+  const t=state.pages[0].tiles.find(x=>x.key===key); if(!t)return;
+  if(t.state==='mic'){state.micOn=!state.micOn; osd('mobOsd','Mikrofon: '+(state.micOn?'an':'stumm'));}
+  else if(t.state==='volume'){state.volume=(state.volume+6)%102; osd('mobOsd',`Windows ${state.volume} %`);}
+  else if(t.state==='record'){state.recording=!state.recording; osd('mobOsd','Aufnahme: '+(state.recording?'gestartet':'gestoppt'));}
+  else if(t.action==='page'){setMobPage('mixer'); return;}
+  else osd('mobOsd',`${t.label} am PC gestartet`);
+  renderMobile(); renderEditor();
+}
+function setMobPage(p){
+  state.mobPage=p;
+  document.querySelectorAll('#mobilePageSwitch button').forEach(b=>b.classList.toggle('on',b.dataset.mp===p));
+  renderMobile();
+}
+function setMixVol(i,v){state.mixer[i].vol=Number(v);state.mixer[i].muted=false;renderMobile();}
+function toggleMixMute(i){state.mixer[i].muted=!state.mixer[i].muted;renderMobile();}
+document.querySelectorAll('#deviceClassSwitch button').forEach(b=>b.onclick=()=>{
+  state.devClass=b.dataset.dev;
+  document.querySelectorAll('#deviceClassSwitch button').forEach(x=>x.classList.toggle('on',x===b));
+  renderMobile();
+});
+document.querySelectorAll('#mobilePageSwitch button').forEach(b=>b.onclick=()=>setMobPage(b.dataset.mp));
+
+/* ---------- ADMIN KEYS ---------- */
+function renderKeys(){
+  const q=(document.getElementById('keySearch').value||'').toLowerCase();
+  const pf=document.getElementById('keyPlanFilter').value;
+  const rows=state.keys.filter(k=>(!pf||k.plan===pf)&&(!q||k.masked.toLowerCase().includes(q)||k.note.toLowerCase().includes(q)));
+  document.getElementById('kpiTotal').textContent=state.keys.length;
+  const tb=document.getElementById('keysTbody');
+  tb.innerHTML=rows.length?rows.map(k=>`
+    <tr>
+      <td><input type="checkbox" ${k.checked?'checked':''} onchange="toggleKeyChk(${k.id},this.checked)"></td>
+      <td style="font-family:var(--mono);font-weight:600">${k.masked}</td>
+      <td><span class="pill">${k.plan}</span></td>
+      <td>${k.seats}</td>
+      <td><span class="pill ok">${k.status}</span></td>
+      <td>${k.exp}</td>
+      <td style="color:var(--text-2)">${k.note}</td>
+      <td><button class="btn danger sm" onclick="delKey(${k.id})">Löschen</button></td>
+    </tr>`).join(''):'<tr><td colspan="8" style="color:var(--dim);text-align:center;padding:24px">Keine Schlüssel vorhanden.</td></tr>';
+  const selCount=state.keys.filter(k=>k.checked).length;
+  const b=document.getElementById('bulkDelBtn');
+  b.disabled=!selCount; b.textContent=`Ausgewählte löschen (${selCount})`;
+  document.getElementById('chkAll').checked=rows.length>0&&rows.every(k=>k.checked);
+}
+function toggleKeyChk(id,v){const k=state.keys.find(x=>x.id===id);if(k)k.checked=v;renderKeys();}
+function delKey(id){state.keys=state.keys.filter(x=>x.id!==id);renderKeys();notify('Schlüssel gelöscht');}
+document.getElementById('chkAll').onchange=e=>{state.keys.forEach(k=>k.checked=e.target.checked);renderKeys();};
+document.getElementById('bulkDelBtn').onclick=()=>{
+  const n=state.keys.filter(k=>k.checked).length;
+  state.keys=state.keys.filter(k=>!k.checked); renderKeys(); notify(`${n} Schlüssel gelöscht`);
+};
+document.getElementById('keySearch').oninput=renderKeys;
+document.getElementById('keyPlanFilter').onchange=renderKeys;
+function openNewKeyModal(){document.getElementById('newKeyModal').classList.add('open');}
+function closeNewKeyModal(){document.getElementById('newKeyModal').classList.remove('open');}
+function createDemoKey(){
+  const plan=document.getElementById('nkPlan').value;
+  const note=document.getElementById('nkNote').value.trim()||'Eigener Schlüssel';
+  const days=Number(document.getElementById('nkDays').value)||0;
+  const chars='23456789ABCDEFGHJKMNPQRSTVWXYZ';
+  const seg=()=>Array.from({length:4},()=>chars[Math.floor(Math.random()*chars.length)]).join('');
+  state.keys.unshift({id:Date.now(),masked:`NVR-${seg()}-…-${seg()}`,plan,seats:plan==='Pro'?'0 / 3':plan==='Team'?'0 / 10':'0 / 1',status:'aktiv',exp:days?new Date(Date.now()+days*86400000).toLocaleDateString('de-DE'):'unbegrenzt',note,checked:false});
+  document.getElementById('nkNote').value='';
+  closeNewKeyModal(); renderKeys(); notify('Neuer Lizenzschlüssel erstellt');
+}
+
+/* ---------- WEBSITE HERO GRID ---------- */
+function renderWebGrid(){
+  const tiles=state.pages[0].tiles.slice(0,12);
+  document.getElementById('webPhoneGrid').innerHTML=tiles.map(t=>`<div class="tile" style="width:52px;height:52px;border-radius:10px">${tileInner(t)}</div>`).join('');
+}
+
+renderEditor(); renderConnect(); renderMobile(); renderKeys(); renderWebGrid();
+</script>
+</body>
+</html>

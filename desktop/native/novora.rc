@@ -1,0 +1,47 @@
+/* Novora Win32 resources: application icon + version info.
+ * Compiled by desktop\native\build.ps1 with x86_64-w64-mingw32-windres.
+ * build.ps1 passes -DNV_VERSION / -DNV_VERSION_CSV from package.json version.
+ * novora.ico is staged next to this file (build dir) before compiling.
+ */
+
+/* Version strings come from a generated header (build.ps1, package.json version).
+ * Backslash -D string defines lose their quotes when passed from PowerShell,
+ * so the version lives in novora_version.h instead. */
+#ifndef NV_VERSION
+#include "novora_version.h"
+#endif
+#ifndef NV_VERSION_CSV
+#define NV_VERSION_CSV 0,3,3,0
+#endif
+
+/* 1 = lowest resource id; main.cpp loads it via MAKEINTRESOURCEW(1). */
+1 ICON "novora.ico"
+
+1 VERSIONINFO
+ FILEVERSION NV_VERSION_CSV
+ PRODUCTVERSION NV_VERSION_CSV
+ FILEFLAGSMASK 0x3fL
+ FILEFLAGS 0x0L
+ FILEOS 0x40004L
+ FILETYPE 0x1L
+ FILESUBTYPE 0x0L
+BEGIN
+  BLOCK "StringFileInfo"
+  BEGIN
+    BLOCK "040904b0"
+    BEGIN
+      VALUE "CompanyName", "Novora"
+      VALUE "FileDescription", "Novora Steuerpult"
+      VALUE "FileVersion", NV_VERSION
+      VALUE "InternalName", "Novora"
+      VALUE "LegalCopyright", "Novora"
+      VALUE "OriginalFilename", "Novora.exe"
+      VALUE "ProductName", "Novora"
+      VALUE "ProductVersion", NV_VERSION
+    END
+  END
+  BLOCK "VarFileInfo"
+  BEGIN
+    VALUE "Translation", 0x409, 1200
+  END
+END

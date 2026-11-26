@@ -1,0 +1,637 @@
+<!doctype html>
+<html lang="de">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Novora — Finales Mockup (Nordic Slate · Flat Precision)</title>
+<style>
+:root{
+  --bg:#0D1117; --bg-elev:#121821; --panel:#161D27; --surface:#1D2532; --surface-hover:#253040;
+  --line:#253041; --line-strong:#37475E;
+  --text:#E9EFF7; --text-2:#98A6BA; --dim:#7E8FA6;
+  --accent:#22D3EE; --accent-fg:#081318; --accent-soft:rgba(34,211,238,.14);
+  --ok:#34D399; --ok-soft:rgba(52,211,153,.13);
+  --danger:#F87171; --danger-soft:rgba(248,113,113,.13);
+  --warn:#FBBF24;
+  --r-ui:10px; --r-tile:14px;
+  --font:"Segoe UI",-apple-system,BlinkMacSystemFont,"Inter",system-ui,sans-serif;
+  --mono:ui-monospace,"SFMono-Regular","Cascadia Mono",Consolas,monospace;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{height:100%;background:var(--bg);color:var(--text);font:13px/1.45 var(--font);-webkit-font-smoothing:antialiased;overflow:hidden}
+button,input,select{font:inherit;color:inherit}
+
+/* Shell */
+.app{height:100vh;display:flex;flex-direction:column;min-height:0}
+.winbar{
+  height:46px;padding:0 14px;display:flex;align-items:center;gap:10px;
+  background:#10161F;border-bottom:1px solid var(--line);flex:none
+}
+.nmark{
+  width:24px;height:24px;border-radius:7px;background:var(--accent);color:var(--accent-fg);
+  display:grid;place-items:center;font-weight:800;font-size:12.5px;flex:none
+}
+.pill{
+  display:inline-flex;align-items:center;gap:6px;padding:3px 9px;border-radius:999px;
+  border:1px solid var(--line);background:var(--surface);color:var(--text-2);font-size:11px;white-space:nowrap
+}
+.pill.ok{color:var(--ok);border-color:rgba(52,211,153,.35);background:var(--ok-soft)}
+.dot{width:6px;height:6px;border-radius:50%;background:var(--ok);display:inline-block;flex:none}
+.dot.off{background:var(--dim)}
+.btn{
+  display:inline-flex;align-items:center;justify-content:center;gap:6px;
+  padding:5px 11px;border-radius:7px;border:1px solid var(--line);background:var(--surface);
+  color:var(--text);font-size:11.5px;font-weight:500;cursor:pointer;white-space:nowrap
+}
+.btn:hover{background:var(--surface-hover);border-color:var(--line-strong)}
+.btn.primary{background:var(--accent);border-color:var(--accent);color:var(--accent-fg);font-weight:600}
+.btn.danger{color:var(--danger);border-color:rgba(248,113,113,.38);background:var(--danger-soft)}
+.btn.ok{color:var(--ok);border-color:rgba(52,211,153,.38);background:var(--ok-soft)}
+.btn.sm{padding:4px 9px;font-size:11px}
+
+.body{flex:1;min-height:0;display:flex}
+
+/* 1. Icon-Rail links (genau 3 Reiter: Editor, Verbinden, Geraete) */
+.rail{
+  width:68px;flex:none;background:var(--bg-elev);border-right:1px solid var(--line);
+  padding:10px 6px;display:flex;flex-direction:column;gap:4px
+}
+.rail-btn{
+  position:relative;display:flex;flex-direction:column;align-items:center;gap:4px;
+  padding:9px 3px;border-radius:8px;border:1px solid transparent;background:transparent;
+  color:var(--dim);font-size:9.5px;font-weight:500;cursor:pointer
+}
+.rail-btn svg{width:17px;height:17px;stroke:currentColor;fill:none;stroke-width:1.85;stroke-linecap:round;stroke-linejoin:round}
+.rail-btn:hover{color:var(--text);background:var(--surface)}
+.rail-btn.on{color:var(--text);background:var(--panel);border-color:var(--line)}
+.rail-btn.on::before{
+  content:"";position:absolute;left:-6px;top:8px;bottom:8px;width:2.5px;border-radius:2px;background:var(--accent)
+}
+.rail-badge{
+  position:absolute;top:4px;right:6px;min-width:15px;height:15px;border-radius:99px;
+  background:var(--accent);color:var(--accent-fg);font-size:8.5px;font-weight:700;display:grid;place-items:center;padding:0 4px
+}
+
+.pane{display:none;flex:1;min-width:0;min-height:0}
+.pane.on{display:flex}
+.pane.scroll{overflow:auto;padding:18px 22px 28px;flex-direction:column;gap:14px}
+
+/* 2. Editor: Horizontale Seiten-Tabs + Bezel + Klassischer Inspektor */
+.ed-center{flex:1;min-width:0;min-height:0;display:flex;flex-direction:column}
+.pages-bar{
+  display:flex;align-items:center;gap:6px;padding:8px 14px;
+  background:var(--panel);border-bottom:1px solid var(--line);overflow-x:auto;flex:none
+}
+.pg-tab{
+  display:inline-flex;align-items:center;gap:7px;padding:5px 11px;border-radius:7px;
+  border:1px solid var(--line);background:var(--bg-elev);color:var(--text-2);font-size:12px;cursor:pointer;white-space:nowrap
+}
+.pg-tab:hover{color:var(--text);border-color:var(--line-strong)}
+.pg-tab.on{background:var(--accent-soft);border-color:var(--accent);color:var(--text);font-weight:600}
+.pg-meta{font-family:var(--mono);font-size:10px;color:var(--dim)}
+
+.stage{flex:1;min-height:0;padding:14px 18px;display:flex;flex-direction:column;gap:10px}
+.stage-head{display:flex;align-items:center;gap:10px;flex-wrap:wrap}
+.stepper{
+  display:inline-flex;align-items:center;gap:4px;background:var(--panel);
+  border:1px solid var(--line);border-radius:7px;padding:2px 4px
+}
+.stepper button{
+  width:22px;height:22px;border-radius:5px;border:0;background:var(--surface);
+  color:var(--text);cursor:pointer;display:grid;place-items:center
+}
+.stepper span{min-width:20px;text-align:center;font-family:var(--mono);font-size:11.5px;font-weight:600}
+
+/* Live-Geraeterahmen (Bezel) */
+.bezel-wrap{flex:1;min-height:0;display:grid;place-items:center}
+.device-bezel{
+  background:#080B10;border:2px solid #2C394D;border-radius:24px;
+  padding:14px 20px 16px;display:flex;flex-direction:column;gap:10px;max-width:100%
+}
+.bezel-top{
+  display:flex;align-items:center;justify-content:space-between;gap:12px;
+  font-size:11px;color:var(--dim);padding-bottom:6px;border-bottom:1px solid rgba(255,255,255,.06)
+}
+.bezel-top b{color:var(--text)}
+.deck-grid{display:grid;gap:9px;justify-content:center;align-content:center}
+
+/* Flat Precision 1:1 Kacheln (Radius 14px, kein Text auf Tasten) */
+.tile{
+  aspect-ratio:1/1;width:100%;position:relative;border-radius:var(--r-tile);
+  background:var(--surface);border:1px solid #2C394D;box-shadow:none;
+  display:grid;place-items:center;cursor:pointer;user-select:none;overflow:hidden;
+  transition:transform .1s,border-color .12s,background .12s
+}
+.tile:hover{border-color:var(--line-strong);background:var(--surface-hover)}
+.tile:active{transform:scale(.955)}
+.tile.sel{outline:2px solid var(--accent);outline-offset:2px}
+.tile.has-appicon{
+  background:radial-gradient(circle at 50% 45%,rgba(255,255,255,.075) 0%,transparent 72%),var(--surface)
+}
+.tile.empty{background:transparent;border-style:dashed;border-color:var(--line-strong);opacity:.62}
+.tile.empty:hover{opacity:1;border-color:var(--accent)}
+.tile-sym{width:50%;height:50%;stroke:var(--text);fill:none;stroke-width:1.85;stroke-linecap:round;stroke-linejoin:round}
+.tile-app-svg{width:68%;height:68%;display:block;filter:drop-shadow(0 2px 6px rgba(0,0,0,.45))}
+.tile-del{
+  position:absolute;top:6px;right:6px;width:20px;height:20px;border-radius:6px;
+  background:rgba(248,113,113,.85);color:#fff;border:0;cursor:pointer;
+  display:grid;place-items:center;font-size:13px;font-weight:700;line-height:1;
+  opacity:0;transition:opacity .12s;z-index:2
+}
+.tile:hover .tile-del{opacity:1}
+.tile.sel .tile-del{opacity:1}
+.tile-del:hover{background:var(--danger);transform:scale(1.08)}
+.tile.muted .tile-sym{stroke:var(--danger)}
+.rec-dot{position:absolute;top:7px;right:7px;width:8px;height:8px;border-radius:50%;background:var(--danger);box-shadow:0 0 8px var(--danger)}
+.vol-wrap{position:relative;width:74%;height:74%;display:grid;place-items:center}
+.vol-ring{width:100%;height:100%;transform:rotate(-90deg)}
+.vol-num{position:absolute;font-family:var(--mono);font-size:11.5px;font-weight:700;color:var(--accent)}
+
+/* Klassischer Inspektor rechts (320px, 3 Tabs: Software | Browser | Symbole) */
+.insp{
+  width:320px;flex:none;background:var(--panel);border-left:1px solid var(--line);
+  padding:12px;display:flex;flex-direction:column;gap:10px;overflow:auto
+}
+.insp-prev{
+  display:flex;align-items:center;gap:10px;padding:9px;border-radius:9px;
+  background:var(--bg-elev);border:1px solid var(--line)
+}
+.insp-prev .tile{width:54px;height:54px;flex:none;cursor:default}
+.seg{display:flex;background:var(--bg-elev);border:1px solid var(--line);border-radius:8px;padding:2px;gap:2px}
+.seg button{
+  flex:1;border:0;background:transparent;color:var(--text-2);padding:5px 6px;border-radius:6px;
+  font-size:11px;font-weight:500;cursor:pointer
+}
+.seg button.on{background:var(--accent-soft);color:var(--text);font-weight:600}
+.inp,select.inp{
+  width:100%;padding:6px 8px;border-radius:7px;border:1px solid var(--line);
+  background:var(--bg-elev);color:var(--text);font-size:11.5px;outline:none
+}
+.inp:focus,select.inp:focus{border-color:var(--accent)}
+.lib-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:6px;max-height:220px;overflow:auto;padding:2px}
+.lib-cell{
+  border-radius:8px;background:var(--surface);border:1px solid #2C394D;
+  padding:7px 4px;display:flex;flex-direction:column;align-items:center;gap:5px;cursor:pointer
+}
+.lib-cell:hover{border-color:var(--line-strong);background:var(--surface-hover)}
+.lib-cell.on{border-color:var(--accent);box-shadow:inset 0 0 0 1px var(--accent)}
+.lib-cell svg{width:28px;height:28px}
+.lib-lbl{font-size:9.5px;color:var(--dim);max-width:100%;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.fld-lbl{font-size:10px;color:var(--dim);margin-bottom:3px}
+
+/* 3. Verbinden (Dual QR) & 4. Geraete (Kompakte Liste) */
+.grid-2{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px}
+.card{
+  background:var(--panel);border:1px solid var(--line);border-radius:11px;
+  padding:14px;display:flex;flex-direction:column;gap:10px
+}
+.qr-box{background:#fff;padding:8px;border-radius:10px;align-self:center;display:grid;place-items:center}
+.pin-strip{display:flex;gap:6px;justify-content:center}
+.pin-digit{
+  width:34px;height:42px;border-radius:8px;background:var(--bg-elev);border:1px solid var(--line-strong);
+  display:grid;place-items:center;font-family:var(--mono);font-size:18px;font-weight:700;color:var(--accent)
+}
+.row-line{
+  display:flex;align-items:center;justify-content:space-between;gap:10px;
+  padding:8px 0;border-top:1px solid var(--line);font-size:12px
+}
+.row-line:first-of-type{border-top:0}
+.tbl{width:100%;border-collapse:collapse;font-size:12px}
+.tbl th{text-align:left;font-size:10px;text-transform:uppercase;letter-spacing:.08em;color:var(--dim);padding:8px 10px;border-bottom:1px solid var(--line)}
+.tbl td{padding:10px;border-bottom:1px solid var(--line)}
+.tbl tr:last-child td{border-bottom:0}
+
+/* Handy-Vorschau Modal */
+.modal-bg{position:fixed;inset:0;background:rgba(4,7,12,.72);display:none;place-items:center;padding:18px;z-index:50}
+.modal-bg.on{display:grid}
+.phone-modal{
+  background:var(--panel);border:1px solid var(--line-strong);border-radius:16px;padding:16px;
+  display:flex;flex-direction:column;gap:12px;max-width:760px;width:100%
+}
+.toast{
+  position:fixed;right:16px;bottom:16px;padding:8px 13px;border-radius:9px;
+  background:var(--panel);border:1px solid var(--accent);color:var(--text);font-size:12px;
+  opacity:0;pointer-events:none;transition:opacity .15s;z-index:60
+}
+.toast.on{opacity:1}
+@media(max-width:960px){.grid-2{grid-template-columns:1fr}.insp{width:270px}}
+</style>
+</head>
+<body>
+<div class="app">
+  <header class="winbar">
+    <span class="nmark">N</span>
+    <b style="font-size:13px">Novora</b>
+    <span style="font-size:11.5px;color:var(--dim)">PC-Editor · Nordic Slate · Flat Precision</span>
+    <span class="pill" style="margin-left:4px">gespeichert</span>
+    <div style="flex:1"></div>
+    <span class="pill ok"><span class="dot"></span> 1 live · 5.4 ms</span>
+    <button class="btn" type="button" id="openPhoneBtn">Handy-Vorschau</button>
+    <button class="btn primary" type="button" id="saveBtn">Speichern</button>
+  </header>
+
+  <div class="body">
+    <!-- Linke Icon-Rail: genau 3 Reiter (ohne Einstellungen) -->
+    <nav class="rail" aria-label="Bereiche">
+      <button class="rail-btn on" type="button" data-tab="editor">
+        <svg viewBox="0 0 24 24"><rect x="3.5" y="4" width="17" height="16" rx="2.5"/><path d="M3.5 9.5h17M9.5 9.5v10.5"/></svg>
+        <span>Editor</span>
+      </button>
+      <button class="rail-btn" type="button" data-tab="conn">
+        <svg viewBox="0 0 24 24"><path d="M5 12.5a7 7 0 0 1 14 0"/><path d="M2 12.5a10 10 0 0 1 20 0"/><circle cx="12" cy="18" r="1.6"/></svg>
+        <span>Verbinden</span>
+        <i class="rail-badge" id="reqBadge">1</i>
+      </button>
+      <button class="rail-btn" type="button" data-tab="devices">
+        <svg viewBox="0 0 24 24"><rect x="7" y="2.5" width="10" height="19" rx="2.5"/><path d="M10.5 18.5h3"/></svg>
+        <span>Geräte</span>
+        <i class="rail-badge">2</i>
+      </button>
+    </nav>
+
+    <!-- REITER 1: EDITOR -->
+    <section class="pane on" id="pane-editor">
+      <div class="ed-center">
+        <!-- Horizontale Seiten-Tabs -->
+        <nav class="pages-bar" id="pagesBar"></nav>
+
+        <main class="stage">
+          <div class="stage-head">
+            <b style="font-size:13.5px" id="stagePageName">Home</b>
+            <span class="pill" id="stageMeta">5 × 3 · 1:1 · Radius 14 px</span>
+            <div style="margin-left:auto;display:flex;align-items:center;gap:8px">
+              <span style="font-size:10.5px;color:var(--dim)">SPALTEN</span>
+              <div class="stepper">
+                <button type="button" id="colsMinus">−</button><span id="colsVal">5</span><button type="button" id="colsPlus">+</button>
+              </div>
+              <span style="font-size:10.5px;color:var(--dim)">ZEILEN</span>
+              <div class="stepper">
+                <button type="button" id="rowsMinus">−</button><span id="rowsVal">3</span><button type="button" id="rowsPlus">+</button>
+              </div>
+            </div>
+          </div>
+
+          <!-- Live-Geraeterahmen (Bezel) -->
+          <div class="bezel-wrap">
+            <div class="device-bezel">
+              <div class="bezel-top">
+                <b id="bezelTitle">Samsung Galaxy A16 · Querformat · Home</b>
+                <span>EXE-Logos · kein Text auf Tasten</span>
+                <span style="color:var(--ok);font-family:var(--mono)">● 5.4 ms</span>
+              </div>
+              <div class="deck-grid" id="deckGrid"></div>
+            </div>
+          </div>
+          <div style="font-size:11px;color:var(--dim);text-align:center">
+            Echte Software-Logos direkt aus der installierten .exe · Taste anklicken zum Bearbeiten
+          </div>
+        </main>
+      </div>
+
+      <!-- Klassischer Inspektor (320px) mit genau 3 Tabs: Software | Browser | Symbole -->
+      <aside class="insp">
+        <div style="display:flex;align-items:center;justify-content:space-between">
+          <span style="font-size:10.5px;font-weight:700;letter-spacing:.1em;color:var(--dim)">TASTE <span id="inspNo" style="color:var(--accent)">1</span></span>
+          <span class="pill" id="inspKind">EXE-Logo</span>
+        </div>
+        <div class="insp-prev">
+          <div id="inspPrevTile"></div>
+          <div style="min-width:0">
+            <b id="inspTitle" style="display:block;font-size:13px">Discord</b>
+            <span id="inspSub" style="font-size:11px;color:var(--text-2)">Logo aus Discord.exe extrahiert</span>
+          </div>
+        </div>
+
+        <div>
+          <div class="fld-lbl">EXE-LOGO / SYMBOL (3 REITER)</div>
+          <div class="seg" id="libTabs">
+            <button type="button" class="on" data-lt="software">Software</button>
+            <button type="button" data-lt="browser">Browser</button>
+            <button type="button" data-lt="symbols">Symbole</button>
+          </div>
+          <input class="inp" id="libSearch" placeholder="Installierte Apps durchsuchen …" style="margin-top:6px">
+          <div style="display:flex;gap:6px;margin-top:6px">
+            <button type="button" class="btn sm" style="flex:1" id="scanBtn">Apps scannen</button>
+            <button type="button" class="btn sm" style="flex:1" id="fgBtn">Aktives Fenster (3s)</button>
+          </div>
+          <div class="lib-grid" id="libGrid" style="margin-top:6px"></div>
+        </div>
+
+        <div>
+          <div class="fld-lbl">AKTION</div>
+          <select class="inp" id="actionSel">
+            <option value="app">Installierte App öffnen</option>
+            <option value="hotkey">Tastenkombination</option>
+            <option value="media">Mediensteuerung</option>
+            <option value="volume">Lautstärke</option>
+            <option value="mic">Mikrofon stumm</option>
+            <option value="record">Aufnahme an/aus</option>
+            <option value="path">Ordner / Datei öffnen</option>
+            <option value="system">System / Energie</option>
+          </select>
+        </div>
+
+        <div>
+          <div class="fld-lbl">ZIEL (EXE-PFAD ODER APPID)</div>
+          <input class="inp" id="targetInp" style="font-family:var(--mono);font-size:10.5px">
+          <button type="button" class="btn sm" id="extractBtn" style="width:100%;margin-top:6px">Icon aus EXE-Pfad laden</button>
+        </div>
+
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:auto">
+          <button type="button" class="btn" id="testBtn">▶ Testen</button>
+          <button type="button" class="btn danger" id="delBtn">Entfernen</button>
+        </div>
+      </aside>
+    </section>
+
+    <!-- REITER 2: VERBINDEN (Dual QR) -->
+    <section class="pane scroll" id="pane-conn">
+      <div class="grid-2">
+        <div class="card">
+          <div style="display:flex;align-items:center;justify-content:space-between">
+            <b>1. Handy-App installieren</b><span class="pill">Android APK</span>
+          </div>
+          <div class="qr-box" id="apkQr"></div>
+          <span style="font-family:var(--mono);font-size:11px;color:var(--text-2);text-align:center">https://test.diviesx.de/downloads/novora.apk</span>
+          <button type="button" class="btn" id="apkBtn">APK direkt herunterladen</button>
+        </div>
+        <div class="card">
+          <div style="display:flex;align-items:center;justify-content:space-between">
+            <b>2. Verbinden &amp; einloggen</b><span class="pill ok" id="pinTtl">118 s</span>
+          </div>
+          <div class="qr-box" id="pairQr"></div>
+          <div class="pin-strip" id="pinStrip"></div>
+          <button type="button" class="btn" id="newPinBtn">Neuen Code erzeugen</button>
+        </div>
+      </div>
+      <div class="grid-2">
+        <div class="card">
+          <div style="display:flex;align-items:center;justify-content:space-between">
+            <b>Offene Anfragen &amp; Kopplung</b><span class="pill" id="reqCount">1 offen</span>
+          </div>
+          <div class="row-line">
+            <span>Google Pixel 8 (192.168.1.104)</span>
+            <div style="display:flex;gap:6px" id="reqActions">
+              <button type="button" class="btn sm ok" id="acceptReqBtn">Annehmen</button>
+              <button type="button" class="btn sm danger" id="denyReqBtn">Ablehnen</button>
+            </div>
+          </div>
+        </div>
+        <div class="card">
+          <div style="display:flex;align-items:center;justify-content:space-between">
+            <b>Netzwerk &amp; Latenz</b>
+            <button type="button" class="btn sm" id="latBtn">Messen</button>
+          </div>
+          <div class="row-line"><span>PC im WLAN</span><span style="font-family:var(--mono)">192.168.1.10:47830</span></div>
+          <div class="row-line"><span>UDP Discovery</span><span>Port 47831 · aktiv</span></div>
+          <div class="row-line"><span>Latenz</span><span style="color:var(--ok);font-family:var(--mono)" id="latOut">5.4 ms</span></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- REITER 3: GERAETE (Kompakte Status-Liste) -->
+    <section class="pane scroll" id="pane-devices">
+      <div class="card" style="padding:0;overflow:hidden">
+        <table class="tbl">
+          <thead><tr><th>Gerät</th><th>Modus</th><th>IP-Adresse</th><th>Latenz</th><th>Status</th><th>Aktion</th></tr></thead>
+          <tbody>
+            <tr><td><b>Samsung Galaxy A16</b></td><td style="color:var(--text-2)">Querformat-Pflicht (8×3)</td><td style="font-family:var(--mono)">192.168.1.42</td><td style="font-family:var(--mono)">5.4 ms</td><td><span class="pill ok"><span class="dot"></span> live</span></td><td><button type="button" class="btn sm danger" onclick="showToast('Galaxy A16 entfernt')">Entfernen</button></td></tr>
+            <tr><td><b>Galaxy Tab S9</b></td><td style="color:var(--text-2)">Hoch &amp; Quer frei (8×4)</td><td style="font-family:var(--mono)">192.168.1.67</td><td style="font-family:var(--mono)">6.8 ms</td><td><span class="pill ok"><span class="dot"></span> live</span></td><td><button type="button" class="btn sm danger" onclick="showToast('Tab S9 entfernt')">Entfernen</button></td></tr>
+            <tr><td><b>Pixel 7 Backup</b></td><td style="color:var(--text-2)">Querformat-Pflicht (6×3)</td><td style="font-family:var(--mono)">192.168.1.89</td><td style="font-family:var(--mono)">–</td><td><span class="pill"><span class="dot off"></span> offline</span></td><td><button type="button" class="btn sm danger" onclick="showToast('Pixel 7 entfernt')">Entfernen</button></td></tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+  </div>
+</div>
+
+<!-- Handy-Vorschau Overlay -->
+<div class="modal-bg" id="phoneModal">
+  <div class="phone-modal">
+    <div style="display:flex;align-items:center;justify-content:space-between">
+      <b>Handy-Ansicht (Querformat · Nordic Slate · Flat Precision)</b>
+      <button type="button" class="btn sm" id="closePhoneBtn">Schließen</button>
+    </div>
+    <div class="device-bezel">
+      <div class="bezel-top"><b>Novora · Home</b><span>Echte EXE-Logos vom PC</span><span style="color:var(--ok);font-family:var(--mono)">● 5.4 ms</span></div>
+      <div class="deck-grid" id="phoneGrid" style="grid-template-columns:repeat(5,88px)"></div>
+    </div>
+  </div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script>
+const APP_SVGS = {
+  discord: '<svg class="tile-app-svg" viewBox="0 0 64 64"><rect width="64" height="64" rx="16" fill="#5865F2"/><path d="M46 21a31 31 0 0 0-8-2.5l-1 2a28 28 0 0 0-10 0l-1-2A31 31 0 0 0 18 21c-5 7.5-6.3 14.8-5.6 22a31 31 0 0 0 9.6 4.8l2-3.2a20 20 0 0 1-3.2-1.5l.8-.6a22 22 0 0 0 20.8 0l.8.6a20 20 0 0 1-3.2 1.5l2 3.2a31 31 0 0 0 9.6-4.8c.8-8.3-1.3-15.5-5.6-22ZM25.5 38.5c-1.9 0-3.5-1.8-3.5-4s1.5-4 3.5-4 3.5 1.8 3.5 4-1.5 4-3.5 4Zm13 0c-1.9 0-3.5-1.8-3.5-4s1.5-4 3.5-4 3.5 1.8 3.5 4-1.5 4-3.5 4Z" fill="#fff"/></svg>',
+  spotify: '<svg class="tile-app-svg" viewBox="0 0 64 64"><circle cx="32" cy="32" r="29" fill="#1DB954"/><path d="M19 25c9-2.7 20.4-2.1 28 2.4M21 34c7.3-2 16.5-1.4 22.8 2.2M23 42.5c5.8-1.5 13-1 18.2 1.8" fill="none" stroke="#0B1410" stroke-width="4.2" stroke-linecap="round"/></svg>',
+  obs: '<svg class="tile-app-svg" viewBox="0 0 64 64"><circle cx="32" cy="32" r="29" fill="#1E242D" stroke="#475569" stroke-width="2"/><circle cx="32" cy="22" r="10" fill="none" stroke="#E2E8F0" stroke-width="4.5"/><circle cx="23" cy="38" r="10" fill="none" stroke="#E2E8F0" stroke-width="4.5"/><circle cx="41" cy="38" r="10" fill="none" stroke="#E2E8F0" stroke-width="4.5"/></svg>',
+  vscode: '<svg class="tile-app-svg" viewBox="0 0 64 64"><rect width="64" height="64" rx="16" fill="#007ACC"/><path d="M44 14 22 35l-8-6-4 3 10 8-10 8 4 3 8-6 22 21 10-5V19l-10-5Zm0 11v24L31 37l13-12Z" fill="#fff"/></svg>',
+  steam: '<svg class="tile-app-svg" viewBox="0 0 64 64"><circle cx="32" cy="32" r="29" fill="#1B2838"/><circle cx="40" cy="24" r="8" fill="none" stroke="#fff" stroke-width="4"/><circle cx="24" cy="40" r="6" fill="none" stroke="#fff" stroke-width="4"/><path d="M29 36 35 29M12 35l10 4" stroke="#fff" stroke-width="4.5" stroke-linecap="round"/></svg>',
+  blender: '<svg class="tile-app-svg" viewBox="0 0 64 64"><rect width="64" height="64" rx="16" fill="#EA7600"/><circle cx="36" cy="35" r="12" fill="none" stroke="#fff" stroke-width="4.5"/><circle cx="36" cy="35" r="4.5" fill="#1D4ED8"/><path d="M16 26h18M19 42l10-8M27 18l11 9" stroke="#fff" stroke-width="4.2" stroke-linecap="round"/></svg>',
+  chrome: '<svg class="tile-app-svg" viewBox="0 0 64 64"><circle cx="32" cy="32" r="28" fill="#EA4335"/><path d="M32 32h28a28 28 0 0 1-28 28L18 36z" fill="#FBBC05"/><path d="M32 60A28 28 0 0 1 8 18l14 24z" fill="#34A853"/><circle cx="32" cy="32" r="12" fill="#fff"/><circle cx="32" cy="32" r="9" fill="#1A73E8"/></svg>',
+  edge: '<svg class="tile-app-svg" viewBox="0 0 64 64"><circle cx="32" cy="32" r="28" fill="#0284C7"/><path d="M16 36c2-11 12-18 24-16 8 1 13 7 12 14-1 5-6 8-12 7-7-1-9-8-5-12-8 1-12 9-9 17 3 8 12 11 22 8-5 5-12 8-19 7-11-1-15-13-13-25Z" fill="#38BDF8"/></svg>',
+  firefox: '<svg class="tile-app-svg" viewBox="0 0 64 64"><circle cx="32" cy="32" r="28" fill="#EA580C"/><circle cx="34" cy="34" r="15" fill="#2563EB"/><path d="M16 24c4-9 15-14 25-10-6 2-8 7-6 12-6-3-12 1-11 8 1 8 10 13 18 10-7 8-20 9-27 1-5-6-5-14 1-21Z" fill="#FACC15"/></svg>'
+};
+const SYMS = {
+  micOff: '<line x1="3" y1="3" x2="21" y2="21"/><path d="M9 9v2a3 3 0 0 0 5.1 2.1M15 9.3V6a3 3 0 0 0-5.9-.8"/><path d="M5 11a7 7 0 0 0 11.4 5.4M12 18v3M8 21h8"/>',
+  play: '<polygon points="7,4 20,12 7,20"/>',
+  next: '<polygon points="5,5 15,12 5,19"/><line x1="19" y1="5" x2="19" y2="19"/>',
+  record: '<circle cx="12" cy="12" r="8"/><circle cx="12" cy="12" r="3.2" fill="#F87171" stroke="none"/>',
+  folder: '<path d="M3 7a2 2 0 0 1 2-2h4l2 2h8a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/>',
+  lock: '<rect x="5" y="11" width="14" height="10" rx="2"/><path d="M8 11V7a4 4 0 0 1 8 0v4"/>',
+  volume: '<path d="M11 5L6 9H3v6h3l5 4z"/><path d="M15.5 8.5a5 5 0 0 1 0 7"/>',
+  plus: '<line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/>'
+};
+const LIB = {
+  software: [
+    { id:'discord', name:'Discord', path:'C:\\Users\\torbe\\AppData\\Local\\Discord\\Discord.exe' },
+    { id:'spotify', name:'Spotify', path:'shell:AppsFolder\\SpotifyAB.SpotifyMusic!Spotify' },
+    { id:'obs', name:'OBS Studio', path:'C:\\Program Files\\obs-studio\\bin\\64bit\\obs64.exe' },
+    { id:'vscode', name:'VS Code', path:'C:\\Users\\torbe\\AppData\\Local\\Programs\\Microsoft VS Code\\Code.exe' },
+    { id:'steam', name:'Steam', path:'C:\\Program Files (x86)\\Steam\\steam.exe' },
+    { id:'blender', name:'Blender 5.3', path:'C:\\Program Files\\Blender Foundation\\Blender 5.3\\blender-launcher.exe' }
+  ],
+  browser: [
+    { id:'chrome', name:'Google Chrome', path:'C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe' },
+    { id:'edge', name:'Microsoft Edge', path:'C:\\Program Files (x86)\\Microsoft\\Edge\\Application\\msedge.exe' },
+    { id:'firefox', name:'Firefox', path:'C:\\Program Files\\Mozilla Firefox\\firefox.exe' }
+  ],
+  symbols: [
+    { id:'micOff', name:'Mikro stumm', sym:'micOff' },
+    { id:'play', name:'Play / Pause', sym:'play' },
+    { id:'next', name:'Nächster Titel', sym:'next' },
+    { id:'record', name:'Aufnahme', sym:'record' },
+    { id:'folder', name:'Ordner', sym:'folder' },
+    { id:'lock', name:'PC sperren', sym:'lock' }
+  ]
+};
+const PAGES = [
+  { id:'home', name:'Home', cols:5, rows:3 },
+  { id:'music', name:'Musik', cols:5, rows:3 },
+  { id:'stream', name:'Stream', cols:6, rows:3 },
+  { id:'mixer', name:'Mixer', cols:4, rows:2 }
+];
+const TILES = [
+  { kind:'app', app:'discord', label:'Discord', action:'app', target:LIB.software[0].path },
+  { kind:'app', app:'spotify', label:'Spotify', action:'app', target:LIB.software[1].path },
+  { kind:'app', app:'obs', label:'OBS Studio', action:'app', target:LIB.software[2].path },
+  { kind:'sym', sym:'micOff', label:'Mikrofon stumm', action:'mic', target:'Standardmikrofon', state:'muted' },
+  { kind:'sym', sym:'volume', label:'Lautstärke 68 %', action:'volume', target:'Master', state:'vol', val:68 },
+  { kind:'sym', sym:'record', label:'Aufnahme', action:'record', target:'OBS Rec', state:'rec' },
+  { kind:'app', app:'vscode', label:'VS Code', action:'app', target:LIB.software[3].path },
+  { kind:'app', app:'chrome', label:'Google Chrome', action:'app', target:LIB.browser[0].path },
+  { kind:'app', app:'edge', label:'Microsoft Edge', action:'app', target:LIB.browser[1].path },
+  { kind:'sym', sym:'play', label:'Play / Pause', action:'media', target:'Play/Pause' },
+  { kind:'app', app:'steam', label:'Steam', action:'app', target:LIB.software[4].path },
+  { kind:'app', app:'blender', label:'Blender 5.3', action:'app', target:LIB.software[5].path },
+  { kind:'sym', sym:'folder', label:'Projekte', action:'path', target:'D:\\Projekte\\StreamDeck' },
+  { kind:'sym', sym:'lock', label:'PC sperren', action:'system', target:'Sperren' },
+  { kind:'empty', label:'Freie Taste', action:'none', target:'' }
+];
+
+let activePage = 'home', cols = 5, rows = 3, selIdx = 0, libTab = 'software', pin = '482915', pinSec = 118, fgBusy = false;
+
+function showToast(m){
+  const t=document.getElementById('toast'); t.textContent=m; t.classList.add('on');
+  clearTimeout(showToast._t); showToast._t=setTimeout(()=>t.classList.remove('on'),2000);
+}
+function makeQr(seed){
+  const n=21; let h=2166136261; for(const c of seed){h^=c.charCodeAt(0);h=Math.imul(h,16777619);}
+  const bit=()=>{h^=h<<13;h^=h>>>17;h^=h<<5;return (h>>>0)&1;};
+  const fin=(r,c,fr,fc)=>{const dr=r-fr,dc=c-fc;if(dr<0||dc<0||dr>6||dc>6)return false;if(dr===0||dr===6||dc===0||dc===6)return true;return dr>=2&&dr<=4&&dc>=2&&dc<=4;};
+  let rects=''; for(let r=0;r<n;r++)for(let c=0;c<n;c++){
+    const q=(r<=7&&c<=7)||(r<=7&&c>=n-8)||(r>=n-8&&c<=7);
+    const on=q?(fin(r,c,0,0)||fin(r,c,0,n-7)||fin(r,c,n-7,0)):(r===6||c===6?(r+c)%2===0:bit()===1);
+    if(on)rects+=`<rect x="${c+1}" y="${r+1}" width="1" height="1"/>`;
+  }
+  return `<svg viewBox="0 0 ${n+2} ${n+2}" width="144" height="144" shape-rendering="crispEdges"><rect width="${n+2}" height="${n+2}" fill="#fff"/><g fill="#0D1117">${rects}</g></svg>`;
+}
+function tileMarkup(t, idx, isSel, clickable){
+  const cls = 'tile' + (t.kind==='app'?' has-appicon':'') + (t.kind==='empty'?' empty':'') + (t.state==='muted'?' muted':'') + (isSel?' sel':'');
+  let inner='';
+  if(t.kind==='app') inner = APP_SVGS[t.app] || '';
+  else if(t.kind==='empty') inner = `<svg class="tile-sym" viewBox="0 0 24 24">${SYMS.plus}</svg>`;
+  else if(t.state==='vol'){
+    const r=17,c=2*Math.PI*r,d=(t.val/100)*c;
+    inner = `<div class="vol-wrap"><svg class="vol-ring" viewBox="0 0 44 44"><circle cx="22" cy="22" r="${r}" fill="none" stroke="rgba(255,255,255,.12)" stroke-width="3.2"/><circle cx="22" cy="22" r="${r}" fill="none" stroke="var(--accent)" stroke-width="3.2" stroke-linecap="round" stroke-dasharray="${d.toFixed(1)} ${c.toFixed(1)}"/></svg><span class="vol-num">${t.val}</span></div>`;
+  } else {
+    inner = `<svg class="tile-sym" viewBox="0 0 24 24">${SYMS[t.sym]||SYMS.play}</svg>` + (t.state==='rec'?'<span class="rec-dot"></span>':'');
+  }
+  const del = t.kind!=='empty' ? `<button type="button" class="tile-del" data-del="${idx}" title="Icon löschen" aria-label="Icon löschen">×</button>` : '';
+  return `<button type="button" class="${cls}" title="${t.label}" ${clickable?`data-tile="${idx}"`:''}>${inner}${del}</button>`;
+}
+
+function renderPages(){
+  const bar = document.getElementById('pagesBar');
+  bar.innerHTML = PAGES.map(p=>`<button type="button" class="pg-tab ${p.id===activePage?'on':''}" data-page="${p.id}"><span class="dot ${p.id===activePage?'':'off'}"></span><span>${p.name}</span><span class="pg-meta">${p.cols}×${p.rows}</span></button>`).join('') +
+    `<button type="button" class="btn sm" style="margin-left:auto" onclick="showToast('Neue Seite anlegen')">+ Neue Seite</button>`;
+}
+function renderGrid(){
+  const g = document.getElementById('deckGrid');
+  const px = cols >= 6 ? 72 : 84;
+  g.style.gridTemplateColumns = `repeat(${cols}, ${px}px)`;
+  const total = cols * rows;
+  let html='';
+  for(let i=0;i<total;i++){
+    const t = TILES[i] || { kind:'empty', label:'Freie Taste', action:'none', target:'' };
+    html += tileMarkup(t, i, i===selIdx, true);
+  }
+  g.innerHTML = html;
+  const p = PAGES.find(x=>x.id===activePage) || PAGES[0];
+  document.getElementById('stagePageName').textContent = p.name;
+  document.getElementById('stageMeta').textContent = `${cols} × ${rows} · 1:1 · Radius 14 px`;
+  document.getElementById('bezelTitle').textContent = `Samsung Galaxy A16 · Querformat · ${p.name}`;
+  document.getElementById('colsVal').textContent = cols;
+  document.getElementById('rowsVal').textContent = rows;
+  document.getElementById('phoneGrid').innerHTML = TILES.slice(0,15).map((t,i)=>tileMarkup(t,i,false,false)).join('');
+}
+function renderInspector(){
+  const t = TILES[selIdx] || { kind:'empty', label:'Freie Taste', action:'none', target:'' };
+  document.getElementById('inspNo').textContent = selIdx + 1;
+  document.getElementById('inspKind').textContent = t.kind==='app'?'EXE-Logo':(t.kind==='empty'?'Frei':'Symbol');
+  document.getElementById('inspPrevTile').innerHTML = tileMarkup(t, selIdx, false, false);
+  document.getElementById('inspTitle').textContent = t.label;
+  document.getElementById('inspSub').textContent = t.kind==='app' ? 'Original-Logo aus .exe' : 'System- / Medienaktion';
+  document.getElementById('actionSel').value = t.action || 'none';
+  document.getElementById('targetInp').value = t.target || '';
+}
+function renderLib(){
+  const q = document.getElementById('libSearch').value.trim().toLowerCase();
+  const list = (LIB[libTab]||[]).filter(x=>!q || x.name.toLowerCase().includes(q));
+  document.getElementById('libGrid').innerHTML = list.map(it=>`
+    <button type="button" class="lib-cell" data-pick="${it.id}" title="${it.name}">
+      ${it.sym ? `<svg class="tile-sym" style="width:24px;height:24px" viewBox="0 0 24 24">${SYMS[it.sym]}</svg>` : APP_SVGS[it.id]}
+      <span class="lib-lbl">${it.name}</span>
+    </button>`).join('');
+}
+function renderConn(){
+  document.getElementById('apkQr').innerHTML = makeQr('https://test.diviesx.de/downloads/novora.apk');
+  document.getElementById('pairQr').innerHTML = makeQr('novora://pair?ip=192.168.1.10&code='+pin);
+  document.getElementById('pinStrip').innerHTML = pin.split('').map(d=>`<span class="pin-digit">${d}</span>`).join('');
+  document.getElementById('pinTtl').textContent = pinSec + ' s';
+}
+
+document.querySelectorAll('.rail-btn').forEach(b=>b.onclick=()=>{
+  document.querySelectorAll('.rail-btn').forEach(x=>x.classList.toggle('on', x===b));
+  document.querySelectorAll('.pane').forEach(p=>p.classList.toggle('on', p.id==='pane-'+b.dataset.tab));
+});
+document.getElementById('pagesBar').onclick=e=>{
+  const b=e.target.closest('[data-page]'); if(!b)return;
+  activePage=b.dataset.page; const p=PAGES.find(x=>x.id===activePage);
+  if(p){cols=p.cols;rows=p.rows;} renderPages(); renderGrid();
+};
+document.getElementById('deckGrid').onclick=e=>{
+  const delBtn = e.target.closest('[data-del]');
+  if(delBtn){
+    const idx = Number(delBtn.dataset.del);
+    TILES[idx] = { kind:'empty', label:'Freie Taste', action:'none', target:'' };
+    if(selIdx===idx) selIdx = 0;
+    renderGrid(); renderInspector(); showToast('Icon gelöscht');
+    return;
+  }
+  const b=e.target.closest('[data-tile]'); if(!b)return;
+  selIdx=Number(b.dataset.tile); renderGrid(); renderInspector();
+};
+document.getElementById('libTabs').onclick=e=>{
+  const b=e.target.closest('[data-lt]'); if(!b)return;
+  libTab=b.dataset.lt;
+  document.querySelectorAll('#libTabs button').forEach(x=>x.classList.toggle('on', x===b));
+  renderLib();
+};
+document.getElementById('libSearch').oninput=renderLib;
+document.getElementById('libGrid').onclick=e=>{
+  const b=e.target.closest('[data-pick]'); if(!b)return;
+  const it = (LIB[libTab]||[]).find(x=>x.id===b.dataset.pick); if(!it)return;
+  TILES[selIdx] = it.sym
+    ? { kind:'sym', sym:it.sym, label:it.name, action:'media', target:it.name }
+    : { kind:'app', app:it.id, label:it.name, action:'app', target:it.path };
+  renderGrid(); renderInspector(); showToast('Übernommen: '+it.name);
+};
+document.getElementById('colsMinus').onclick=()=>{cols=Math.max(3,cols-1);renderGrid();};
+document.getElementById('colsPlus').onclick=()=>{cols=Math.min(7,cols+1);renderGrid();};
+document.getElementById('rowsMinus').onclick=()=>{rows=Math.max(2,rows-1);renderGrid();};
+document.getElementById('rowsPlus').onclick=()=>{rows=Math.min(5,rows+1);renderGrid();};
+document.getElementById('scanBtn').onclick=()=>showToast('26 installierte PC-Apps gescannt');
+document.getElementById('fgBtn').onclick=async()=>{
+  if(fgBusy)return; fgBusy=true; const btn=document.getElementById('fgBtn');
+  for(let s=3;s>0;s--){btn.textContent=`Fenster (${s}s)…`;await new Promise(r=>setTimeout(r,1000));}
+  btn.textContent='Aktives Fenster (3s)'; fgBusy=false; showToast('EXE + Logo übernommen: OBS Studio');
+};
+document.getElementById('extractBtn').onclick=()=>showToast('EXE-Icon erfolgreich extrahiert (256×256 PNG)');
+document.getElementById('testBtn').onclick=()=>showToast('Aktion am PC ausgelöst (1.4 ms)');
+document.getElementById('delBtn').onclick=()=>{TILES[selIdx]={kind:'empty',label:'Freie Taste',action:'none',target:''};renderGrid();renderInspector();showToast('Taste geleert');};
+document.getElementById('newPinBtn').onclick=()=>{pin=String(Math.floor(100000+Math.random()*900000));pinSec=120;renderConn();showToast('Neuer Code: '+pin);};
+document.getElementById('acceptReqBtn').onclick=()=>{document.getElementById('reqActions').innerHTML='<span class="pill ok">Verbunden</span>';document.getElementById('reqCount').textContent='0 offen';document.getElementById('reqBadge').style.display='none';showToast('Google Pixel 8 gekoppelt');};
+document.getElementById('denyReqBtn').onclick=()=>showToast('Anfrage abgelehnt');
+document.getElementById('latBtn').onclick=()=>{document.getElementById('latOut').textContent='5.1 ms';showToast('Rundlauf-Latenz: 5.1 ms');};
+document.getElementById('saveBtn').onclick=()=>showToast('Layout gespeichert');
+document.getElementById('openPhoneBtn').onclick=()=>document.getElementById('phoneModal').classList.add('on');
+document.getElementById('closePhoneBtn').onclick=()=>document.getElementById('phoneModal').classList.remove('on');
+document.getElementById('phoneModal').onclick=e=>{if(e.target.id==='phoneModal')e.target.classList.remove('on');};
+
+setInterval(()=>{pinSec=pinSec>1?pinSec-1:120;document.getElementById('pinTtl').textContent=pinSec+' s';},1000);
+renderPages(); renderGrid(); renderInspector(); renderLib(); renderConn();
+</script>
+</body>
+</html>

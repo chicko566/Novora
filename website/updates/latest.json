@@ -1,0 +1,24 @@
+{
+  "product": "Novora",
+  "channel": "stable",
+  "generated": "2026-11-24T14:19:17.006Z",
+  "minSupported": {
+    "pc": "0.3.3",
+    "android": 5
+  },
+  "pc": {
+    "version": "0.4.0",
+    "url": "/downloads/novora-windows-x64.zip",
+    "sha256": "e0e63539bd62c5390f650c5c5df357b04f3baa79a5350510042b387e96b08c37",
+    "size": 33834040,
+    "notes": "Lizenz-Gate, installierte Apps, APK-QR, Windows-Installer mit Key-Seite"
+  },
+  "android": {
+    "version": "0.1.7",
+    "versionCode": 8,
+    "url": "/downloads/novora.apk",
+    "sha256": "f40d4abb5fef7cef144dd6f34e2cda623a8681f892ce43002ddea2f9173cc04c",
+    "size": 299889,
+    "notes": "QR-Kopplung, Kamera-Scan, Update-Dialog"
+  }
+}

@@ -1,0 +1,10 @@
+{
+  "name": "novora",
+  "version": "0.4.0",
+  "private": true,
+  "description": "Novora - Steuerpult fuer Handy und PC (Monorepo-Wurzel)",
+  "scripts": {
+    "build:native": "powershell -ExecutionPolicy Bypass -File desktop/native/build.ps1",
+    "release": "node tools/release.mjs"
+  }
+}

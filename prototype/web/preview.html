@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Novora – Handy-Vorschau</title>
+<style>
+  :root{--bg:#05080B;--panel:#0F141B;--line:#1D2733;--text:#EAF1F8;--dim:#8D9AAA;--accent:#22D3EE}
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{background:radial-gradient(800px 500px at 20% 0%,rgba(34,211,238,.10),transparent 60%),var(--bg);color:var(--text);font-family:'Inter','Segoe UI',system-ui,sans-serif;min-height:100vh;display:flex;flex-direction:column;align-items:center;padding:20px 16px 40px}
+  .bar{width:100%;max-width:1100px;display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin-bottom:16px}
+  .bar b{font-size:14px}
+  .bar span{color:var(--dim);font-size:11.5px;margin-right:auto}
+  .seg{display:flex;border:1px solid var(--line);border-radius:10px;overflow:hidden;background:var(--panel)}
+  .seg button{border:0;background:transparent;color:var(--dim);padding:8px 14px;font-size:12px;cursor:pointer;font-family:inherit}
+  .seg button.on{background:rgba(34,211,238,.15);color:var(--text)}
+  .btn{border:1px solid var(--line);background:var(--panel);color:var(--text);border-radius:10px;padding:9px 14px;font-size:12px;cursor:pointer;font-family:inherit}
+  .btn:hover{border-color:var(--accent)}
+  .stage{display:flex;justify-content:center;width:100%;flex:1;align-items:flex-start}
+  .device{background:linear-gradient(160deg,#242A33,#0A0D12 62%);padding:9px;border-radius:34px;box-shadow:0 40px 90px -40px #000,inset 0 0 0 1px rgba(255,255,255,.08)}
+  .screen{background:#06090D;border-radius:26px;overflow:hidden;position:relative}
+  iframe{border:0;display:block;background:#06090D}
+  .portrait .screen{width:390px;height:844px}
+  .portrait iframe{width:390px;height:844px}
+  .landscape .screen{width:844px;height:390px}
+  .landscape iframe{width:844px;height:390px}
+  @media(max-height:900px){
+    .portrait .screen{width:320px;height:693px}
+    .portrait iframe{width:320px;height:693px}
+  }
+  @media(max-width:900px){
+    .landscape .screen{width:94vw;height:44vw}
+    .landscape iframe{width:94vw;height:44vw}
+  }
+  .hint{color:var(--dim);font-size:11px;margin-top:16px;text-align:center;line-height:1.6}
+</style>
+</head>
+<body>
+<div class="bar">
+  <b>Novora · Handy-Vorschau</b>
+  <span>Das ist die echte App-Oberfläche vom PC-Server, nicht das Mockup.</span>
+  <div class="seg" id="orient">
+    <button data-o="portrait" class="on">Hoch</button>
+    <button data-o="landscape">Quer</button>
+  </div>
+  <button class="btn" id="reload">Neu laden</button>
+  <button class="btn" id="full">Vollbild</button>
+</div>
+
+<div class="stage">
+  <div class="device portrait" id="device">
+    <div class="screen">
+      <iframe id="frame" src="/app" allow="fullscreen" title="Novora App"></iframe>
+    </div>
+  </div>
+</div>
+
+<div class="hint">Tippen funktioniert direkt im Rahmen. „Quer“ dreht die Vorschau. Vollbild blendet alles außer der App aus.</div>
+
+<script>
+const device = document.getElementById('device');
+const frame = document.getElementById('frame');
+document.querySelectorAll('#orient button').forEach((b) => {
+  b.onclick = () => {
+    document.querySelectorAll('#orient button').forEach((x) => x.classList.remove('on'));
+    b.classList.add('on');
+    device.classList.toggle('portrait', b.dataset.o === 'portrait');
+    device.classList.toggle('landscape', b.dataset.o === 'landscape');
+  };
+});
+document.getElementById('reload').onclick = () => { frame.src = '/app?t=' + Date.now(); };
+document.getElementById('full').onclick = () => {
+  const el = document.documentElement;
+  if (document.fullscreenElement) document.exitFullscreen();
+  else el.requestFullscreen().catch(() => {});
+};
+</script>
+</body>
+</html>
