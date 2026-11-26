@@ -36,6 +36,29 @@ ausgelieferten Paket. `svg.ic` wird per `stroke: currentColor` gefärbt, Farbe k
 | Rechte | extrahierte Marken sind Eigentum der jeweiligen Inhaber. Anzeige nur **nominativ** auf dem Gerät des Nutzers; **keine Weiterverteilung**, kein Weiterverkauf, kein Icon-Paket, keine Werbung/Screenshots ohne Erlaubnis des Inhabers |
 | Ersatz | nicht lokal ermittelbare Marke = fehlend melden, **nicht** nachzeichnen und nicht nachbauen; es greift das eigene Piktogramm/App-Logo |
 
+## Rechtliche Einordnung: Markenlogos aus installierter Software
+
+**Was wir NICHT tun (wäre rechtlich problematisch):**
+- Keine Markenlogo-Dateien werden mitgeliefert (kein `brandset.js`, kein `assets/brands/`, kein Icon-Paket).
+- Keine CDN-Hotlinks zu Markenlogos (kein `cdn.simpleicons.org`, kein Font Awesome CDN).
+- Keine Nachzeichnungen oder Nachbauten von Markenlogos.
+- Keine Werbung oder Screenshots mit Markenlogos ohne Erlaubnis des Inhabers.
+
+**Was wir tun (rechtlich zulässig — nominativer Gebrauch / deskriptiver Gebrauch):**
+- Die Software liest das **bereits auf dem Rechner des Nutzers installierte** Programm-Icon aus der lokalen `.exe`/UWP-Paket (via `IShellItemImageFactory` / `ExtractIconExW`).
+- Das extrahierte Icon wird **nur lokal auf dem Gerät des Nutzers** angezeigt (nominative use: "dieses Programm steuern").
+- Es wird **nichts** weitervertrieben, gespeichert (außer lokaler Cache `%APPDATA%\Novora\icons`), hochgeladen oder in Werbung verwendet.
+- Die Marken bleiben Eigentum der jeweiligen Inhaber; Novora beansprucht keine Rechte daran.
+
+**Warum das rechtlich zulässig ist:**
+- Nominativer Gebrauch (deskriptiver Gebrauch) erlaubt die Verwendung eines Markenzeichens, um das markierte Produkt zu bezeichnen/zu identifizieren.
+- Novora verwendet das Logo ausschließlich zur Identifikation des gesteuerten Programms auf dem Gerät des Nutzers.
+- Es erfolgt keine Verwechslungsgefahr (Novora stellt sich nicht als die Marke dar) und keine Rufausnutzung.
+- Die Extraktion erfolgt nur aus Software, die der Nutzer selbst installiert hat (keine Distribution von Markenmaterial).
+
+**Haftungsausschluss:**
+Novora ist nicht verantwortlich für die Markenrechte der extrahierten Icons. Der Nutzer ist dafür verantwortlich, dass er die entsprechende Software rechtmäßig installiert hat. Novora speichert, überträgt oder verbreitet keine Markenlogos.
+
 ## Historie: frühere Symbol- und Markenquellen (nicht mehr aktiv, nicht mehr im Release)
 
 Diese Einträge bleiben nur zur Nachvollziehbarkeit. Keine Datei daraus wird ausgeliefert.
