@@ -15,7 +15,7 @@ import { createActions } from './lib/actions.mjs';
 import { createDiscovery, listInterfaces } from './lib/discovery.mjs';
 import { loadData, saveData } from './lib/store.mjs';
 import { createAudio } from './lib/audio.mjs';
-import { createDiscordRpc } from './lib/discord-rpc.mjs';
+// Discord Live-Sync entfernt (Endnutzer-Build). Dev: StreamDeck-Original.
 import * as appicons from './lib/appicons.mjs';
 import { listApps } from './lib/apps.mjs';
 import {
@@ -139,13 +139,8 @@ const auth = createAuth({
   onPair: (requestId, status) => sendPair(requestId, status)
 });
 
-const discord = createDiscordRpc({
-  onVoice: ({ mute, deaf }) => {
-    db.state.mic = !mute;
-    db.state.deaf = !!deaf;
-    push('state', { mic: db.state.mic, deaf: db.state.deaf, micApp: 'Discord' });
-  }
-});
+// Discord Live-Sync entfernt (Endnutzer-Build). Stub für actions.mjs-Kompatibilität.
+const discord = { start(){}, stop(){}, status(){ return { configured:false, connected:false, authorized:false, clientId:'', mute:false, deaf:false, error:'' }; }, authorize(){ throw new Error('Discord nicht verfügbar'); }, connect(){ throw new Error('Discord nicht verfügbar'); }, disconnect(){}, isReady(){ return false; }, toggleMute(){ throw new Error('Discord nicht verfügbar'); }, toggleDeaf(){ throw new Error('Discord nicht verfügbar'); } };
 
 const actions = createActions({
   db,
@@ -597,34 +592,7 @@ async function route(req, res, url, ip) {
       });
     }
 
-    if (p === '/api/admin/discord/status' && req.method === 'GET') {
-      return json(res, 200, { ok: true, ...discord.status() });
-    }
-
-    if (p === '/api/admin/discord/connect' && req.method === 'POST') {
-      const body = await readBody(req);
-      if (body.__error) return json(res, 413, { ok: false, error: body.__error });
-      try {
-        const st = await discord.authorize({ clientId: body.clientId, clientSecret: body.clientSecret });
-        return json(res, 200, { ok: true, ...st });
-      } catch (e) {
-        return json(res, 400, { ok: false, error: e?.message || 'Discord-Verbindung fehlgeschlagen' });
-      }
-    }
-
-    if (p === '/api/admin/discord/connect-stored' && req.method === 'POST') {
-      try {
-        const st = await discord.connect();
-        return json(res, 200, { ok: true, ...st });
-      } catch (e) {
-        return json(res, 400, { ok: false, error: e?.message || 'Discord-Verbindung fehlgeschlagen' });
-      }
-    }
-
-    if (p === '/api/admin/discord/disconnect' && req.method === 'POST') {
-      discord.disconnect();
-      return json(res, 200, { ok: true, ...discord.status() });
-    }
+    // Discord Live-Sync entfernt (Endnutzer-Build).
 
     if (p === '/api/admin/stats' && req.method === 'GET') {
       return json(res, 200, stats.stats());
@@ -825,7 +793,6 @@ server.listen(PORT, '0.0.0.0', () => {
   discovery.announce();
   actions.warm();
   audio.warm();
-  discord.start();
   setTimeout(refreshMixer, 400);
 });
 
@@ -838,7 +805,6 @@ function shutdown() {
   discovery.stop();
   actions.stop();
   audio.stop();
-  discord.stop();
   save();
   server.close(() => process.exit(0));
   setTimeout(() => process.exit(0), 1500).unref();
