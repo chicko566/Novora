@@ -16,10 +16,10 @@ Stand: 2026-11-24. Gilt für Software (`prototype/`), Installer, APK, Website un
 
 | Datei | Inhalt | Rechte |
 |---|---|---|
-| `design/icons/novora-icons/*.svg` | **aktiver** eigener Strich-Satz, 70 Piktogramme (24×24, 2 px Strich) | eigene Zeichnungen |
-| `design/icons/novora-icons/index.json` | Kategorien/Labels der 70 Glyphen | eigene Arbeit |
+| `design/icons/novora-icons/*.svg` | **aktiver** eigener Strich-Satz, 71 Piktogramme (24×24, 2 px Strich) | eigene Zeichnungen |
+| `design/icons/novora-icons/index.json` | Kategorien/Labels der 71 Glyphen | eigene Arbeit |
 | `design/icons/build-iconset.mjs` | Generator: `novora-icons/*.svg` → `prototype/web/iconset.js` (`window.NOVORA_ICONS`) | eigene Arbeit |
-| `prototype/web/iconset.js` | generierte Symbol-Bibliothek der Software (70 Keys, `nv-*`) | eigene Zeichnungen |
+| `prototype/web/iconset.js` | generierte Symbol-Bibliothek der Software (71 Keys, `nv-*`) | eigene Zeichnungen |
 
 Die Symbole sind **keine** Fremd-Icons: kein Font Awesome, kein Tabler, kein Simple Icons im
 ausgelieferten Paket. `svg.ic` wird per `stroke: currentColor` gefärbt, Farbe kommt aus dem Theme.
@@ -42,7 +42,7 @@ Diese Einträge bleiben nur zur Nachvollziehbarkeit. Keine Datei daraus wird aus
 
 | Komponente (Historie) | War | Lizenz | Status |
 |---|---|---|---|
-| Font Awesome 4.7.0 (Icons) | Symbol-Icons, 70 Glyphen in `iconset.js` (Runde 6, 2026-11-23) | Icons SIL OFL 1.1, Code MIT (Copyright Dave Gandy) | **ersetzt** durch eigenen Strich-Satz am 2026-11-23/24 |
+| Font Awesome 4.7.0 (Icons) | Symbol-Icons, 71 Glyphen in `iconset.js` (Runde 6, 2026-11-23) | Icons SIL OFL 1.1, Code MIT (Copyright Dave Gandy) | **ersetzt** durch eigenen Strich-Satz am 2026-11-23/24 |
 | Font Awesome 4.7.0 (Markenpfade) | 19 Markenpfade inline in `brandset.js` | Font SIL OFL 1.1; Markenrechte bei den Inhabern | **entfernt** (erst durch Hersteller-Dateien ersetzt, 2026-11-24 ganz gelöscht) |
 | Hersteller-Markenlogos (gebündelt) | 32 SVG/PNG in `prototype/web/assets/brands/` + Pfad-Map `brandset.js` (35 Slugs inkl. 3 Aliase), Quellen in `SOURCES.md` | Marken der jeweiligen Inhaber, nur nominative Anzeige | **gelöscht 2026-11-24**, keine Bündelung mehr |
 | Simple Icons (CDN) | Laufzeit-Abruf `cdn.simpleicons.org/<slug>` | Icon-Daten CC0 | **entfernt**, keine Hotlinks mehr im Code |
@@ -58,7 +58,7 @@ Diese Einträge bleiben nur zur Nachvollziehbarkeit. Keine Datei daraus wird aus
 
 ## Prüfliste
 
-- [ ] `iconset.js` stammt aus `design/icons/build-iconset.mjs` (70 Keys), keine FA-/Tabler-Pfade mehr
+- [ ] `iconset.js` stammt aus `design/icons/build-iconset.mjs` (71 Keys), keine FA-/Tabler-Pfade mehr
 - [ ] `prototype/web/brandset.js` fehlt und `prototype/web/assets/brands/` existiert nicht
 - [ ] `installer/build.ps1` schließt `assets` und `brandset.js` aus dem Payload aus
 - [ ] Keine Fremdlogos, Marken-SVGs oder Icon-Pakete in Installer/ZIP/APK/Website
