@@ -72,9 +72,9 @@ node test/latency.mjs    # p50/p95/p99
 
 - **Symbol-Piktogramme**: eigener Strich-Satz, 71 Glyphen aus `design/icons/novora-icons/`
   → `prototype/web/iconset.js` (Generator `design/icons/build-iconset.mjs`), Farbe über `currentColor`.
-- **Marken-Logos**: echte Hersteller-Logos als lokale Dateien in `prototype/web/assets/brands/`
-  (32 Logos), Pfad-Map in `prototype/web/brandset.js`, Anzeige einheitlich als `<img class="brandmark">`.
-  Quellen je Datei: `prototype/web/assets/brands/SOURCES.md`; Beschaffung: `tools/fetch-brand-logos.mjs`.
+- **Marken-Logos**: werden **nicht mitgeliefert**. Pfade kommen aus dem lokalen
+  Icon-Cache der EXE-Extraktion (`appicons`), Anzeige als `<img class="brandmark">`.
+  Beschaffung: `tools/fetch-brand-logos.mjs` (nur für Entwickler).
 - Regeln, Stand und Prüflisten: [docs/ICONS.md](docs/ICONS.md).
 - Lizenzen, Historie früherer Icon-Quellen (Font Awesome 4.7, Simple Icons, Tabler) und
   Markenrechts-Hinweis: [THIRD-PARTY.md](THIRD-PARTY.md).
