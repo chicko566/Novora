@@ -21,9 +21,12 @@ powershell -ExecutionPolicy Bypass -File android\firewall.ps1
 
 **Deinstallieren:** `uninstall.ps1` (Shortcuts + Server), mit `-RemoveData` auch der Programmordner.
 
-## Handy-App
+## Handy (Browser)
 
-`Novora.apk` (Desktop oder `android\Novora-debug.apk`). Installieren, „unbekannte Quellen“ erlauben, App öffnen, PC aus der Liste wählen oder IP eintragen. Details: [docs/APK.md](docs/APK.md).
+Kein APK nötig. Handy-Browser öffnen und die PC-Adresse eingeben:
+`http://<PC-IP>:47830/app` — oder QR-Code im PC-Editor scannen.
+Der PC-Editor zeigt einen QR-Code (gültig 2 Min), der die Localhost-URL öffnet.
+Koppeln per 6-stelligem Code oder automatisch im privaten Netz.
 
 ## Koppeln
 
@@ -61,7 +64,6 @@ node test/latency.mjs    # p50/p95/p99
 | Ordner | Inhalt |
 |---|---|
 | `prototype/` | Node-Server, Handy-UI, PC-Editor, Mixer, Tests |
-| `android/` | APK-Quelle + `build-apk.ps1` (ohne Gradle) |
 | `design/` | Mockup und PNG-Logos |
 | `docs/` | API- und APK-Doku |
 | `PLAN.md`, `BUILD-PLAN.md`, `TODO.md` | Planung und Stand |
